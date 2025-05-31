@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:58:45 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/05/31 19:42:03 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 22:10:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,9 @@ t_bool				is_invalid_pipe_token(t_token *token);
 
 
 
-void free_list(t_list *list);
+void 	free_list(t_list *list);
 void	free_tokens(t_token *token);
 void	free_tree(t_ast *node);
+void	free_all(t_token *token, t_ast *ast);
 
 #endif

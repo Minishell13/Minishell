@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:18 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 19:26:37 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 22:58:13 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,8 @@ void execute_pipeline(t_ast *root, t_ast *pipeline)
 	pid_t pids[MAX_PIPE];
 	t_bool has_next;
 
+	sh.in  = track_dup(STDIN_FILENO);
+    sh.out = track_dup(STDOUT_FILENO);
 	cmd = pipeline->child;
 	while (cmd)
 	{
@@ -196,6 +198,7 @@ void execute_pipeline(t_ast *root, t_ast *pipeline)
 	while (i--)
 		waitpid(pids[i], &status, 0);
 	sh.exit_code = WEXITSTATUS(status);
+	restore_fds(sh.in, sh.out);
 }
 
 

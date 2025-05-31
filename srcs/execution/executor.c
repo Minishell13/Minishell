@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:45:09 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 19:26:24 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 22:57:37 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@ void	executor(t_ast *root, t_ast *node)
 		execute_redirection(node);
 		break ;
 	case GRAM_SIMPLE_COMMAND:
+		sh.in  = track_dup(STDIN_FILENO);
+		sh.out = track_dup(STDOUT_FILENO);
 		execute_simple_cmd(root, node, false);
-		break ;
+		restore_fds(sh.in, sh.out);
+		break;
 	case GRAM_SUBSHELL:
 		execute_subshell(root, node);
 		break ;

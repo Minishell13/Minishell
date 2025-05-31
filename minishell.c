@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 09:45:00 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 23:00:42 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,14 @@ void	free_tree(t_ast *node)
 	}
 }
 
-void	clear_tokens(t_token *token)
+void	free_all(t_token *token, t_ast *ast)
 {
-	if (!token)
-		return ;
+    if (!token || !ast)
+    {
+        return;
+    }
 	free_tokens(token);
+	free_tree(ast);
 }
 
 
@@ -225,6 +228,8 @@ int	main(int ac, char **av, char **env)
 	head_root = NULL;
 	root = NULL;
 	setup_env(env);
+	sh.in = track_dup(STDIN_FILENO);
+	sh.out = track_dup(STDOUT_FILENO);
 	while (1)
 	{
 		//TODO: For signals
@@ -239,7 +244,7 @@ int	main(int ac, char **av, char **env)
 			add_history(line);
 
 		// Free previous allocations before new ones
-		clear_tokens(head_root);
+		free_all(head_root, root);
 		head = NULL;
 		root = NULL;
 
@@ -253,20 +258,21 @@ int	main(int ac, char **av, char **env)
 		root = parse_complete_command(&head);
 		if (root)
 		{
-			//TODO: Hamza Log
 			print_ast(root, 0);
-			//TODO: Abdellah Log 
-			// ast_print(root, 0);
 			handle_heredocs(root);
 			executor(root, root);
-			//TODO: If you want to see the last exit code
 			// printf("exit code: %d\n", sh.exit_code);
 		}
 		free(line);
+		//! You must backup stdin/stdout for the parent process (childs) and restore them
+		restore_fds(sh.in, sh.out);
+		close_all_tracked_fds();
 	}
 	rl_clear_history();
-	clear_tokens(head_root);
-	clear_sh(root);
+	free_all(head_root, root);
+	restore_fds(sh.in, sh.out);
+	close_all_tracked_fds();
+	clear_arr(sh.my_env);
 	return (EXIT_SUCCESS);
 }
 
