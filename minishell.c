@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 09:45:00 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/05/31 20:06:35 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void print_ast(t_ast *node, int indent)
 
 	printf("%*s%s", indent * 2, "", get_node_type_name(node->type));
 
-	if (node->type == GRAM_SIMPLE_COMMAND && node->data.args)
+	if (node->type == GRAM_SIMPLE_COMMAND && node->u_data.args)
 	{
-		char **words = node->data.args;
+		char **words = node->u_data.args;
 		printf(": [");
 		for (int i = 0; words[i]; i++)
 		{
@@ -54,7 +54,7 @@ void print_ast(t_ast *node, int indent)
 		printf("]");
 	}
 	else if (node->type == GRAM_HEREDOC || node->type == GRAM_REDIR_IN || node->type == GRAM_REDIR_OUT || node->type == GRAM_REDIR_APPEND)
-		printf(": \"%s\" , %u", node->data.redir.file, node->data.redir.expanded);
+		printf(": \"%s\" , %u", node->u_data.redir.file, node->u_data.redir.expanded);
 		
 
 	printf("\n");
@@ -109,14 +109,14 @@ void	free_tree(t_ast *node)
 		next = node->sibling;
 
 		if (node->type == GRAM_SIMPLE_COMMAND)
-			free_string_array(node->data.args);
+			free_string_array(node->u_data.args);
 
 		if ((node->type == GRAM_IO_REDIRECT
 			 || node->type == GRAM_REDIR_IN
 			 || node->type == GRAM_REDIR_OUT
 			 || node->type == GRAM_REDIR_APPEND
 			 || node->type == GRAM_HEREDOC))
-			free(node->data.redir.file);
+			free(node->u_data.redir.file);
 
 		free_tree(node->child); // this will handle child + its siblings
 		free(node);

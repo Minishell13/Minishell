@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:21 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/28 17:10:02 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	exec_pwd(t_ast *node)
 {
 	char *pwd;
 
-	if (!no_args(node->data.args))
+	if (!no_args(node->u_data.args))
 	{
 		builtins_error("pwd", NULL, ": no options allowed");
 		return (EXIT_FAILURE);

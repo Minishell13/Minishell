@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:40 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/30 16:26:05 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	exec_unset(t_ast *node)
 	char	**keys;
 	
 	i = 1;
-	keys = node->data.args;
+	keys = node->u_data.args;
 	while (keys[i])
 	{
 		if (!no_options(keys[i]))

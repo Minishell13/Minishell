@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 19:27:18 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:18:45 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ typedef struct	s_ast
 	{
 		char	**args;
 		t_redir	redir;
-	}	data;
+	}	u_data;
 	
 	struct s_ast	*child;
 	struct s_ast	*sibling;

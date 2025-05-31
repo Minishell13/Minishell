@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:05:55 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/28 16:19:00 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_bool	is_builtins(t_ast *node)
 {
 	char	*cmd;
 
-	cmd = node->data.args[0];
+	cmd = node->u_data.args[0];
 	if (ft_strlcmp("cd", cmd))
 		return (true);
 	else if (ft_strlcmp("echo", cmd))
@@ -38,7 +38,7 @@ int	exec_builtins(t_ast *root, t_ast *node)
 {
 	char	*cmd;
 
-	cmd = node->data.args[0];
+	cmd = node->u_data.args[0];
 	if (ft_strlcmp("cd", cmd))
 	{
 		expand_cmd_node(node, process_mode_1);	

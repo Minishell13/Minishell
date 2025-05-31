@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 19:37:17 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:19:46 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ t_ast	*ft_get_ast0(void)
 {
 	// heredoc << A
 	t_ast *hd = ast_new_node(GRAM_HEREDOC);
-	generate_tmpfile(&hd->data.redir);
-	hd->data.redir.limiter = strdup("A");
+	generate_tmpfile(&hd->u_data.redir);
+	hd->u_data.redir.limiter = strdup("A");
 	
 	// then > a
 	t_ast *ro = ast_new_node(GRAM_REDIR_OUT);
-	ro->data.redir.file = strdup("./temp/out");
+	ro->u_data.redir.file = strdup("./temp/out");
 
 	// t_ast *rin = ast_new_node(GRAM_REDIR_IN);
-	// rin->data.redir.file = strdup("./temp/out");
+	// rin->u_data.redir.file = strdup("./temp/out");
 
 	t_ast *r_node = ast_new_node(GRAM_IO_REDIRECT);
 	ast_add_child(r_node, hd);
@@ -34,7 +34,7 @@ t_ast	*ft_get_ast0(void)
 	
 	// attach in encounter order
 	t_ast *cmd = ast_new_node(GRAM_SIMPLE_COMMAND);
-	cmd->data.args = ast_create_args("cat");
+	cmd->u_data.args = ast_create_args("cat");
 	ast_add_child(cmd, r_node);
 
 	t_ast *root = ast_new_node(GRAM_COMPLETE_COMMAND);
@@ -48,16 +48,16 @@ t_ast	*ft_get_ast1(void)
 	t_ast *root = ast_new_node(GRAM_COMPLETE_COMMAND);
 
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c1->data.args = ast_create_args("echo '\"$PATH\"'");
+	c1->u_data.args = ast_create_args("echo '\"$PATH\"'");
 
 	t_ast *c2 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c2->data.args = ast_create_args("echo \"\"$SHELL\"\"");
+	c2->u_data.args = ast_create_args("echo \"\"$SHELL\"\"");
 
 	t_ast *c3 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c3->data.args = ast_create_args("echo \"\"$PWD\"\"");
+	c3->u_data.args = ast_create_args("echo \"\"$PWD\"\"");
 
 	t_ast *c4 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c4->data.args = ast_create_args("echo '\"$CC\"'");
+	c4->u_data.args = ast_create_args("echo '\"$CC\"'");
 
 	
 	t_ast *and1 = ast_new_node(GRAM_OPERATOR_AND);
@@ -83,17 +83,17 @@ t_ast	*ft_get_ast2(void)
 {
 	
 	t_ast *rout = ast_new_node(GRAM_REDIR_OUT);
-	rout->data.redir.file = strdup("./temp/out");
+	rout->u_data.redir.file = strdup("./temp/out");
 	
 	t_ast *r = ast_new_node(GRAM_IO_REDIRECT);
 	ast_add_child(r, rout);
 	
 	t_ast *grep = ast_new_node(GRAM_SIMPLE_COMMAND);
-	grep->data.args = ast_create_args("grep gg");
+	grep->u_data.args = ast_create_args("grep gg");
 	ast_add_child(grep, r);
 	
 	t_ast *cat = ast_new_node(GRAM_SIMPLE_COMMAND);
-	cat->data.args = ast_create_args("cat");
+	cat->u_data.args = ast_create_args("cat");
 	
 	t_ast *pipe = ast_new_node(GRAM_PIPE);
 	ast_add_child(pipe, cat);
@@ -110,16 +110,16 @@ t_ast	*ft_get_ast3(void)
 	t_ast *root = ast_new_node(GRAM_COMPLETE_COMMAND);
 
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c1->data.args = ast_create_args("echo 1");
+	c1->u_data.args = ast_create_args("echo 1");
 
 	t_ast *c2 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c2->data.args = ast_create_args("echo 2");
+	c2->u_data.args = ast_create_args("echo 2");
 
 	t_ast *c3 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c3->data.args = ast_create_args("echo 3");
+	c3->u_data.args = ast_create_args("echo 3");
 
 	t_ast *c4 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c4->data.args = ast_create_args("echo 4");
+	c4->u_data.args = ast_create_args("echo 4");
 
 	t_ast *and_3 = ast_new_node(GRAM_OPERATOR_AND);
 	ast_add_child(and_3, c1);
@@ -141,33 +141,33 @@ t_ast	*ft_get_ast3(void)
 t_ast	*ft_get_ast4(void)
 {
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c1->data.args = ast_create_args("ls");
+	c1->u_data.args = ast_create_args("ls");
 	t_ast *c2 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c2->data.args = ast_create_args("cat -n");
+	c2->u_data.args = ast_create_args("cat -n");
 	t_ast *p1 = ast_new_node(GRAM_PIPE);
 	ast_add_child(p1, c1);
 	ast_add_child(p1, c2);
 	
 	t_ast *c3 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c3->data.args = ast_create_args("grep M");
+	c3->u_data.args = ast_create_args("grep M");
 	t_ast *p2 = ast_new_node(GRAM_PIPE);
 	ast_add_child(p2, p1);
 	ast_add_child(p2, c3);
 
 	t_ast *c4 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c4->data.args = ast_create_args("wc -l");
+	c4->u_data.args = ast_create_args("wc -l");
 	t_ast *p3 = ast_new_node(GRAM_PIPE);
 	ast_add_child(p3, p2);
 	ast_add_child(p3, c4);
 	
 	t_ast *r1 = ast_new_node(GRAM_REDIR_OUT);
-	r1->data.redir.file = ft_strdup("./temp/out");
+	r1->u_data.redir.file = ft_strdup("./temp/out");
 	t_ast *r_node = ast_new_node(GRAM_IO_REDIRECT);
 	ast_add_child(r_node, r1);
 
 
 	t_ast *c5 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c5->data.args = ast_create_args("cat -e");
+	c5->u_data.args = ast_create_args("cat -e");
 	ast_add_child(c5, r_node);
 	
 	t_ast *p4 = ast_new_node(GRAM_PIPE);
@@ -175,14 +175,14 @@ t_ast	*ft_get_ast4(void)
 	ast_add_child(p4, c5);
 	
 	t_ast *c6 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c6->data.args = ast_create_args("echo OK");
+	c6->u_data.args = ast_create_args("echo OK");
 	
 	t_ast *and_2 = ast_new_node(GRAM_OPERATOR_AND);
 	ast_add_child(and_2, p4);
 	ast_add_child(and_2, c6);
 	
 	t_ast *c7 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c7->data.args = ast_create_args("echo ERROR");
+	c7->u_data.args = ast_create_args("echo ERROR");
 	
 	t_ast *or = ast_new_node(GRAM_OPERATOR_OR);
 	ast_add_child(or, and_2);
@@ -200,7 +200,7 @@ t_ast	*ft_get_ast5(void)
 	t_ast *root = ast_new_node(GRAM_COMPLETE_COMMAND);
 
 	t_ast *cmd = ast_new_node(GRAM_SIMPLE_COMMAND);
-	cmd->data.args = ast_create_args("echo echo $USER $SHELL '$PWD'");
+	cmd->u_data.args = ast_create_args("echo echo $USER $SHELL '$PWD'");
 
 	ast_add_child(root, cmd);
 	return root;
@@ -209,16 +209,16 @@ t_ast	*ft_get_ast5(void)
 t_ast	*ft_get_ast6(void)
 {
 	t_ast *r1 = ast_new_node(GRAM_REDIR_OUT);
-	r1->data.redir.file = strdup("./temp/a");
+	r1->u_data.redir.file = strdup("./temp/a");
 
 	t_ast *r2 = ast_new_node(GRAM_REDIR_OUT);
-	r2->data.redir.file = strdup("./temp/b");
+	r2->u_data.redir.file = strdup("./temp/b");
 
 	t_ast *r3 = ast_new_node(GRAM_REDIR_OUT);
-	r3->data.redir.file = strdup("./temp/c");
+	r3->u_data.redir.file = strdup("./temp/c");
 
 	t_ast *cmd = ast_new_node(GRAM_SIMPLE_COMMAND);
-	cmd->data.args = ast_create_args("cat Makefilee");
+	cmd->u_data.args = ast_create_args("cat Makefilee");
 	ast_add_child(cmd, r1);
 	ast_add_child(cmd, r2);
 	ast_add_child(cmd, r3);
@@ -234,19 +234,19 @@ t_ast	*ft_get_ast7(void)
 {	
 	// > ./temp/out
 	t_ast *ro = ast_new_node(GRAM_REDIR_OUT);
-	ro->data.redir.file = strdup("./temp/out");
+	ro->u_data.redir.file = strdup("./temp/out");
 	
 	// << A
 	t_ast *hd = ast_new_node(GRAM_HEREDOC);
-	generate_tmpfile(&hd->data.redir);
-	hd->data.redir.limiter = strdup("A");
+	generate_tmpfile(&hd->u_data.redir);
+	hd->u_data.redir.limiter = strdup("A");
 
 	t_ast *r_node = ast_new_node(GRAM_IO_REDIRECT);
 	ast_add_child(r_node, ro);
 	ast_add_child(r_node, hd);
 	
 	t_ast *cmd = ast_new_node(GRAM_SIMPLE_COMMAND);
-	cmd->data.args = ast_create_args("cat Makefile");
+	cmd->u_data.args = ast_create_args("cat Makefile");
 	ast_add_child(cmd, r_node);
 
 	t_ast *root = ast_new_node(GRAM_COMPLETE_COMMAND);
@@ -258,31 +258,31 @@ t_ast	*ft_get_ast7(void)
 t_ast	*ft_get_ast8(void)
 {	
 	t_ast *r1 = ast_new_node(GRAM_REDIR_OUT);
-	r1->data.redir.file = strdup("./temp/a");
+	r1->u_data.redir.file = strdup("./temp/a");
 
 	t_ast *r2 = ast_new_node(GRAM_REDIR_OUT);
-	r2->data.redir.file = strdup("./temp/b");
+	r2->u_data.redir.file = strdup("./temp/b");
 
 	t_ast *r3 = ast_new_node(GRAM_REDIR_OUT);
-	r3->data.redir.file = strdup("./temp/c");
+	r3->u_data.redir.file = strdup("./temp/c");
 
 	// << A
 	t_ast *h1 = ast_new_node(GRAM_HEREDOC);
-	generate_tmpfile(&h1->data.redir);
-	h1->data.redir.limiter = strdup("A");
+	generate_tmpfile(&h1->u_data.redir);
+	h1->u_data.redir.limiter = strdup("A");
 
 	// << B
 	t_ast *h2 = ast_new_node(GRAM_HEREDOC);
-	generate_tmpfile(&h2->data.redir);
-	h2->data.redir.limiter = strdup("B");
+	generate_tmpfile(&h2->u_data.redir);
+	h2->u_data.redir.limiter = strdup("B");
 
 	// << C
 	t_ast *h3 = ast_new_node(GRAM_HEREDOC);
-	generate_tmpfile(&h3->data.redir);
-	h3->data.redir.limiter = strdup("C");
+	generate_tmpfile(&h3->u_data.redir);
+	h3->u_data.redir.limiter = strdup("C");
 
 	// t_ast *rr3 = ast_new_node(GRAM_REDIR_IN);
-	// rr3->data.redir.file = strdup("Todo.md");
+	// rr3->u_data.redir.file = strdup("Todo.md");
 
 	t_ast *r_node = ast_new_node(GRAM_IO_REDIRECT);
 	ast_add_child(r_node, h1);
@@ -293,7 +293,7 @@ t_ast	*ft_get_ast8(void)
 	ast_add_child(r_node, r3);
 
 	t_ast *cmd = ast_new_node(GRAM_SIMPLE_COMMAND);
-	cmd->data.args = ast_create_args("cat Makefile");
+	cmd->u_data.args = ast_create_args("cat Makefile");
 	ast_add_child(cmd, r_node);
 
 	t_ast *root = ast_new_node(GRAM_COMPLETE_COMMAND);
@@ -304,9 +304,9 @@ t_ast	*ft_get_ast8(void)
 t_ast	*ft_get_ast9(void)
 {
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c1->data.args = ast_create_args("/bin/ls");
+	c1->u_data.args = ast_create_args("/bin/ls");
 	t_ast *c2 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c2->data.args = ast_create_args("cat -n");
+	c2->u_data.args = ast_create_args("cat -n");
 	t_ast *p1 = ast_new_node(GRAM_PIPE);
 	ast_add_child(p1, c1);
 	ast_add_child(p1, c2);
@@ -317,9 +317,9 @@ t_ast	*ft_get_ast9(void)
 	
 	
 	t_ast *c3 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c3->data.args = ast_create_args("wc -l");
+	c3->u_data.args = ast_create_args("wc -l");
 	t_ast *c4 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c4->data.args = ast_create_args("cat -e");
+	c4->u_data.args = ast_create_args("cat -e");
 	t_ast *p2 = ast_new_node(GRAM_PIPE);
 	ast_add_child(p2, c3);
 	ast_add_child(p2, c4);
@@ -334,7 +334,7 @@ t_ast	*ft_get_ast9(void)
 	ast_add_child(p3, s2);
 
 	t_ast *c5 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c5->data.args = ast_create_args("echo ERROR: $?");
+	c5->u_data.args = ast_create_args("echo ERROR: $?");
 	
 	t_ast *or = ast_new_node(GRAM_OPERATOR_OR);
 	ast_add_child(or, p3);
@@ -349,17 +349,17 @@ t_ast	*ft_get_ast9(void)
 t_ast	*ft_get_ast10(void)
 {
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c1->data.args = ast_create_args("cat");
+	c1->u_data.args = ast_create_args("cat");
 	t_ast *c2 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c2->data.args = ast_create_args("exit OK");
+	c2->u_data.args = ast_create_args("exit OK");
 	t_ast *p1 = ast_new_node(GRAM_PIPE);
 	ast_add_child(p1, c1);
 	ast_add_child(p1, c2);
 
 	t_ast *c3 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c3->data.args = ast_create_args("wc -l");
+	c3->u_data.args = ast_create_args("wc -l");
 	t_ast *c4 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c4->data.args = ast_create_args("cat -e");
+	c4->u_data.args = ast_create_args("cat -e");
 	t_ast *p2 = ast_new_node(GRAM_PIPE);
 	ast_add_child(p2, c3);
 	ast_add_child(p2, c4);
@@ -378,10 +378,10 @@ t_ast	*ft_get_ast11(void)
 {
 	// attach in encounter order
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c1->data.args = ast_create_args("cat");
+	c1->u_data.args = ast_create_args("cat");
 
 	t_ast *c2 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c2->data.args = ast_create_args("cat");
+	c2->u_data.args = ast_create_args("cat");
 
 	t_ast *and1 = ast_new_node(GRAM_PIPE);
 	ast_add_child(and1, c1);
@@ -395,18 +395,18 @@ t_ast	*ft_get_ast11(void)
 t_ast	*ft_get_ast12(void)
 {
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c1->data.args = ast_create_args("cat");
+	c1->u_data.args = ast_create_args("cat");
 	
 	
 	// t_ast *hd = ast_new_node(GRAM_HEREDOC);
-	// generate_tmpfile(&hd->data.redir);
-	// hd->data.redir.limiter = strdup("A");
+	// generate_tmpfile(&hd->u_data.redir);
+	// hd->u_data.redir.limiter = strdup("A");
 
 	t_ast *rin = ast_new_node(GRAM_REDIR_IN);
-	rin->data.redir.file = strdup("Makefile");
+	rin->u_data.redir.file = strdup("Makefile");
 
 	// t_ast *rout = ast_new_node(GRAM_REDIR_OUT);
-	// rout->data.redir.file = strdup("./temp/b");
+	// rout->u_data.redir.file = strdup("./temp/b");
 	
 	t_ast *r = ast_new_node(GRAM_IO_REDIRECT);
 	ast_add_child(r, rin);
@@ -425,7 +425,7 @@ t_ast	*ft_get_ast12(void)
 t_ast	*ft_get_ast13(void)
 {
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c1->data.args = ast_create_args("./minishell 14");
+	c1->u_data.args = ast_create_args("./minishell 14");
 	
 	t_ast *root = ast_new_node(GRAM_COMPLETE_COMMAND);
 	ast_add_child(root, c1);
@@ -435,12 +435,12 @@ t_ast	*ft_get_ast13(void)
 t_ast	*ft_get_ast14(void)
 {
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	// c1->data.args = ast_create_args("exit gsg");
-	c1->data.args = ast_create_args("./minishell 14");
+	// c1->u_data.args = ast_create_args("exit gsg");
+	c1->u_data.args = ast_create_args("./minishell 14");
 	
 	t_ast *c2 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	// c2->data.args = ast_create_args("export SHLVL=gdsgsg544684sgsgsg\"gdg\"'bfdbdfb'bfdbdbd5b5d");
-	c2->data.args = ast_create_args("echo $SHLVL");
+	// c2->u_data.args = ast_create_args("export SHLVL=gdsgsg544684sgsgsg\"gdg\"'bfdbdfb'bfdbdbd5b5d");
+	c2->u_data.args = ast_create_args("echo $SHLVL");
 
 	t_ast *a1 = ast_new_node(GRAM_OPERATOR_AND);
 	ast_add_child(a1, c1);

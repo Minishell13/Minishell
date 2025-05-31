@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:28:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/05/31 20:16:56 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:19:26 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ t_bool	fill_args(t_ast *cmd, t_list *words)
 	if (!words)
 		return (false);
 	count = count_words(words);
-	cmd->data.args = malloc(sizeof(char *) * (count + 1));
-	if (!cmd->data.args)
+	cmd->u_data.args = malloc(sizeof(char *) * (count + 1));
+	if (!cmd->u_data.args)
 		return (false);
-	if (!fill_words_array(cmd->data.args, words))
+	if (!fill_words_array(cmd->u_data.args, words))
 		return (false);
 	return (true);
 }

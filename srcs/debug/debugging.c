@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:14:45 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 19:37:35 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ void	ast_print(const t_ast *n, int indent)
 	for (int i = 0; i < indent; i++) putchar(' ');
 	printf("%s", gram_name(n->type));
 
-	if (n->type == GRAM_SIMPLE_COMMAND && n->data.args) {
+	if (n->type == GRAM_SIMPLE_COMMAND && n->u_data.args) {
 		printf(" [");
-		for (char **a = n->data.args; *a; ++a) {
+		for (char **a = n->u_data.args; *a; ++a) {
 			printf(" \"%s\"", *a);
 		}
 		printf(" ]");
@@ -79,13 +79,13 @@ void	ast_print(const t_ast *n, int indent)
 		   || n->type == GRAM_REDIR_OUT
 		   || n->type == GRAM_REDIR_APPEND
 		   || n->type == GRAM_HEREDOC)
-		  && n->data.redir.file)
+		  && n->u_data.redir.file)
 	{
 		const char *t = gram_name(n->type);
 		printf(" { file=\"%s\", type=%s, limiter=\"%s\" }",
-		n->data.redir.file,
+		n->u_data.redir.file,
 		t,
-		n->data.redir.limiter ? n->data.redir.limiter : "NULL");
+		n->u_data.redir.limiter ? n->u_data.redir.limiter : "NULL");
 	}
 	putchar('\n');
 

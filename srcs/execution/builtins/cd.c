@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:05 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 16:05:06 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	exec_cd(t_ast *node)
 	char	*path;
 	int		len;
 
-	len = len_arr(node->data.args);
+	len = len_arr(node->u_data.args);
 	if (len == 1)
 	{
 		fdprintf(STDERR_FILENO,
@@ -30,7 +30,7 @@ int	exec_cd(t_ast *node)
 				"minishell: cd: too many arguments\n");
 		return (EXIT_FAILURE);
 	}
-	path = node->data.args[1];
+	path = node->u_data.args[1];
 	if (chdir(path) != 0)
 	{
 		fdprintf(STDERR_FILENO,

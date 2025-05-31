@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:13:31 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/30 20:13:06 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:19:54 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ t_ast *ast_new_node(t_gram type)
 	n->sibling = NULL;
 
 	// init union
-	n->data.args           = NULL;
-	n->data.redir.file     = NULL;
-	n->data.redir.limiter  = NULL;
-	n->data.redir.expanded = false;
+	n->u_data.args           = NULL;
+	n->u_data.redir.file     = NULL;
+	n->u_data.redir.limiter  = NULL;
+	n->u_data.redir.expanded = false;
 
 	return n;
 }
@@ -96,19 +96,19 @@ void    ast_destroy(t_ast *n)
 	ast_destroy(n->child);
 
 	// free this node’s payload
-	if (n->type == GRAM_SIMPLE_COMMAND && n->data.args)
-		clear_arr(n->data.args);
+	if (n->type == GRAM_SIMPLE_COMMAND && n->u_data.args)
+		clear_arr(n->u_data.args);
 	else if ((n->type == GRAM_REDIR_IN
 		   || n->type == GRAM_REDIR_OUT
 		   || n->type == GRAM_REDIR_APPEND
 		   || n->type == GRAM_HEREDOC)
-		  && n->data.redir.file)
+		  && n->u_data.redir.file)
 	{
 		if (n->type == GRAM_HEREDOC)
-			unlink(n->data.redir.file);
-		free(n->data.redir.file);
-		if (n->data.redir.limiter)
-			free(n->data.redir.limiter);
+			unlink(n->u_data.redir.file);
+		free(n->u_data.redir.file);
+		if (n->u_data.redir.limiter)
+			free(n->u_data.redir.limiter);
 	}
 	// keep going with siblings
 	ast_destroy(n->sibling);

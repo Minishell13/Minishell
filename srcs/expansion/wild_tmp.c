@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 14:09:09 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/24 11:49:11 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@
 // 	new_args[0] = NULL;
 
 // 	i = 0;
-// 	args = ast->data.args;
+// 	args = ast->u_data.args;
 // 	if (!args)
 // 		return ;
 // 	while (args[i])
@@ -246,25 +246,25 @@
 // 	}
 
 // 	//? Do * Wildcard Expansion
-// 	clear_arr(ast->data.args);
+// 	clear_arr(ast->u_data.args);
 // 	char **with_globs = wildcard_expand_arr(new_args);
 // 	clear_arr(new_args);
-// 	ast->data.args = with_globs;
+// 	ast->u_data.args = with_globs;
 
 // 	//? Just $ expansion
-// 	// clear_arr(ast->data.args);
-// 	// ast->data.args = new_args;
+// 	// clear_arr(ast->u_data.args);
+// 	// ast->u_data.args = new_args;
 // }
 
 
 // void	expand_redir(t_ast *node)
 // {
 // 	// heredoc first
-// 	if (node->data.redir.type == GRAM_HEREDOC)
-// 		remove_quotes(&(node->data.redir));
+// 	if (node->u_data.redir.type == GRAM_HEREDOC)
+// 		remove_quotes(&(node->u_data.redir));
 // 	else
 // 	{
-// 		char **arr = process_arg(node->data.redir.file);
+// 		char **arr = process_arg(node->u_data.redir.file);
 // 		int	len = len_arr(arr);
 // 		if (len != 1)
 // 		{
@@ -273,7 +273,7 @@
 // 		}
 // 		else
 // 		{
-// 			node->data.redir.file = ft_strdup(arr[0]);
+// 			node->u_data.redir.file = ft_strdup(arr[0]);
 // 			clear_arr(arr);	
 // 		}
 // 	}
@@ -291,9 +291,9 @@
 // 	if (node->type == GRAM_SIMPLE_COMMAND)
 // 	{
 // 		expand_node_args(node);
-// 		printf("---------------------- Printing [ node->data.args ] ----------------------\n");
-// 		print_arr(node->data.args);
-// 		printf("----------------------      END [ node->data.args ] ----------------------\n");
+// 		printf("---------------------- Printing [ node->u_data.args ] ----------------------\n");
+// 		print_arr(node->u_data.args);
+// 		printf("----------------------      END [ node->u_data.args ] ----------------------\n");
 // 	}
 // 	else if (node->type == GRAM_IO_REDIRECT)
 // 	{

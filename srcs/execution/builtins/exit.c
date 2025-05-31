@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:48:06 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 18:00:02 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ void	close_all_tracked_fds(void)
 
 int	exec_exit(t_ast *root, t_ast *node)
 {
-	if (!no_args(node->data.args))
+	if (!no_args(node->u_data.args))
 	{
 		fdprintf(STDERR_FILENO,
 				"minishell: exit: %s : no options allowed\n"
-				, node->data.args[1]);	
+				, node->u_data.args[1]);	
 	}
 	//TODO: Cleanup ressources
 	restore_fds(sh.in, sh.out);

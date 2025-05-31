@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 19:54:53 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	execve_helper(t_ast *root, t_ast *cmd)
 	char	*path;
 
 	reset_signals();
-	path = get_path(cmd->data.args[0]);
-	execve(path, cmd->data.args, sh.my_env);
-	put_error(cmd->data.args[0]);
+	path = get_path(cmd->u_data.args[0]);
+	execve(path, cmd->u_data.args, sh.my_env);
+	put_error(cmd->u_data.args[0]);
 	get_error(path);
 	free(path);
 	clear_sh(root);
@@ -58,7 +58,7 @@ void	execute_simple_cmd(t_ast *root, t_ast *node, t_bool no_fork)
 // 	int		status;
 // 	char	*path;
 
-// 	path = get_path(node->data.args[0]);
+// 	path = get_path(node->u_data.args[0]);
 // 	if (!path)
 // 		return (EXECVE_ERROR);
 
@@ -67,7 +67,7 @@ void	execute_simple_cmd(t_ast *root, t_ast *node, t_bool no_fork)
 // 		return (FORK_ERROR);
 // 	if (pid == 0)
 // 	{
-// 		execve(path, node->data.args);
+// 		execve(path, node->u_data.args);
 
 // 		// TODO: Maybe use a custom put error function instead perror
 // 		// perror("sh");
