@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 09:45:00 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/05/31 19:57:09 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:06:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ int main0(int ac, char **av, char **env)
 
 
 
-//TODO: PArsing + Execution main (Demo...)
+//TODO: Parsing + Execution main (Demo...)
 int	main(int ac, char **av, char **env)
 {
 	t_token *head;
@@ -254,7 +254,7 @@ int	main(int ac, char **av, char **env)
 		if (root)
 		{
 			//TODO: Hamza Log
-			// print_ast(root, 0);
+			print_ast(root, 0);
 			//TODO: Abdellah Log 
 			// ast_print(root, 0);
 			handle_heredocs(root);
