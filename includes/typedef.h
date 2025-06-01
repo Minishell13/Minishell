@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 20:18:45 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/01 13:27:28 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,6 @@
 # include <errno.h>
 
 #define MAX_TRACKED_FDS 1024
-
-typedef struct	s_minishell
-{
-	char	*shell;
-	char	**env;
-	char	**my_env;
-	int		exit_code;
-	int		in;
-	int		out;
-	pid_t	pids[2];
-	int		pipefd[2][2];
-	int		tracked_fds[MAX_TRACKED_FDS];
-	int		tracked_fds_count;
-}				t_minishell;
 
 typedef enum e_error
 {
@@ -149,5 +135,53 @@ typedef enum	s_quote
 	SINGLE_Q,
 	DOUBLE_Q
 }				t_quote;
+
+
+//!-------------------------- Parsing types ---------------------------------
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+	struct s_token	*next;
+}					t_token;
+
+typedef struct s_list
+{
+	t_token			*token;// Each list node contains a pointer to a t_token
+	struct s_list	*next;// Pointer to the next list node
+}					t_list;
+
+typedef struct s_arr
+{
+	int				size;
+	int				used;
+	int				elem_size;
+	void			*arr;
+}					t_arr;
+
+typedef struct s_parse_data
+{
+	t_ast			*cmd;
+	t_ast			*rlist;
+	t_list			*words;
+	t_bool			flag;
+}					t_parse_data;
+//!------------------------------------------------------
+
+typedef struct	s_minishell
+{
+	char	*shell;
+	char	**env;
+	char	**my_env;
+	int		exit_code;
+	int		in;
+	int		out;
+	pid_t	pids[2];
+	int		pipefd[2][2];
+	int		tracked_fds[MAX_TRACKED_FDS];
+	int		tracked_fds_count;
+	t_token	*tokens;
+	t_ast	*ast;
+}				t_minishell;
 
 #endif
