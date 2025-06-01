@@ -6,23 +6,36 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/01 15:51:41 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void close_fds_except_std(void)
+{
+	int fd = 3;
+
+	while (fd < MAX_TRACKED_FDS)
+	{
+		close(fd);
+		fd++;
+	}
+}
+
 void	execve_helper(t_ast *root, t_ast *cmd)
 {
+	(void)root;
 	char	*path;
 
+	close_fds_except_std();
 	reset_signals();
 	path = get_path(cmd->u_data.args[0]);
 	execve(path, cmd->u_data.args, sh.my_env);
 	put_error(cmd->u_data.args[0]);
 	get_error(path);
 	free(path);
-	clear_sh(root);
+	destroy();
 	exit(sh.exit_code);
 }
 
@@ -47,7 +60,10 @@ void	execute_simple_cmd(t_ast *root, t_ast *node, t_bool no_fork)
 	if (pid < 0)
 		return ;
 	else if (pid == 0)
+	{
+		fdprintf(STDERR_FILENO, "FORK()\n");	
 		execve_helper(root, node);
+	}
 	signals_notif(pid, &status);
 }
 

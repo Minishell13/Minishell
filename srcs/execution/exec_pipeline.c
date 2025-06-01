@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:18 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 22:58:13 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/01 15:54:24 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,38 +168,73 @@ static void close_pipes_in_parent(int i)
 	}
 }
 
+static void collect_pipeline_stages(t_ast *node, t_ast **stages, int *count)
+{
+	if (!node) return;
+
+	if (node->type == GRAM_PIPE)
+	{
+		collect_pipeline_stages(node->child, stages, count); // left side
+		collect_pipeline_stages(node->child->sibling, stages, count); // right side
+	}
+	else
+	{
+		stages[*count] = node;
+		(*count)++;
+	}
+}
+
 void execute_pipeline(t_ast *root, t_ast *pipeline)
 {
-	t_ast *cmd;
-	int i = 0;
+	t_ast *stages[MAX_PIPE];
+	int i = 0, total = 0;
 	int status;
 	pid_t pids[MAX_PIPE];
 	t_bool has_next;
 
 	sh.in  = track_dup(STDIN_FILENO);
-    sh.out = track_dup(STDOUT_FILENO);
-	cmd = pipeline->child;
-	while (cmd)
+	sh.out = track_dup(STDOUT_FILENO);
+
+	collect_pipeline_stages(pipeline, stages, &total);
+
+	while (i < total)
 	{
-		has_next = cmd->sibling != NULL;
+		has_next = (i < total - 1);
 		setup_pipe(i, has_next);
+
 		pids[i] = fork();
-		if (pids[i] == 0)
+		if (pids[i] < 0)
 		{
+			destroy();	
+			exit(EXIT_FAILURE);
+		}
+		else if (pids[i] == 0)
+		{
+			fdprintf(STDERR_FILENO, "FORK()\n");
 			redirect_pipes(i, has_next);
 			close_pipes_in_child(i, has_next);
-			run_one_stage(root, cmd);
-			exit(EXIT_FAILURE); // only reached if exec fails
+
+			// Now directly run the command/subshell
+			if (stages[i]->type == GRAM_SIMPLE_COMMAND)
+				execute_simple_cmd(root, stages[i], true);
+			else if (stages[i]->type == GRAM_SUBSHELL)
+				execute_subshell(root, stages[i]);
+			destroy();
+			exit(sh.exit_code);
 		}
+
 		close_pipes_in_parent(i);
-		cmd = cmd->sibling;
 		i++;
 	}
+
 	while (i--)
 		waitpid(pids[i], &status, 0);
+
 	sh.exit_code = WEXITSTATUS(status);
 	restore_fds(sh.in, sh.out);
 }
+
+
 
 
 
