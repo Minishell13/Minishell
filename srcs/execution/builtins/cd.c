@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:05 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/01 12:22:51 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int	exec_cd(t_ast *node)
 				"minishell: cd: %s\n", strerror(errno));
 		return (EXIT_FAILURE);
 	}
+	export_var("PWD", getcwd(NULL, 0), false, true);
 	return (EXIT_SUCCESS);
 }

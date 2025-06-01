@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:57:30 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/24 13:19:48 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/01 15:20:28 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	literal_mode(char *arg, char **v, int *i)
 
 void	append_args(char ***arr, char **v, t_bool split)
 {
+	// char	*joined;
+
 	if (split)
 	{
 		*arr = inner_merge_arr(*arr, ft_split(*v, ' '));
@@ -71,7 +73,9 @@ void	append_args(char ***arr, char **v, t_bool split)
 			free(*v);
 		}
 		else
-		*last_item_ptr(*arr) = ft_conststrjoin(*last_item_ptr(*arr), *v);
+		{
+			*last_item_ptr(*arr) = ft_conststrjoin(*last_item_ptr(*arr), *v);
+		}
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:58:45 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/22 11:08:45 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/01 12:44:55 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,23 @@ t_quote	is_quote(char c)
 
 char	*extract_var_value(char *arg, int *i)
 {
-	char	*var;
+	char	*key;
 	char	*value;
 
-	var = ft_strdup("");
+	key = ft_strdup("");
 	while (arg[*i] && (is_quote(arg[*i]) == NONE)
 		&& is_valid(arg[*i]) && ft_isspace(arg[*i]) == 0)
 	{
-		var = ft_charjoin(var, arg[*i]);
-		if (!var)
+		key = ft_charjoin(key, arg[*i]);
+		if (!key)
 			return (NULL);
 		(*i)++;
 	}
-	value = getenv(var);
-	free(var);
+	value = get_value(key);
+	free(key);
 	if (!value)
 		return (ft_strdup(""));
-	return (ft_strdup(value));
+	return (value);
 }
 
 t_bool	try_expand_dollar(char *arg, char **value, int *i)
