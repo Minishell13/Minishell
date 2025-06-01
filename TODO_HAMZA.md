@@ -17,3 +17,17 @@ COMPLETE_COMMAND
   SIMPLE_COMMAND: [ ls ,  'gfdg gfg gfdg gdfg' ,  gdfg"5"fdg ]  ❌
   SIMPLE_COMMAND: [ ls ,  'gfdg gfg gfdg gdfg'gdfg"5"fdg ]      ✅
 
+HEREDOCK -> limiter
+
+✅> (((((((((()))))))))
+syntax error: empty subshell or invalid content
+syntax error: empty subshell or invalid content
+syntax error: empty subshell or invalid content
+syntax error: empty subshell or invalid content
+syntax error: empty subshell or invalid content
+syntax error: empty subshell or invalid content
+syntax error: empty subshell or invalid content
+syntax error: empty subshell or invalid content
+syntax error: empty subshell or invalid content
+syntax error: empty subshell or invalid content
+
