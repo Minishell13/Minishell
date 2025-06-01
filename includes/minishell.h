@@ -26,6 +26,7 @@ void	generate_tmpfile(t_redir *redir);
 void	ft_free_array(char **arr);
 void	ft_free_count_array(char **arr, int count);
 void	clear_sh(t_ast *root);
+void	destroy();
 
 // Debugging
 void	ast_print(const t_ast *node, int indent);

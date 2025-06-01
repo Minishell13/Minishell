@@ -6,11 +6,13 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 09:45:00 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/05/31 23:00:42 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/01 16:02:29 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+//TODO: -------------------------------- Parsing Utils --------------------------------
 
 const char *get_node_type_name(int type)
 {
@@ -34,6 +36,7 @@ const char *get_node_type_name(int type)
 		default:                    return "UNKNOWN";
 	}
 }
+
 void print_ast(t_ast *node, int indent)
 {
 	if (!node)
@@ -124,16 +127,15 @@ void	free_tree(t_ast *node)
 	}
 }
 
-void	free_all(t_token *token, t_ast *ast)
+void	free_all()
 {
-    if (!token || !ast)
-    {
-        return;
-    }
-	free_tokens(token);
-	free_tree(ast);
+	if (sh.tokens)
+		free_tokens(sh.tokens);
+	if (sh.ast)
+		free_tree(sh.ast);
+	sh.tokens = NULL;
+	sh.ast = NULL;
 }
-
 
 void print_tokens(t_token *head)
 {
@@ -150,130 +152,95 @@ void print_tokens(t_token *head)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// TODO: MY execution main
-int main0(int ac, char **av, char **env)
+//TODO: -------------------------------- Separate each phase for clean processing --------------------------------
+void	destroy()
 {
-	(void)ac;
-	(void)av;
-	(void)env;
-	char	*line;
-	t_ast	*root = NULL;
-
-	setup_env(env);
-	while (1)
-	{
-		setup_signals();
-		line = readline("> ");
-		if (!line)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (*line)
-			add_history(line);
-		
-
-		// Execution
-		if (ac != 2)
-			return (EXIT_FAILURE);
-		if (!root)
-			root = ft_get_ast_example(ft_atoi(av[1]));
-		
-		// ast_print(root, 0);
-		handle_heredocs(root);
-		executor(root, root);
-
-
-		printf("exit code: %d\n", sh.exit_code);
-		
-		free(line);
-	}
-	rl_clear_history();
-	clear_sh(root);
-
-	return (EXIT_SUCCESS);
-}
-
-
-
-//TODO: Parsing + Execution main (Demo...)
-int	main(int ac, char **av, char **env)
-{
-	t_token *head;
-	t_token *head_root;
-	t_ast *root;
-	char *line;
-
-	(void)ac;
-	(void)av;
-	(void)env;
-	head = NULL;
-	head_root = NULL;
-	root = NULL;
-	setup_env(env);
-	sh.in = track_dup(STDIN_FILENO);
-	sh.out = track_dup(STDOUT_FILENO);
-	while (1)
-	{
-		//TODO: For signals
-		setup_signals();
-		line = readline("> ");
-		if (!line)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (*line)
-			add_history(line);
-
-		// Free previous allocations before new ones
-		free_all(head_root, root);
-		head = NULL;
-		root = NULL;
-
-		head = lexer(line);
-		if (!head)
-		{
-			free(line);
-			continue; // or handle lexer failure
-		}
-		head_root = head;
-		root = parse_complete_command(&head);
-		if (root)
-		{
-			print_ast(root, 0);
-			handle_heredocs(root);
-			executor(root, root);
-			// printf("exit code: %d\n", sh.exit_code);
-		}
-		free(line);
-		//! You must backup stdin/stdout for the parent process (childs) and restore them
-		restore_fds(sh.in, sh.out);
-		close_all_tracked_fds();
-	}
-	rl_clear_history();
-	free_all(head_root, root);
+	free_all();
 	restore_fds(sh.in, sh.out);
 	close_all_tracked_fds();
 	clear_arr(sh.my_env);
-	return (EXIT_SUCCESS);
+}
+
+void	cleanup_loop(char *line)
+{
+	free(line);
+	//! You must backup stdin/stdout for the parent process (childs) and restore them
+	restore_fds(sh.in, sh.out);
+	close_all_tracked_fds();
+}
+
+char	*ft_readline()
+{
+	char	*line;
+
+	if (sh.exit_code)
+		line = readline("❌> ");
+	else
+		line = readline("✅> ");
+	if (!line)
+	{
+		printf("exit\n");
+		return (NULL) ;
+	}
+	if (*line)
+			add_history(line);
+	return (line);
+}
+
+t_bool	parsing(char *line)
+{
+	t_token *head;
+
+	// Free previous allocations before new ones
+	free_all();
+	head = NULL;
+	head = lexer(line);
+	if (!head)
+	{
+		free(line);
+		return (false); // or handle lexer failure
+	}
+	sh.tokens = head;
+	sh.ast = parse_complete_command(&head);
+	return (true);
+}
+
+void	execution()
+{
+	if (sh.ast)
+	{
+		print_ast(sh.ast, 0);
+		handle_heredocs(sh.ast);
+		executor(sh.ast, sh.ast);
+	}
 }
 
 
+//TODO: -------------------------------- Parsing + Execution main (Demo...) --------------------------------
+int	main(int ac, char **av, char **ev)
+{
+	(void)ac;
+	(void)av;
+	(void)ev;
+	char *line;
+	sh.tokens = NULL;
+	sh.ast = NULL;
+
+	setup_env(ev);
+	sh.in = track_dup(STDIN_FILENO);
+	sh.out = track_dup(STDOUT_FILENO);
+	while (true)
+	{
+		setup_signals();
+		line = ft_readline();
+		if (!line)
+			break ;
+		if (parsing(line) == false)
+			continue ;
+		execution();
+		cleanup_loop(line);
+	}
+	rl_clear_history();
+	destroy();
+	return (sh.exit_code);
+}
