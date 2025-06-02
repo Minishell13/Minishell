@@ -6,235 +6,70 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:18 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/01 15:54:24 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:31:39 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //* -------------------------------- PIPELINE --------------------------------
-
-
-// void run_one_stage(t_ast *root, t_ast *node)
-// {
-// 	if (!node)
-// 	{
-// 		clear_sh(root);
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	switch (node->type)
-// 	{
-// 		case GRAM_SIMPLE_COMMAND:
-// 			execute_simple_cmd(root, node, true);
-// 			break;
-
-// 		case GRAM_SUBSHELL:
-// 			execute_subshell(root, node);
-// 			clear_sh(root);
-// 			exit(sh.exit_code);
-// 			break;
-
-// 		default:
-// 			ft_putstr_fd("minishell: invalid pipeline stage\n", STDERR_FILENO);
-// 			clear_sh(root);
-// 			exit(EXIT_FAILURE);
-// 	}
-// }
-
-// void	exec_left(t_ast *root, t_ast *left)
-// {
-// 	sh.pids[0] = fork();
-// 	if (sh.pids[0] < 0)
-// 		return ;
-// 	if (sh.pids[0] == 0)
-// 	{
-// 		redirect_fds(root, STDOUT_FILENO);
-// 		if (left->type == GRAM_PIPE)
-// 			execute_pipeline(root, left);
-// 		else
-// 			run_one_stage(root, left);
-// 	}
-// }
-
-// void	exec_right(t_ast *root, t_ast *right)
-// {
-// 	sh.pids[1] = fork();
-// 	if (sh.pids[1] < 0)
-// 		return ;
-// 	if (sh.pids[1] == 0)
-// 	{
-// 		redirect_fds(root, STDIN_FILENO);
-// 		if (right->type == GRAM_PIPE)
-// 			execute_pipeline(root, right);
-// 		else
-// 			run_one_stage(root, right);
-// 	}
-// }
-
-// void	execute_pipeline(t_ast *root, t_ast *node)
-// {
-// 	int	status;
-
-// 	if (!node->child || !node->child->sibling)
-// 		return ;
-
-// 	if (pipe(sh.pipefd) < 0)
-// 		return ;
-
-// 	exec_left(root, node->child);
-// 	exec_right(root, node->child->sibling);
-
-// 	// 3) PARENT: clean up and wait
-// 	close(sh.pipefd[0]);
-// 	close(sh.pipefd[1]);
-// 	signals_notif(sh.pids[0], &status);
-// 	signals_notif(sh.pids[1], &status);
-
-// 	// return the exit status of the rightmost stage
-// 	sh.exit_code = WEXITSTATUS(status);
-// }
-
-
-
-
-void run_one_stage(t_ast *root, t_ast *node)
+static void	parent_cleanup(pid_t pids[MAX_PIPE], int i, int *status)
 {
-	if (!node)
-	{
-		clear_sh(root);
-		exit(EXIT_FAILURE);
-	}
-	switch (node->type)
-	{
-		case GRAM_SIMPLE_COMMAND:
-			execute_simple_cmd(root, node, true);
-			break;
-
-		case GRAM_SUBSHELL:
-			execute_subshell(root, node);
-			clear_sh(root);
-			exit(sh.exit_code);
-			break;
-
-		case GRAM_PIPE:
-			execute_pipeline(root, node);
-			clear_sh(root);
-			exit(sh.exit_code);
-			break;
-
-		default:
-			fdprintf(STDERR_FILENO, "minishell: invalid pipeline stage\n");
-			clear_sh(root);
-			exit(EXIT_FAILURE);
-	}
+	int	j;
+	
+	j = 0;
+	while (j < i)
+		signals_notif(pids[j++], status);
 }
 
-#define MAX_PIPE 1024
-
-static void setup_pipe(int i, t_bool has_next)
+static void	child_exec(t_ast *stage, int i, t_bool has_next)
 {
-	if (has_next)
-		pipe(sh.pipefd[i % 2]);
-}
-
-static void redirect_pipes(int i, t_bool has_next)
-{
-	if (i > 0)
-		dup2(sh.pipefd[(i + 1) % 2][0], STDIN_FILENO);
-	if (has_next)
-		dup2(sh.pipefd[i % 2][1], STDOUT_FILENO);
-}
-
-static void close_pipes_in_child(int i, t_bool has_next)
-{
-	if (i > 0)
-	{
-		close(sh.pipefd[(i + 1) % 2][0]);
-		close(sh.pipefd[(i + 1) % 2][1]);
-	}
-	if (has_next)
-	{
-		close(sh.pipefd[i % 2][0]);
-		close(sh.pipefd[i % 2][1]);
-	}
-}
-
-static void close_pipes_in_parent(int i)
-{
-	if (i > 0)
-	{
-		close(sh.pipefd[(i + 1) % 2][0]);
-		close(sh.pipefd[(i + 1) % 2][1]);
-	}
-}
-
-static void collect_pipeline_stages(t_ast *node, t_ast **stages, int *count)
-{
-	if (!node) return;
-
-	if (node->type == GRAM_PIPE)
-	{
-		collect_pipeline_stages(node->child, stages, count); // left side
-		collect_pipeline_stages(node->child->sibling, stages, count); // right side
-	}
+	redirect_pipes(i, has_next);
+	close_pipes_in_child(i, has_next);
+	if (stage->type == GRAM_SIMPLE_COMMAND)
+		execute_simple_cmd(stage, true);
 	else
-	{
-		stages[*count] = node;
-		(*count)++;
-	}
+		executor(stage);
+	destroy();
+	exit(sh.exit_code);
 }
 
-void execute_pipeline(t_ast *root, t_ast *pipeline)
+static void	pipeline_loop(t_ast **stages, int total, pid_t *pids)
 {
-	t_ast *stages[MAX_PIPE];
-	int i = 0, total = 0;
-	int status;
-	pid_t pids[MAX_PIPE];
-	t_bool has_next;
+	int		i;
+	t_bool	has_next;
 
-	sh.in  = track_dup(STDIN_FILENO);
-	sh.out = track_dup(STDOUT_FILENO);
-
-	collect_pipeline_stages(pipeline, stages, &total);
-
+	i = 0;
 	while (i < total)
 	{
-		has_next = (i < total - 1);
+		has_next = 0;
+		if (i < total - 1)
+			has_next = true;
 		setup_pipe(i, has_next);
-
 		pids[i] = fork();
 		if (pids[i] < 0)
 		{
-			destroy();	
+			destroy();
 			exit(EXIT_FAILURE);
 		}
-		else if (pids[i] == 0)
-		{
-			fdprintf(STDERR_FILENO, "FORK()\n");
-			redirect_pipes(i, has_next);
-			close_pipes_in_child(i, has_next);
-
-			// Now directly run the command/subshell
-			if (stages[i]->type == GRAM_SIMPLE_COMMAND)
-				execute_simple_cmd(root, stages[i], true);
-			else if (stages[i]->type == GRAM_SUBSHELL)
-				execute_subshell(root, stages[i]);
-			destroy();
-			exit(sh.exit_code);
-		}
-
+		if (pids[i] == 0)
+			child_exec(stages[i], i, has_next);
 		close_pipes_in_parent(i);
 		i++;
 	}
-
-	while (i--)
-		waitpid(pids[i], &status, 0);
-
-	sh.exit_code = WEXITSTATUS(status);
-	restore_fds(sh.in, sh.out);
 }
 
+void	execute_pipeline(t_ast *pipeline)
+{
+	t_ast	*stages[MAX_PIPE];
+	pid_t	pids[MAX_PIPE];
+	int		total;
+	int		status;
 
-
-
-
+	total = 0;
+	signal(SIGINT, SIG_IGN);
+	collect_pipeline_stages(pipeline, stages, &total);
+	pipeline_loop(stages, total, pids);
+	parent_cleanup(pids, total, &status);
+	sh.exit_code = WEXITSTATUS(status);
+}

@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/01 15:51:41 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:59:21 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void close_fds_except_std(void)
 	}
 }
 
-void	execve_helper(t_ast *root, t_ast *cmd)
+void	execve_helper(t_ast *cmd)
 {
-	(void)root;
 	char	*path;
 
+	sh.is_child = true;
 	close_fds_except_std();
 	reset_signals();
 	path = get_path(cmd->u_data.args[0]);
@@ -39,36 +39,55 @@ void	execve_helper(t_ast *root, t_ast *cmd)
 	exit(sh.exit_code);
 }
 
-void	execute_simple_cmd(t_ast *root, t_ast *node, t_bool no_fork)
+void	run_builtins(t_ast *node)
+{
+	char	*cmd;
+
+	cmd = node->u_data.args[0];
+	sh.exit_code = exec_builtins(node);
+	// if (sh.exit_code == 0)
+	// 	export_var("_", cmd, false, false);
+}
+
+t_bool	run_command(t_ast *node, t_bool no_fork)
+{
+	pid_t	pid;
+
+	if (no_fork)
+		execve_helper(node);
+	signal(SIGINT, SIG_IGN);
+	pid = fork();
+	if (pid < 0)
+		return (-1);
+	else if (pid == 0)
+		execve_helper(node);
+	return (pid);
+}
+
+void	execute_simple_cmd(t_ast *node, t_bool no_fork)
 {
 	pid_t	pid;
 	int		status;
+	t_bool	flag;
 
+	flag = true;
 	if (node->child && node->child->type == GRAM_IO_REDIRECT)
-		execute_redirection(node->child);
-	// Execute Builtins
+		flag = execute_redirection(node->child);
+	if (!flag)
+		return ;
+	expand_cmd_node(node);
 	if (is_builtins(node))
-	{
-		sh.exit_code = exec_builtins(root, node);
+		return (run_builtins(node));
+	pid = run_command(node, no_fork);
+	if (pid == -1)
 		return ;
-	}
-	// Execute Simple Command
-	expand_cmd_node(node, process_mode_1);
-	if (no_fork)
-		execve_helper(root, node);
-	pid = fork();
-	if (pid < 0)
-		return ;
-	else if (pid == 0)
-	{
-		fdprintf(STDERR_FILENO, "FORK()\n");	
-		execve_helper(root, node);
-	}
 	signals_notif(pid, &status);
+	// if (sh.exit_code == 0)
+	// 	export_var("_", node->u_data.args[0], false, false);
 }
 
 // //* --------------------------------SIMPLE_COMMAND --------------------------------
-// t_error	execute_simple_cmd(t_ast *root, t_ast *node)
+// t_error	execute_simple_cmd(t_ast *node)
 // {
 // 	pid_t	pid;
 // 	int		status;
