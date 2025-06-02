@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 20:19:46 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:11:50 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -435,19 +435,27 @@ t_ast	*ft_get_ast13(void)
 t_ast	*ft_get_ast14(void)
 {
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	// c1->u_data.args = ast_create_args("exit gsg");
-	c1->u_data.args = ast_create_args("./minishell 14");
+	c1->u_data.args = ast_create_args_2(2, "export", "a=\".md i\"");
+	// c1->u_data.args = ast_create_args("./minishell 14");
 	
 	t_ast *c2 = ast_new_node(GRAM_SIMPLE_COMMAND);
 	// c2->u_data.args = ast_create_args("export SHLVL=gdsgsg544684sgsgsg\"gdg\"'bfdbdfb'bfdbdbd5b5d");
-	c2->u_data.args = ast_create_args("echo $SHLVL");
+	// c2->u_data.args = ast_create_args("export a=\".md i\"");
+	c2->u_data.args = ast_create_args_2(2, "export", "c=\"WOW\"$a");
+
+	t_ast *c3 = ast_new_node(GRAM_SIMPLE_COMMAND);
+	c3->u_data.args = ast_create_args("echo $c");
 
 	t_ast *a1 = ast_new_node(GRAM_OPERATOR_AND);
 	ast_add_child(a1, c1);
 	ast_add_child(a1, c2);
+
+	t_ast *a2 = ast_new_node(GRAM_OPERATOR_AND);
+	ast_add_child(a2, a1);
+	ast_add_child(a2, c3);
 	
 	t_ast *root = ast_new_node(GRAM_COMPLETE_COMMAND);
-	ast_add_child(root, a1);
+	ast_add_child(root, a2);
 	return root;
 }
 

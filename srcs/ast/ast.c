@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 10:13:31 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 20:19:54 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:29:57 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,42 @@ char	**ast_create_args(const char *s)
 	args[count] = NULL;
 	return args;
 }
+
+
+char **ast_create_args_2(int count, ...)
+{
+	if (count < 0)
+		return NULL;
+
+	char **args = calloc(count + 1, sizeof(char *));
+	if (!args)
+		return NULL;
+
+	va_list ap;
+	va_start(ap, count);
+
+	for (int i = 0; i < count; i++) {
+		const char *arg = va_arg(ap, const char *);
+		if (arg) {
+			args[i] = strdup(arg);
+			if (!args[i]) {
+				// Cleanup on failure
+				for (int j = 0; j < i; j++)
+					free(args[j]);
+				free(args);
+				va_end(ap);
+				return NULL;
+			}
+		} else {
+			args[i] = NULL;
+		}
+	}
+
+	va_end(ap);
+	args[count] = NULL; // Null-terminate the array
+	return args;
+}
+
 
 void    ast_destroy(t_ast *n)
 {
