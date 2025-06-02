@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:48:06 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:17:31 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	close_all_tracked_fds(void)
 	sh.tracked_fds_count = 0;
 }
 
-int	exec_exit(t_ast *root, t_ast *node)
+int	exec_exit(t_ast *node)
 {
 	if (!no_args(node->u_data.args))
 	{
@@ -54,8 +54,6 @@ int	exec_exit(t_ast *root, t_ast *node)
 				, node->u_data.args[1]);	
 	}
 	//TODO: Cleanup ressources
-	restore_fds(sh.in, sh.out);
-	close_all_tracked_fds();
-	clear_sh(root);
+	destroy();
 	exit(sh.exit_code);
 }

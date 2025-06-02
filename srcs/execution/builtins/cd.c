@@ -6,12 +6,13 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:05 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/01 12:22:51 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 08:58:00 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// TODO: Track OLDPWD, cd ~
 int	exec_cd(t_ast *node)
 {
 	char	*path;
@@ -31,6 +32,7 @@ int	exec_cd(t_ast *node)
 		return (EXIT_FAILURE);
 	}
 	path = node->u_data.args[1];
+	export_var("OLDPWD", getcwd(NULL, 0), false, true);
 	if (chdir(path) != 0)
 	{
 		fdprintf(STDERR_FILENO,
