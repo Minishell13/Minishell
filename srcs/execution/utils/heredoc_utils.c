@@ -6,13 +6,12 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:26:10 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 14:36:30 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 10:55:00 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: Chose between readline or get_next_line
 void	fill_here_doc(t_redir *redir, int fd)
 {
 	char	*line;
@@ -29,7 +28,6 @@ void	fill_here_doc(t_redir *redir, int fd)
 end-of-file (wanted `Limiter')\n", STDERR_FILENO);
 			break ;
 		}
-		
 		line_size = ft_strlen(line) - 1;
 		if (ft_strncmp(line, redir->limiter,
 				ft_strlen(redir->limiter)) == 0
@@ -40,35 +38,18 @@ end-of-file (wanted `Limiter')\n", STDERR_FILENO);
 		ft_putstr_fd(line, fd);
 		free(line);
 	}
-	
-	// while (1)
-	// {
-	// 	line = readline("here_doc> ");
-	// 	if (!line)
-	// 		break ;
-	// 	line_size = ft_strlen(line);
-	// 	if (ft_strncmp(line, redir->limiter, ft_strlen(redir->limiter)) == 0
-	// 		&& line_size == ft_strlen(redir->limiter))
-	// 	{
-	// 		break ;
-	// 	}
-	// 	ft_putstr_fd(line, fd);
-	// 	ft_putstr_fd("\n", fd);
-	// 	free(line);
-	// }
 	free(line);
 	close(fd);
 }
 
-void	here_doc(t_redir *redir)
+int	here_doc(t_redir *redir)
 {
 	int		fd;
 
 	fd = open(redir->file, (O_WRONLY | O_CREAT | O_TRUNC), 0600);
 	if (fd < 0)
-		perror("sh_heredoc");
-	else
 		fill_here_doc(redir, fd);
+	return (fd);
 }
 
 int	count_heredocs(t_ast *node)

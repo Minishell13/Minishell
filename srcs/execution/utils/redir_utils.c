@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 13:34:47 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 17:05:45 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:02:12 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,16 @@ void	restore_fds(int stdin_backup, int stdout_backup)
 	close(stdout_backup);
 }
 
-// void	redirect_fds(t_ast *root, int fd)
-// {
-// 	if (fd == STDOUT_FILENO)
-// 	{	
-// 		close(sh.pipefd[0]);
-// 		if (dup2(sh.pipefd[1], STDOUT_FILENO) == -1)
-// 		{
-// 			clear_sh(root);
-// 			close(sh.pipefd[1]);
-// 			exit(EXIT_FAILURE);
-// 		}
-// 		close(sh.pipefd[1]);
-// 	}
-// 	else if (fd == STDIN_FILENO)
-// 	{	
-// 		close(sh.pipefd[1]);
-// 		if (dup2(sh.pipefd[0], STDIN_FILENO) == -1)
-// 		{
-// 			clear_sh(root);
-// 			close(sh.pipefd[0]);
-// 			exit(EXIT_FAILURE);
-// 		}
-// 		close(sh.pipefd[0]);
-// 	}
-// }
+void save_fds(t_fd_backup *backup)
+{
+	backup->in = track_dup(STDIN_FILENO);
+	backup->out = track_dup(STDOUT_FILENO);
+}
+
+void restore_fds_backup(t_fd_backup *backup)
+{
+	restore_fds(backup->in, backup->out);
+}
 
 void	generate_tmpfile(t_redir *redir)
 {

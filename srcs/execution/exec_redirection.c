@@ -6,22 +6,23 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:33:12 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 10:21:01 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// //* -------------------------------- IO_REDIRECTION --------------------------------
+//* -------------------------------- IO_REDIRECTION --------------------------------
 int	parse_infile(t_redir *redir, t_gram type)
 {
 	int	fd;
 
 	if (type == GRAM_HEREDOC)
-		here_doc(redir);
-	fd = open(redir->file, O_RDONLY);
-	if (fd < 0 || check_access(redir->file, (R_OK | F_OK)) == false)
-		perror("sh_infile");
+		fd = here_doc(redir);
+	else
+		fd = open(redir->file, O_RDONLY);
+	// if (fd < 0)
+	// 	perror("sh_infile");
 	return (fd);
 }
 
@@ -35,12 +36,12 @@ int	parse_outfile(t_redir *redir, t_gram type)
 	else
 		flags = (O_WRONLY | O_CREAT | O_TRUNC);
 	fd = open(redir->file, flags, 0644);
-	if (fd < 0 || check_access(redir->file, W_OK) == false)
-		perror("sh_outfile");
+	// if (fd < 0)
+	// 	perror("sh_outfile");
 	return (fd);
 }
 
-void	redir(t_redir *r, t_gram type)
+t_bool	redir(t_redir *r, t_gram type)
 {
 	int	fd;
 	// 1) Handle input redirection: '<' or '<<'
@@ -51,7 +52,7 @@ void	redir(t_redir *r, t_gram type)
 		{
 			if (fd >= 0)
 				close(fd);
-			return ;
+			return (false);
 		}
 		close(fd);
 	}
@@ -63,22 +64,23 @@ void	redir(t_redir *r, t_gram type)
 		{
 			if (fd >= 0)
 				close(fd);
-			return ;
+			return (false);
 		}
 		close(fd);
-	}	
+	}
+	return (true);
 }
 
-void	expand_and_redir(t_ast *node)
+t_bool	expand_and_redir(t_ast *node)
 {
 	t_redir	*r;
 	
 	expand_redir(node);
 	r = &node->u_data.redir;
-	redir(r, node->type);
+	return (redir(r, node->type));
 }
 
-void	execute_redirection(t_ast *node)
+t_bool	execute_redirection(t_ast *node)
 {
 	t_ast 	*c;
 
@@ -86,8 +88,13 @@ void	execute_redirection(t_ast *node)
 	c = node->child;
 	while (c)
 	{
-		if (c->type != GRAM_HEREDOC)
-			expand_and_redir(c);
+		if (c->type != GRAM_HEREDOC && !expand_and_redir(c))
+		{
+			fdprintf(STDERR_FILENO, "minishell: %s: %s\n"
+				, c->u_data.redir.file, strerror(errno));
+			return (false);
+		}
 		c = c->sibling;
 	}
+	return (true);
 }
