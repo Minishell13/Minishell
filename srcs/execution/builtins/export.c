@@ -6,13 +6,15 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:30 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/01 12:26:13 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 14:19:57 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	valid_key(char *arg)
+
+
+int	valid_key(char *arg)
 {
 	int	i;
 
@@ -30,35 +32,7 @@ static int	valid_key(char *arg)
 	return (i);
 }
 
-static char	*extract_key(char *arg, int end)
-{
-	int		i;
-	char	*key;
-
-	i = 0;
-	key = ft_strdup("");
-	while (arg[i] && i < end)
-	{
-		key = ft_charjoin(key, arg[i]);
-		i++;
-	}
-	return (key);
-}
-
-static char	*extract_value(char *arg, int end)
-{
-	char	*value;
-
-	value = ft_strdup("");
-	while (arg[end])
-	{
-		value = ft_charjoin(value, arg[end]);
-		end++;
-	}
-	return (value);
-}
-
-static t_bool	parse_input(char *arg)
+t_bool	parse_input(char *arg)
 {
 	int		end;
 	char	*key;

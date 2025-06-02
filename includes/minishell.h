@@ -4,7 +4,7 @@
 # include "typedef.h"
 # include "parsing.h"
 # include "signals.h"
-# include "setup.h"
+# include "env.h"
 # include "expand.h"
 # include "redirections.h"
 # include "execution.h"

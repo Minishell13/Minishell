@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:12:28 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/01 12:26:06 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 14:18:09 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,6 @@ int	get_var_index(char *key)
 		i++;
 	}
 	return (-1);
-}
-
-void	unset_var(char *key)
-{
-	int		i;
-	size_t	key_len;
-	char	**new_env = ft_calloc(1, sizeof(char *));
-
-	i = 0;
-	key_len = ft_strlen(key);
-	while (sh.my_env[i])
-	{
-		if (ft_strncmp(sh.my_env[i], key, key_len) == 0
-			&& sh.my_env[i][key_len] && sh.my_env[i][key_len] == '=')
-		{
-			i++;
-			continue ;
-		}
-		new_env = append_arr(new_env, ft_strdup(sh.my_env[i]));
-		i++;
-	}
-	clear_arr(sh.my_env);
-	sh.my_env = new_env;
 }
 
 char	*get_value(char *key)

@@ -6,31 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:49:54 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 09:23:03 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 14:17:48 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	export_var(char *k, char *v, t_bool alcd1, t_bool alcd2)
-{
-	char	*key;
-	char	*val;
-
-	if (!k || !v)
-		return ;
-	if (alcd1)
-		key = k;
-	else
-		key = ft_strdup(k);
-	if (alcd2)
-		val = v;
-	else
-		val = ft_strdup(v);
-	add_var(key, val);
-	free(key);
-	free(val);
-}
 
 void	add_shell_lvl()
 {
