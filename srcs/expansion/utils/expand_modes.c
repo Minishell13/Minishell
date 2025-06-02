@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:57:30 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/01 15:20:28 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:54:06 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ void	literal_mode(char *arg, char **v, int *i)
 
 void	append_args(char ***arr, char **v, t_bool split)
 {
-	// char	*joined;
-
 	if (split)
 	{
 		*arr = inner_merge_arr(*arr, ft_split(*v, ' '));
@@ -73,52 +71,18 @@ void	append_args(char ***arr, char **v, t_bool split)
 			free(*v);
 		}
 		else
-		{
 			*last_item_ptr(*arr) = ft_conststrjoin(*last_item_ptr(*arr), *v);
-		}
 	}
 }
 
 //TODO: If you gonna use wildcard logic unsure you include quotes also
-// For normal expansion split is required
-t_bool	process_mode_1(char *arg, t_qmode mode, char ***arr, char **v, int *i)
+t_bool	process_mode(char *arg, t_qmode mode, char ***arr, char **v, int *i)
 {
 		if (mode == DEFAULT)
 		{
 			// printf("-------------- Default ---------------\n");
 			default_mode(arg, v, i);
 			append_args(arr, v, true);
-			return (true);
-		}
-		else if (mode == EXPAND)
-		{
-			// *v = ft_charjoin(*v, arg[*i]);
-			(*i)++;
-			// printf("-------------- Expand ---------------\n");
-			expand_mode(arg, v, i);
-			// *v = ft_charjoin(*v, arg[*i]);
-			append_args(arr, v, false);
-		}
-		else if (mode == LITERAL)
-		{
-			// *v = ft_charjoin(*v, arg[*i]);
-			(*i)++;
-			// printf("-------------- Literal ---------------\n");
-			literal_mode(arg, v, i);
-			// *v = ft_charjoin(*v, arg[*i]);
-			append_args(arr, v, false);
-		}
-		return (false);
-}
-
-// For export expansion [no split is needed]
-t_bool	process_mode_2(char *arg, t_qmode mode, char ***arr, char **v, int *i)
-{
-		if (mode == DEFAULT)
-		{
-			// printf("-------------- Default ---------------\n");
-			default_mode(arg, v, i);
-			append_args(arr, v, false);
 			return (true);
 		}
 		else if (mode == EXPAND)

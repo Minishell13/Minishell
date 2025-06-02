@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:58:45 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/01 12:44:55 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:54:53 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_exit_code()
 
 	value = ft_itoa(sh.exit_code);
 	if (!value)
-		return (ft_strdup(""));
+		return (ft_strdup("1"));
 	return (value);
 }
 
