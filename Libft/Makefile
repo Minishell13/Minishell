@@ -9,6 +9,7 @@ CFLAGS = -Wall -Wextra -Werror -I${INCLUDES}
 
 ARR_SRCS =	${ARR_DIR}/inner_merge_arr.c ${ARR_DIR}/merge_arr.c ${ARR_DIR}/arr_utils.c ${ARR_DIR}/clear_arr.c \
 			${ARR_DIR}/int_arr.c
+
 FDP = ${FDP_DIR}/fdprintf.c ${FDP_DIR}/utils.c 
 
 SRCS =	${ARR_SRCS} ${FDP}	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \

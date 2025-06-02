@@ -13,6 +13,7 @@ SETUP_DIR = $(SRC_DIR)/setup
 SIG_DIR = $(SRC_DIR)/signals
 AST_DIR = $(SRC_DIR)/ast
 EXEC_DIR = $(SRC_DIR)/execution
+EXECU_DIR = $(EXEC_DIR)/utils
 EXPAND_DIR = $(SRC_DIR)/expansion
 BUILT_DIR = $(EXEC_DIR)/builtins
 INCLUDES = -I${INC_DIR} -I./Libft/includes
@@ -34,7 +35,8 @@ EXPAND =	$(EXPAND_DIR)/expand.c $(EXPAND_DIR)/utils.c $(EXPAND_DIR)/utils/expand
 			$(EXPAND_DIR)/utils/extract_value.c $(EXPAND_DIR)/utils/expand_heredoc.c
 
 EXEC =	$(BUILTINS) $(EXPAND) $(EXEC_DIR)/executor.c $(EXEC_DIR)/exec_cmd.c $(EXEC_DIR)/exec_pipeline.c $(EXEC_DIR)/exec_redirection.c \
-		$(EXEC_DIR)/exec_subshell.c $(EXEC_DIR)/exec_and_or.c $(EXEC_DIR)/utils/heredoc_utils.c $(EXEC_DIR)/utils/path_utils.c $(EXEC_DIR)/utils/redir_utils.c
+		$(EXEC_DIR)/exec_subshell.c $(EXEC_DIR)/exec_and_or.c $(EXECU_DIR)/heredoc_utils.c $(EXECU_DIR)/path_utils.c $(EXECU_DIR)/redir_utils.c \
+		$(EXECU_DIR)/pipeline_utils.c
 
 AST =  $(AST_DIR)/ast.c $(AST_DIR)/ast_examples.c
 
@@ -42,8 +44,8 @@ SIG = $(SIG_DIR)/signals.c
 
 SETUP = $(SETUP_DIR)/setup.c $(SETUP_DIR)/utils.c
 
-SRCS =	minishell.c $(TEST) ${LEXER} ${PARSING} $(SETUP) $(SIG) $(AST) $(EXEC)  $(SRC_DIR)/cleanup/cleanup.c \
-		$(SRC_DIR)/debug/debugging.c $ $(SRC_DIR)/exit/errors.c
+SRCS =	minishell.c $(TEST) ${LEXER} ${PARSING} $(SETUP) $(SIG) $(AST) $(EXEC) $(SRC_DIR)/cleanup/cleanup.c \
+		$(SRC_DIR)/debug/debugging.c $(SRC_DIR)/exit/errors.c
 
 
 OBJS = $(SRCS:.c=.o)
