@@ -1,8 +1,6 @@
-CTRL+C ---> reset signals
+# TODOS:
 
-ls && ( ls | cat | asdsa) && echo hi || echo no
-includes  Libft  Makefile  minishell  minishell.c  readline.supp  README.md  srcs  test  TODO_ABDELLAH.md  TODO_HAMZA.md
-asdsa: command not found
-
-- You must foolow rules , they are a diffrent between options and arguments
+- //TODO: Complete put erros in builtins,
+- //TODO: and check << , quotes in parsing if 100%
+- //TODO: Test utils, and yesy with friends to catch edge cases
 
