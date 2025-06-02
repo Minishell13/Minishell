@@ -5,5 +5,5 @@ ls && ( ls | cat | asdsa) && echo hi || echo no
 includes  Libft  Makefile  minishell  minishell.c  readline.supp  README.md  srcs  test  TODO_ABDELLAH.md  TODO_HAMZA.md
 asdsa: command not found
 
+- You must foolow rules , they are a diffrent between options and arguments
 
-ls | > a --->  redirect without simple command
