@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:16:27 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/30 07:15:30 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:01:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 t_bool	check_echo(char *arg)
 {
 	size_t  len;
+
+	if (!arg)
+		return (false);
 	len = ft_strlen(arg);
 	if (len == 2 && (arg[0] == '-' && arg[1] == 'n'))
 		return (true);
@@ -23,6 +26,8 @@ t_bool	check_echo(char *arg)
 
 t_bool	no_options(char *arg)
 {
+	if (!arg)
+		return (false);
 	if (arg && arg[0] == '-')
 		return (false);
 	return (true);
@@ -32,6 +37,8 @@ t_bool	no_args(char **args)
 {
 	int	len;
 
+	if (!args)
+		return (false);
 	len = len_arr(args);
 	if (len > 1)
 		return (false);

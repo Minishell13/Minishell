@@ -13,6 +13,10 @@
 
 extern	t_minishell sh;
 
+// Readline
+void	save_termios(void);
+void	restore_termios(void);
+
 // AST Utils
 t_ast	*ast_new_node(t_gram type);
 int		ast_add_child(t_ast *parent, t_ast *child);

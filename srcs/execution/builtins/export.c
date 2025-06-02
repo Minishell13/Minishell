@@ -6,13 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:30 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 14:19:57 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:13:41 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 int	valid_key(char *arg)
 {
@@ -61,13 +59,15 @@ int	exec_export(t_ast *node)
 		{
 			if (valid_key(*args) == -1)
 			{	
-				builtins_error("export: ", *args, ": not a valid identifier");
+				fdprintf(STDERR_FILENO,
+					"minishell: export: %s: not a valid identifier\n", *args);
 				return (EXIT_FAILURE);
 			}
 		}
 		else if (parse_input(*args) == false)
 		{	
-			builtins_error("export: ", *args, ": not a valid identifier");
+			fdprintf(STDERR_FILENO,
+					"minishell: export: %s: not a valid identifier\n", *args);
 			return (EXIT_FAILURE);
 		}
 		args++;

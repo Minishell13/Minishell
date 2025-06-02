@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 19:26:51 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 15:50:52 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:46:18 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,37 +33,11 @@ void	reset_signals(void)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-// void	signals_notif(pid_t pid, int *status)
-// {
-// 	int	sig;
-
-// 	waitpid(pid, status, 0);
-// 	if (WIFSIGNALED(*status))
-// 	{
-// 		sig = WTERMSIG(*status);
-// 		if (sig == SIGINT)
-// 		{
-// 			fdprintf(STDERR_FILENO, "\n");
-// 			sh.exit_code = 130;
-// 		}
-// 		else if (sig == SIGQUIT)
-// 		{
-// 			fdprintf(STDERR_FILENO, "Quit (core dumped)\n");
-// 			sh.exit_code = 131;
-// 		}
-// 	}
-// 	else
-// 		sh.exit_code = WEXITSTATUS(*status);
-// 	signal(SIGINT, sigint_handler);
-// }
-
 void	signals_notif(pid_t pid, int *status)
 {
 	int	sig;
 
 	waitpid(pid, status, 0);
-	// restore_termios(); // Add this here
-
 	if (WIFSIGNALED(*status))
 	{
 		sig = WTERMSIG(*status);

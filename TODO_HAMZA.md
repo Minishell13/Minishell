@@ -31,3 +31,35 @@ syntax error: empty subshell or invalid content
 syntax error: empty subshell or invalid content
 syntax error: empty subshell or invalid content
 
+# Quotes:
+> echo -n" "- -n -n --n
+syntax error: unclosed quote `"`
+
+COMPLETE_COMMAND
+  SIMPLE_COMMAND: [ echo ,  -n" ,  "- -n -n --n ]
+
+==313486== Invalid read of size 1
+==313486==    at 0x407062: process_arg (expand.c:27)
+==313486==    by 0x407219: expand_cmd_node (expand.c:91)
+==313486==    by 0x40810D: execute_simple_cmd (exec_cmd.c:78)
+==313486==    by 0x407EB8: run_executor (executor.c:41)
+==313486==    by 0x407F0D: executor (executor.c:57)
+==313486==    by 0x407E7E: run_executor (executor.c:28)
+==313486==    by 0x407F0D: executor (executor.c:57)
+==313486==    by 0x401ACC: execution (minishell.c:212)
+==313486==    by 0x401B4F: main (minishell.c:236)
+==313486==  Address 0x4ba9054 is 0 bytes after a block of size 4 alloc'd
+==313486==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==313486==    by 0x49C758E: strdup (strdup.c:42)
+==313486==    by 0x403691: fill_words_array (parsing_command.c:36)
+==313486==    by 0x40383B: fill_args (parsing_command.c:75)
+==313486==    by 0x4032D8: parse_simple_command (parser2.c:139)
+==313486==    by 0x4029AA: parse_command (parser.c:23)
+==313486==    by 0x4029D4: parse_pipe (parser.c:33)
+==313486==    by 0x402B6B: parse_compound_command (parser.c:73)
+==313486==    by 0x402C84: parse_command_list (parser.c:102)
+==313486==    by 0x402D83: parse_complete_command (parser.c:126)
+==313486==    by 0x401A7A: parsing (minishell.c:202)
+==313486==    by 0x401B3C: main (minishell.c:234)
+
+

@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 13:22:23 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:20:40 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@
 #define READ 0
 #define WRITE 1
 
-#define SH_SUCCESS "\e[1;92m>\e[0m "
-#define SH_FAILURE "\e[1;91m>\e[0m "
+#define SH_SUCCESS "\001\e[1;92m\002>\001\e[0m\002 "
+#define SH_FAILURE "\001\e[1;91m\002>\001\e[0m\002 "
 
 typedef struct	s_fd_backup
 {
@@ -183,7 +183,7 @@ typedef struct s_parse_data
 typedef struct	s_minishell
 {
 	char	*shell;
-	char	**env;
+	// char	**env;
 	char	**my_env;
 	int		exit_code;
 	t_token	*tokens;

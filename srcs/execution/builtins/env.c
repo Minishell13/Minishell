@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:58 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:12:18 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	exec_env(t_ast *node)
 	if (!no_args(node->u_data.args))
 	{
 		fdprintf(STDERR_FILENO,
-				"minishell: env: no options allowed\n");
+				"minishell: env: %s: no options or arguments \
+allowed\n", node->u_data.args[1]);
 		return (EXIT_FAILURE);
 	}
 	i = 0;

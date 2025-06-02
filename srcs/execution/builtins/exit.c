@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:48:06 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 13:17:31 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:16:19 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,53 @@ int	track_dup(int oldfd)
 	return -1;
 }
 
-int	track_pipe(int pipefd[2])
-{
-	if (pipe(pipefd) == -1)
-		return -1;
-	track_fd(pipefd[0]);
-	track_fd(pipefd[1]);
-	return 0;
-}
-
 void	close_all_tracked_fds(void)
 {
-	for (int i = 0; i < sh.tracked_fds_count; i++)
+	int i;
+
+	i = 0;
+	while (i < sh.tracked_fds_count)
+	{
 		close(sh.tracked_fds[i]);
+		i++;
+	}
 	sh.tracked_fds_count = 0;
+}
+
+t_bool	check_exit(char **args)
+{
+	int	len;
+
+	len = len_arr(args);
+	if (len_arr(args) == 2 && ft_isnumber(args[1]))
+	{
+		sh.exit_code = ft_atoi(args[1]);
+		return (true);
+	}
+	if (len > 1)
+	{
+		if (ft_isnumber(args[1]))
+		{
+			fdprintf(STDERR_FILENO,
+				"minishell: exit: too many arguments\n");
+			return (false);
+		}
+		fdprintf(STDERR_FILENO,
+				"minishell: exit: %s: numeric argument required\n", args[1]);
+		sh.exit_code = 2;
+		return (true);
+	}
+	sh.exit_code = EXIT_SUCCESS;
+	return (true);
 }
 
 int	exec_exit(t_ast *node)
 {
-	if (!no_args(node->u_data.args))
+	fdprintf(STDERR_FILENO, "exit\n");
+	if (check_exit(node->u_data.args))
 	{
-		fdprintf(STDERR_FILENO,
-				"minishell: exit: %s : no options allowed\n"
-				, node->u_data.args[1]);	
+		destroy();
+		exit(sh.exit_code);
 	}
-	//TODO: Cleanup ressources
-	destroy();
-	exit(sh.exit_code);
+	return (EXIT_FAILURE);
 }

@@ -6,13 +6,12 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:05 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 08:58:00 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 14:52:47 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: Track OLDPWD, cd ~
 int	exec_cd(t_ast *node)
 {
 	char	*path;

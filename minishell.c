@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 09:45:00 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/02 13:13:09 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:50:29 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,23 +167,67 @@ void	cleanup_loop(char *line)
 	close_all_tracked_fds();
 }
 
+// char	*ft_readline()
+// {
+// 	char	*line;
+	
+// 	if (sh.exit_code)
+// 		line = readline(SH_FAILURE);
+// 	else
+// 		line = readline(SH_SUCCESS);
+// 	if (!line)
+// 	{
+// 		printf("exit\n");
+// 		return (NULL) ;
+// 	}
+// 	if (line && *line)
+// 		add_history(line);
+// 	return (line);
+// }
+
+
+
+
+
+
+
+#include <termios.h>
+
+struct termios orig_termios;
+
+void	save_termios(void)
+{
+	tcgetattr(STDIN_FILENO, &orig_termios);
+}
+
+void	restore_termios(void)
+{
+	tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
+}
+
+
 char	*ft_readline()
 {
 	char	*line;
 
+	// save_termios();  // Save terminal state before readline
 	if (sh.exit_code)
 		line = readline(SH_FAILURE);
 	else
 		line = readline(SH_SUCCESS);
+	// restore_termios();  // Restore terminal state after
+
 	if (!line)
 	{
 		printf("exit\n");
-		return (NULL) ;
+		return (NULL);
 	}
-	if (line && *line)
+	if (*line)
 		add_history(line);
 	return (line);
 }
+
+
 
 t_bool	parsing(char *line)
 {

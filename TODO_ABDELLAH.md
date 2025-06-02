@@ -1,4 +1,3 @@
-cd and cd ~    --> must go to the root 
 CTRL+C ---> reset signals
 
 ls && ( ls | cat | asdsa) && echo hi || echo no

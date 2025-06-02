@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 15:12:28 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 14:18:09 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 16:22:08 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_bool	var_exist(char *key)
 
 	i = 0;
 	key_len = ft_strlen(key);
-	while (sh.env[i])
+	while (sh.my_env[i])
 	{
 		if (ft_strncmp(sh.my_env[i], key, key_len) == 0
 			&& sh.my_env[i][key_len] && sh.my_env[i][key_len] == '=')
