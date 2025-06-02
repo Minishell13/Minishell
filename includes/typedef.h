@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/01 13:27:28 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 13:22:23 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@
 # include <errno.h>
 
 #define MAX_TRACKED_FDS 1024
+#define MAX_PIPE 1024
+#define READ 0
+#define WRITE 1
+
+#define SH_SUCCESS "\e[1;92m>\e[0m "
+#define SH_FAILURE "\e[1;91m>\e[0m "
+
+typedef struct	s_fd_backup
+{
+	int in;
+	int out;
+}				t_fd_backup;
 
 typedef enum e_error
 {
@@ -174,14 +186,13 @@ typedef struct	s_minishell
 	char	**env;
 	char	**my_env;
 	int		exit_code;
-	int		in;
-	int		out;
+	t_token	*tokens;
+	t_ast	*ast;
 	pid_t	pids[2];
 	int		pipefd[2][2];
 	int		tracked_fds[MAX_TRACKED_FDS];
 	int		tracked_fds_count;
-	t_token	*tokens;
-	t_ast	*ast;
+	t_bool	is_child;
 }				t_minishell;
 
 #endif
