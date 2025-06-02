@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 19:26:51 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/30 22:56:08 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:54:59 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	sigint_handler(int signum)
 {
 	(void)signum;
 	rl_replace_line("", 0);
-	write(1, "\n", 1);
+	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -35,21 +35,24 @@ void	reset_signals(void)
 
 void	signals_notif(pid_t pid, int *status)
 {
+	int	sig;
+
 	waitpid(pid, status, 0);
 	if (WIFSIGNALED(*status))
 	{
-		int sig = WTERMSIG(*status);
+		sig = WTERMSIG(*status);
 		if (sig == SIGINT)
 		{
-			write(1, "\n", 1);
+			fdprintf(STDERR_FILENO, "\n");
 			sh.exit_code = 130;
 		}
 		else if (sig == SIGQUIT)
 		{
-			write(1, "Quit (core dumped)\n", 19);
+			fdprintf(STDERR_FILENO, "Quit (core dumped)\n");
 			sh.exit_code = 131;
 		}
 	}
 	else
 		sh.exit_code = WEXITSTATUS(*status);
+	signal(SIGINT, sigint_handler);
 }
