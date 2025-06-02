@@ -17,6 +17,7 @@ extern	t_minishell sh;
 t_ast	*ast_new_node(t_gram type);
 int		ast_add_child(t_ast *parent, t_ast *child);
 char	**ast_create_args(const char *s);
+char **ast_create_args_2(int count, ...);
 void	ast_destroy(t_ast *node);
 
 // Builts in execution functions

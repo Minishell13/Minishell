@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hwahmane <hwahmane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 09:45:00 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/01 16:35:07 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:13:09 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void print_ast(t_ast *node, int indent)
 {
 	if (!node)
 		return;
-
+	printf("%s", BHBLK);
 	printf("%*s%s", indent * 2, "", get_node_type_name(node->type));
 
 	if (node->type == GRAM_SIMPLE_COMMAND && node->u_data.args)
@@ -64,6 +64,7 @@ void print_ast(t_ast *node, int indent)
 
 	print_ast(node->child, indent + 1);
 	print_ast(node->sibling, indent);
+	printf("%s\n", RESET);
 }
 
 void	free_string_array(char **arr)
@@ -156,7 +157,6 @@ void print_tokens(t_token *head)
 void	destroy()
 {
 	free_all();
-	restore_fds(sh.in, sh.out);
 	close_all_tracked_fds();
 	clear_arr(sh.my_env);
 }
@@ -164,8 +164,6 @@ void	destroy()
 void	cleanup_loop(char *line)
 {
 	free(line);
-	//! You must backup stdin/stdout for the parent process (childs) and restore them
-	restore_fds(sh.in, sh.out);
 	close_all_tracked_fds();
 }
 
@@ -174,16 +172,16 @@ char	*ft_readline()
 	char	*line;
 
 	if (sh.exit_code)
-		line = readline("❌> ");
+		line = readline(SH_FAILURE);
 	else
-		line = readline("✅> ");
+		line = readline(SH_SUCCESS);
 	if (!line)
 	{
 		printf("exit\n");
 		return (NULL) ;
 	}
-	if (*line)
-			add_history(line);
+	if (line && *line)
+		add_history(line);
 	return (line);
 }
 
@@ -211,10 +209,9 @@ void	execution()
 	{
 		print_ast(sh.ast, 0);
 		handle_heredocs(sh.ast);
-		executor(sh.ast, sh.ast);
+		executor(sh.ast);
 	}
 }
-
 
 //TODO: -------------------------------- Parsing + Execution main (Demo...) --------------------------------
 int	main(int ac, char **av, char **ev)
@@ -223,14 +220,13 @@ int	main(int ac, char **av, char **ev)
 	(void)av;
 	(void)ev;
 	char *line;
+
 	sh.tokens = NULL;
 	sh.ast = NULL;
-
 	setup_env(ev);
-	sh.in = track_dup(STDIN_FILENO);
-	sh.out = track_dup(STDOUT_FILENO);
 	while (true)
 	{
+		sh.is_child = false;
 		setup_signals();
 		line = ft_readline();
 		if (!line)

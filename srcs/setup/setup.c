@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:49:54 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 16:04:29 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/02 09:23:03 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	export_var(char *k, char *v, t_bool alcd1, t_bool alcd2)
 	char	*key;
 	char	*val;
 
+	if (!k || !v)
+		return ;
 	if (alcd1)
 		key = k;
 	else
@@ -42,7 +44,6 @@ void	add_shell_lvl()
 		return ;
 	}
 	lvl = ft_atoi(lvl_value) + 1;
-	printf("lvl: %d\n", lvl - 1);
 	if (lvl >= 1000)
 	{
 		fdprintf(STDERR_FILENO,
