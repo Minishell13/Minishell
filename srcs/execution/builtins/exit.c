@@ -6,16 +6,16 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:48:06 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 11:39:50 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 int	track_fd(int fd)
 {
-	if (sh.tracked_fds_count < MAX_TRACKED_FDS)
-		sh.tracked_fds[sh.tracked_fds_count++] = fd;
+	if (g_sh.tracked_fds_count < MAX_TRACKED_FDS)
+		g_sh.tracked_fds[g_sh.tracked_fds_count++] = fd;
 	return fd;
 }
 
@@ -32,12 +32,12 @@ void	close_all_tracked_fds(void)
 	int i;
 
 	i = 0;
-	while (i < sh.tracked_fds_count)
+	while (i < g_sh.tracked_fds_count)
 	{
-		close(sh.tracked_fds[i]);
+		close(g_sh.tracked_fds[i]);
 		i++;
 	}
-	sh.tracked_fds_count = 0;
+	g_sh.tracked_fds_count = 0;
 }
 
 static	t_bool	check_exit(char **args)
@@ -47,7 +47,7 @@ static	t_bool	check_exit(char **args)
 	len = len_arr(args);
 	if (len_arr(args) == 2 && ft_isnumber(args[1]))
 	{
-		sh.exit_code = ft_atoi(args[1]);
+		g_sh.exit_code = ft_atoi(args[1]);
 		return (true);
 	}
 	if (len > 1)
@@ -60,7 +60,7 @@ static	t_bool	check_exit(char **args)
 		}
 		fdprintf(STDERR_FILENO,
 				"minishell: exit: %s: numeric argument required\n", args[1]);
-		sh.exit_code = 2;
+		g_sh.exit_code = 2;
 		return (true);
 	}
 	return (true);
@@ -72,7 +72,7 @@ int	exec_exit(t_ast *node)
 	if (check_exit(node->u_data.args))
 	{
 		destroy();
-		exit(sh.exit_code);
+		exit(g_sh.exit_code);
 	}
 	return (EXIT_FAILURE);
 }

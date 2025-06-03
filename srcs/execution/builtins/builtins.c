@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:05:55 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 07:48:03 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 //TODO: You foolow rules , they are a diffrent between options and arguments
 
