@@ -3,12 +3,9 @@
 
 # include "typedef.h"
 
-int		valid_key(char *arg);
-t_bool	parse_input(char *arg);
-t_bool	check_echo(char *arg);
+
 t_bool	no_options(char *arg);
 t_bool	no_args(char **args);
-int		builtins_error(char *cmd, char *arg, char *msg);
 
 int		exec_env(t_ast *node);
 int		exec_export(t_ast *node);
