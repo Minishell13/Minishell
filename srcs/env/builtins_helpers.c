@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*   builtins_helpers.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:17:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 14:23:01 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 char	*extract_key(char *arg, int end)
 {
@@ -64,21 +64,21 @@ void	unset_var(char *key)
 {
 	int		i;
 	size_t	key_len;
-	char	**new_env = ft_calloc(1, sizeof(char *));
+	char	**new_env = init_arr();
 
 	i = 0;
 	key_len = ft_strlen(key);
-	while (sh.my_env[i])
+	while (g_sh.my_env[i])
 	{
-		if (ft_strncmp(sh.my_env[i], key, key_len) == 0
-			&& sh.my_env[i][key_len] && sh.my_env[i][key_len] == '=')
+		if (ft_strncmp(g_sh.my_env[i], key, key_len) == 0
+			&& g_sh.my_env[i][key_len] && g_sh.my_env[i][key_len] == '=')
 		{
 			i++;
 			continue ;
 		}
-		new_env = append_arr(new_env, ft_strdup(sh.my_env[i]));
+		new_env = append_arr(new_env, ft_strdup(g_sh.my_env[i]));
 		i++;
 	}
-	clear_arr(sh.my_env);
-	sh.my_env = new_env;
+	clear_arr(g_sh.my_env);
+	g_sh.my_env = new_env;
 }
