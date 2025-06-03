@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:58:05 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/30 17:01:15 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 // t_minishell	sh;
 
@@ -29,9 +29,9 @@
 // 	executor(root, root);
 
 
-// 	printf("exit code: %d\n", sh.exit_code);
+// 	printf("exit code: %d\n", g_sh.exit_code);
 // 	ast_destroy(root);
-// 	clear_arr(sh.my_env);
+// 	clear_arr(g_sh.my_env);
 
 // 	return (EXIT_SUCCESS);
 // }

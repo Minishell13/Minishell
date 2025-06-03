@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 21:25:54 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/24 17:07:16 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 // char	**expand_args(char **args)
 // {
@@ -66,7 +66,7 @@
 // 	exec_env();
 	
 // 	clear_arr(args);
-// 	clear_arr(sh.my_env);
+// 	clear_arr(g_sh.my_env);
 
 // 	return (EXIT_SUCCESS);
 // }
@@ -83,7 +83,7 @@
 // 	exec_env();
 // 	exec_pwd();
 	
-// 	clear_arr(sh.my_env);
+// 	clear_arr(g_sh.my_env);
 
 // 	return (EXIT_SUCCESS);
 // }
