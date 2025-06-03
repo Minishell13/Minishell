@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 11:00:30 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 //* --------------------------------SIMPLE_COMMAND --------------------------------
 void close_fds_except_std(void)
@@ -31,11 +31,11 @@ void	execve_helper(t_ast *cmd)
 	close_fds_except_std();
 	reset_signals();
 	path = get_path(cmd->u_data.args[0]);
-	execve(path, cmd->u_data.args, sh.my_env);
+	execve(path, cmd->u_data.args, g_sh.my_env);
 	put_error(cmd->u_data.args[0], path);
 	free(path);
 	destroy();
-	exit(sh.exit_code);
+	exit(g_sh.exit_code);
 }
 
 void	run_builtins(t_ast *node)
@@ -43,7 +43,7 @@ void	run_builtins(t_ast *node)
 	char	*cmd;
 
 	cmd = node->u_data.args[0];
-	sh.exit_code = exec_builtins(node);
+	g_sh.exit_code = exec_builtins(node);
 }
 
 t_bool	run_command(t_ast *node, t_bool no_fork)
