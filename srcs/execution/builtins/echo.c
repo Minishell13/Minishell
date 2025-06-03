@@ -6,11 +6,30 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:46:54 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/31 20:23:35 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 08:12:14 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static	t_bool	check_echo(char *arg)
+{
+	size_t  len;
+
+	if (!arg)
+		return (false);
+	len = ft_strlen(arg);
+	if (*arg != '-' || (len == 1 && *arg == '-'))
+		return (false);
+	arg++;
+	while (*arg)
+	{
+		if (*arg != 'n')
+			return (false);
+		arg++;
+	}
+	return (true);
+}
 
 int	exec_echo(t_ast *node)
 {

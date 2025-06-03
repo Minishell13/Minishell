@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:58 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 15:12:18 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 08:08:37 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	exec_env(t_ast *node)
 {
 	int	i;
 
-	if (!no_args(node->u_data.args))
+	if (len_arr(node->u_data.args) > 1)
 	{
 		fdprintf(STDERR_FILENO,
 				"minishell: env: %s: no options or arguments \
@@ -25,15 +25,14 @@ allowed\n", node->u_data.args[1]);
 	}
 	i = 0;
 	if (!sh.my_env)
+	{
+		fdprintf(STDERR_FILENO, "minishell: env: no env exist\n");
 		return (EXIT_FAILURE);
+	}
 	while (sh.my_env[i])
 	{
-		if (!sh.my_env[i])
-		{
-			i++;
-			continue ;
-		}
-		ft_putendl_fd(sh.my_env[i], STDOUT_FILENO);
+		if (sh.my_env[i])
+			ft_putendl_fd(sh.my_env[i], STDOUT_FILENO);
 		i++;
 	}
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:48:06 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 17:48:28 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:39:50 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 int	track_fd(int fd)
 {
 	if (sh.tracked_fds_count < MAX_TRACKED_FDS)
-	{
 		sh.tracked_fds[sh.tracked_fds_count++] = fd;
-	}
 	return fd;
 }
 
@@ -42,7 +40,7 @@ void	close_all_tracked_fds(void)
 	sh.tracked_fds_count = 0;
 }
 
-t_bool	check_exit(char **args)
+static	t_bool	check_exit(char **args)
 {
 	int	len;
 
@@ -65,7 +63,6 @@ t_bool	check_exit(char **args)
 		sh.exit_code = 2;
 		return (true);
 	}
-	sh.exit_code = EXIT_SUCCESS;
 	return (true);
 }
 

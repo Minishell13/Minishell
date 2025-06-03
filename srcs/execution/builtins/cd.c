@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:05 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 14:52:47 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 06:43:51 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	exec_cd(t_ast *node)
 	len = len_arr(node->u_data.args);
 	if (len == 1)
 	{
-		fdprintf(STDERR_FILENO,
-				"minishell: cd: no relative or absolute path\n");
+		fdprintf(STDERR_FILENO, "minishell: cd: \
+please provide a relative or absolute path\n");
 		return (EXIT_FAILURE);
 	}
 	if (len > 2)
@@ -34,8 +34,7 @@ int	exec_cd(t_ast *node)
 	export_var("OLDPWD", getcwd(NULL, 0), false, true);
 	if (chdir(path) != 0)
 	{
-		fdprintf(STDERR_FILENO,
-				"minishell: cd: %s\n", strerror(errno));
+		fdprintf(STDERR_FILENO, "minishell: cd: %s\n", strerror(errno));
 		return (EXIT_FAILURE);
 	}
 	export_var("PWD", getcwd(NULL, 0), false, true);

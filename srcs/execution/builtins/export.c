@@ -6,13 +6,27 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:30 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 15:13:41 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 08:13:50 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	valid_key(char *arg)
+static	int	print_export_list(void)
+{
+	int	i;
+	
+	i = 0;
+    while (sh.my_env[i])
+    {
+		if (sh.my_env[i])
+			printf("declare -x %s\n", sh.my_env[i]);
+		i++;
+    }
+	return (EXIT_SUCCESS);
+}
+
+static	int	valid_key(char *arg)
 {
 	int	i;
 
@@ -30,7 +44,7 @@ int	valid_key(char *arg)
 	return (i);
 }
 
-t_bool	parse_input(char *arg)
+static	t_bool	parse_input(char *arg)
 {
 	int		end;
 	char	*key;
@@ -48,10 +62,11 @@ t_bool	parse_input(char *arg)
 
 }
 
-int	exec_export(t_ast *node)
+static	int	export_vars(char **args)
 {
-	char	**args;
-	args = node->u_data.args;
+	int	code;
+
+	code = EXIT_SUCCESS;
 	args++;
 	while (*args)
 	{
@@ -61,16 +76,28 @@ int	exec_export(t_ast *node)
 			{	
 				fdprintf(STDERR_FILENO,
 					"minishell: export: %s: not a valid identifier\n", *args);
-				return (EXIT_FAILURE);
+				code = EXIT_FAILURE;
 			}
 		}
 		else if (parse_input(*args) == false)
 		{	
 			fdprintf(STDERR_FILENO,
 					"minishell: export: %s: not a valid identifier\n", *args);
-			return (EXIT_FAILURE);
+			code = EXIT_FAILURE;
 		}
 		args++;
 	}
-	return (EXIT_SUCCESS);
+	return (code);
+}
+
+int	exec_export(t_ast *node)
+{
+	char	**args;
+	
+	args = node->u_data.args;
+	if (!sh.my_env)
+		return (EXIT_FAILURE);
+	if (len_arr(args) == 1)
+		return (print_export_list());
+	return (export_vars(args));
 }
