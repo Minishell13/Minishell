@@ -6,12 +6,12 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 21:19:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 14:19:19 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 19:44:01 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
-#define ENV_H
+# define ENV_H
 
 # include "typedef.h"
 
@@ -25,7 +25,7 @@ char	*extract_key(char *arg, int end);
 char	*extract_value(char *arg, int end);
 
 void	export_var(char *k, char *v, t_bool alcd1, t_bool alcd2);
-void	add_shell_lvl();
+void	add_shell_lvl(void);
 void	setup_env(char **env);
 
 #endif
