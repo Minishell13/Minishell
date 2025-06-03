@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:33:12 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 10:21:01 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:00:18 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_bool	execute_redirection(t_ast *node)
 		{
 			fdprintf(STDERR_FILENO, "minishell: %s: %s\n"
 				, c->u_data.redir.file, strerror(errno));
+			sh.exit_code = EXIT_FAILURE;
 			return (false);
 		}
 		c = c->sibling;
