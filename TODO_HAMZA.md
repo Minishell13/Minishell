@@ -63,3 +63,34 @@ COMPLETE_COMMAND
 ==313486==    by 0x401B3C: main (minishell.c:234)
 
 
+> " "
+syntax error: unclosed quote `"`
+COMPLETE_COMMAND
+  SIMPLE_COMMAND: [ " ,  " ]
+
+==389727== Invalid read of size 1
+==389727==    at 0x4070C2: process_arg (expand.c:27)
+==389727==    by 0x407279: expand_cmd_node (expand.c:91)
+==389727==    by 0x40816D: execute_simple_cmd (exec_cmd.c:76)
+==389727==    by 0x407F18: run_executor (executor.c:41)
+==389727==    by 0x407F6D: executor (executor.c:57)
+==389727==    by 0x407EDE: run_executor (executor.c:28)
+==389727==    by 0x407F6D: executor (executor.c:57)
+==389727==    by 0x401AD1: execution (minishell.c:212)
+==389727==    by 0x401B54: main (minishell.c:235)
+==389727==  Address 0x4b97c72 is 0 bytes after a block of size 2 alloc'd
+==389727==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==389727==    by 0x49C758E: strdup (strdup.c:42)
+==389727==    by 0x403691: fill_words_array (parsing_command.c:36)
+==389727==    by 0x40383B: fill_args (parsing_command.c:75)
+==389727==    by 0x4032D8: parse_simple_command (parser2.c:139)
+==389727==    by 0x4029AA: parse_command (parser.c:23)
+==389727==    by 0x4029D4: parse_pipe (parser.c:33)
+==389727==    by 0x402B6B: parse_compound_command (parser.c:73)
+==389727==    by 0x402C84: parse_command_list (parser.c:102)
+==389727==    by 0x402D83: parse_complete_command (parser.c:126)
+==389727==    by 0x401A3A: parsing (minishell.c:200)
+==389727==    by 0x401B41: main (minishell.c:233)
+
+
+
