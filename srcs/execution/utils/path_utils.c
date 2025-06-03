@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:48:57 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/27 16:04:50 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 08:29:53 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,21 @@ char	*parse_path(char **all_path, char *cmd)
 
 char	*get_path(char *cmd)
 {
-	char	*path_var;
+	int		i;
 	char	**all_path;
 	char	*path;
 
-	// 1) If name contains '/', try it directly
 	if (ft_strchr(cmd, '/'))
 		return ft_strdup(cmd);
-	// 2) Get PATH and split
-	path_var = getenv("PATH");
-	if (!path_var)
+	i = -1;
+	while (sh.my_env[++i])
+	{
+		if (ft_strncmp(sh.my_env[i], "PATH=", 5) == 0)
+			break ;
+	}
+	if (!sh.my_env[i])
 		return (ft_strdup(cmd));
-	all_path = ft_split(path_var, ':');
+	all_path = ft_split(sh.my_env[i] + 5, ':');
 	if (!all_path)
 		return (ft_strdup(cmd));
 	path = parse_path(all_path, cmd);

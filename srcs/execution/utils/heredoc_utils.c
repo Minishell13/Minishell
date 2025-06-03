@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:26:10 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 10:55:00 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:24:41 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,12 @@ t_bool	handle_heredocs(t_ast *root)
 		return (false);
 	total = count_heredocs(root);
 	if (total > 16)
+	{
+		fdprintf(STDERR_FILENO, "minishell: maximum here-document count exceeded\n");
+		sh.exit_code = 2;
 		return (false);
+	}
 	index = 0;
-	exec_heredocs(root, total, &index, false);  // Start with restore = false
+	exec_heredocs(root, total, &index, false);
 	return (true);
 }
