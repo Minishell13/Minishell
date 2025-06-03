@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/30 19:29:03 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 10:35:29 by abnsila          ###   ########.fr       */
+/*   Created: 2025/06/03 10:43:27 by abnsila           #+#    #+#             */
+/*   Updated: 2025/06/03 11:15:17 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
+#ifndef DEBUG_H
+# define DEBUG_H
 
 # include "typedef.h"
 
-void	sigint_handler(int signum);
-void	setup_signals(void);
-void	reset_signals(void);
-void	signals_notif(pid_t pid, int *status);
+// Parsing
+const char	*get_node_type_name(int type);
+void		print_ast(t_ast *node, int indent);
+void		print_tokens(t_token *head);
+
+// Execution
+void		ast_print(const t_ast *node, int indent);
+char		*gram_name(t_gram g);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:39:44 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 09:50:02 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 11:16:32 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	restore_fds_backup(t_fd_backup *backup);
 // EXIT
 int		track_fd(int fd);
 int		track_dup(int oldfd);
-int		track_pipe(int pipefd[2]);
 void	close_all_tracked_fds(void);
 
 // Utils
@@ -43,7 +42,6 @@ void	collect_pipeline_stages(t_ast *node, t_ast **stages, int *count);
 // Execution
 void	execute_simple_cmd(t_ast *node, t_bool no_fork);
 void	execute_pipeline(t_ast *node);
-// void	execute_redirection(t_ast *node);
 t_bool	execute_redirection(t_ast *node);
 void	execute_subshell(t_ast *node);
 void	execute_and_or(t_ast *node);
