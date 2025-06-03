@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 19:26:51 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 17:46:18 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 void	sigint_handler(int signum)
 {
@@ -45,10 +45,10 @@ void	signals_notif(pid_t pid, int *status)
 			fdprintf(STDERR_FILENO, "\n");
 		else if (sig == SIGQUIT)
 			fdprintf(STDERR_FILENO, "Quit (core dumped)\n");
-		sh.exit_code = 128 + sig;
+		g_sh.exit_code = 128 + sig;
 	}
 	else
-		sh.exit_code = WEXITSTATUS(*status);
+		g_sh.exit_code = WEXITSTATUS(*status);
 
 	signal(SIGINT, sigint_handler);
 }

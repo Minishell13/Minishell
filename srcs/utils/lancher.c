@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_utils.c                                  :+:      :+:    :+:   */
+/*   lancher.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:26:27 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 11:31:42 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:33:43 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_readline()
 {
 	char	*line;
 
-	if (sh.exit_code)
+	if (g_sh.exit_code)
 		line = readline(SH_FAILURE);
 	else
 		line = readline(SH_SUCCESS);
@@ -45,21 +45,22 @@ t_bool	parsing(char *line)
 		free(line);
 		return (false); // or handle lexer failure
 	}
-	sh.tokens = head;
-	sh.ast = parse_complete_command(&head);
+	g_sh.tokens = head;
+	g_sh.ast = parse_complete_command(&head);
+	// g_sh.ast = ft_get_ast_example(1);
 	return (true);
 }
 
 t_bool	execution()
 {
-	if (sh.ast)
+	if (g_sh.ast)
 	{
 		printf("%s", BHBLK);
-		print_ast(sh.ast, 0);
+		print_ast(g_sh.ast, 0);
 		printf("%s\n", RESET);
-		if (handle_heredocs(sh.ast) == false)
+		if (handle_heredocs(g_sh.ast) == false)
 			return (false);
-		executor(sh.ast);
+		executor(g_sh.ast);
 	}
 	return (true);
 }
@@ -68,8 +69,8 @@ void	launch_shell(char **ev)
 {
 	char *line;
 
-	sh.tokens = NULL;
-	sh.ast = NULL;
+	g_sh.tokens = NULL;
+	g_sh.ast = NULL;
 	setup_env(ev);
 	while (true)
 	{
@@ -80,7 +81,7 @@ void	launch_shell(char **ev)
 		if (parsing(line) == false)
 			continue ;
 		if (execution() == false)
-			break ;
+			continue ;
 		cleanup_loop(line);
 	}
 	rl_clear_history();
