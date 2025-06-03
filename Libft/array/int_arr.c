@@ -6,17 +6,17 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:59:52 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/24 11:09:15 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:42:05 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	**init_arr()
+char	**init_arr(void)
 {
 	char	**arr;
 
-	arr = ft_calloc(1, sizeof(char *));
+	arr = (char **) ft_calloc(1, sizeof(char *));
 	if (!arr)
 		return (NULL);
 	return (arr);
