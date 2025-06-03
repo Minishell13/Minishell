@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:48:57 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/24 11:45:07 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 08:08:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	len_arr(char **arr)
 	int	len;
 	
 	len = 0;
-	if (!arr) return (len);
+	if (!arr)
+		return (len);
 	while (arr[len])
 		len++;
 	return (len);
