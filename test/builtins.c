@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 19:59:25 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/19 12:42:37 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 ///TODO: Work in builts in first env PATH, setup the envirenment
 //TODO: Ask about expansion, maybe you can found easy way to implement
@@ -45,6 +45,6 @@
 
 // 	setup_env(env);
 // 	exec_env();
-// 	clear_arr(sh.my_env);
+// 	clear_arr(g_sh.my_env);
 // 	return (EXIT_SUCCESS);
 // }
