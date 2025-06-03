@@ -5,18 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 09:45:00 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/03 11:33:01 by abnsila          ###   ########.fr       */
+/*   Created: 2025/06/03 21:34:05 by abnsila           #+#    #+#             */
+/*   Updated: 2025/06/03 21:34:31 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+t_minishell	g_sh;
+
 int	main(int ac, char **av, char **ev)
 {
 	(void)ac;
 	(void)av;
-
 	launch_shell(ev);
-	return (sh.exit_code);
+	return (g_sh.exit_code);
 }

@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "minishell.h": "c",
-        "parsing.h": "c",
-        "termios.h": "c"
-    }
-}

@@ -6,23 +6,23 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:06:58 by abnsila           #+#    #+#             */
-/*   Updated: 2025/05/24 11:44:08 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 21:31:15 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char **append_arr(char **arr, char *str)
+char	**append_arr(char **arr, char *str)
 {
-	size_t old_len;
-	char **new_arr;
+	size_t	old_len;
+	char	**new_arr;
 
 	old_len = len_arr(arr);
-	new_arr = (char **) ft_realloc(arr, sizeof(char*) * (old_len + 1)
-				, sizeof(char*) * (old_len + 2));
+	new_arr = (char **) ft_realloc(arr, sizeof(char *)
+			* (old_len + 1), sizeof(char*) * (old_len + 2));
 	if (!new_arr)
 		return (free(str), NULL);
-	new_arr[old_len]     = str;
+	new_arr[old_len] = str;
 	new_arr[old_len + 1] = NULL;
 	return (new_arr);
 }
@@ -88,21 +88,19 @@ char	**inner_merge_arr(char **arr1, char **arr2)
 
 	lens[0] = len_arr(arr1);
 	lens[1] = len_arr(arr2);
-	if (lens[0]  == 0 && lens[1] == 0)
+	if (lens[0] == 0 && lens[1] == 0)
 		return (clear_arr(arr2), arr1);
-	if (lens[0]  == 0)
+	if (lens[0] == 0)
 		return (clear_arr(arr1), arr2);
 	if (lens[1] == 0)
 		return (clear_arr(arr2), arr1);
 	out = dup_but_last(arr1);
-	edge = merge_edges(arr1[lens[0]  - 1], arr2[0], arr1, arr2);
+	edge = merge_edges(arr1[lens[0] - 1], arr2[0], arr1, arr2);
 	if (!edge)
 		return (NULL);
-
 	out = append_arr(out, edge);
 	if (!out)
 		return (free(edge), clear_arr(arr2), NULL);
-
 	out = (char **)append_rest(out, arr2);
 	if (!out)
 		return (NULL);

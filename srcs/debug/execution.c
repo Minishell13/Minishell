@@ -6,13 +6,28 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:14:45 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 10:45:11 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 //TODO: -------------------------------- Parsing --------------------------------
+
+void	print_arr(char **arr)
+{
+	int	i;
+
+	// printf("---------------------- Printing arr... ----------------------\n");
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+	{
+		printf("arr[%d]: %s\n", i, arr[i]);
+		i++;
+	}
+}
 
 char *gram_name(t_gram g)
 {

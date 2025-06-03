@@ -1,11 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/03 19:41:47 by abnsila           #+#    #+#             */
+/*   Updated: 2025/06/03 19:42:14 by abnsila          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BUILTINS_H
-#define BUILTINS_H
+# define BUILTINS_H
 
 # include "typedef.h"
-
-
-t_bool	no_options(char *arg);
-t_bool	no_args(char **args);
 
 int		exec_env(t_ast *node);
 int		exec_export(t_ast *node);

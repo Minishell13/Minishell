@@ -6,24 +6,28 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 14:09:09 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 12:57:33 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
-char	**process_arg(char *arg)
+char	**expand_vars_arr(char *arg)
 {
 	int				i;
 	char			*value;
 	char			**arr;
-	t_qmode	mode;
-	
+	t_qmode			mode;
+	t_expand_ctx	ctx;
+
 	i = 0;
 	mode = DEFAULT;
-	arr = (char **) ft_calloc(1, sizeof(char *));
+	arr = init_arr();
 	if (!arr)
 		return (NULL);
+	ctx.arr = &arr;
+	ctx.v = &value;
+	ctx.i = &i;
 	while (arg[i])
 	{
 		if (is_quote(arg[i]) == SINGLE_Q)
@@ -33,65 +37,88 @@ char	**process_arg(char *arg)
 		else
 			mode = DEFAULT;
 		value = ft_strdup("");
-		if (process_mode(arg, mode, &arr, &value, &i))
+		if (process_mode(arg, mode, &ctx))
 			continue ;
 		i++;
 	}
 	return (arr);
 }
 
-void	expand_redir(t_ast *node)
+
+
+// char	**expand_vars_arr(char *arg)
+// {
+// 	int				i;
+// 	char			*value;
+// 	char			**arr;
+// 	t_qmode	mode;
+	
+// 	i = 0;
+// 	mode = DEFAULT;
+// 	arr = init_arr();
+// 	if (!arr)
+// 		return (NULL);
+// 	while (arg[i])
+// 	{
+// 		if (is_quote(arg[i]) == SINGLE_Q)
+// 			mode = LITERAL;
+// 		else if (is_quote(arg[i]) == DOUBLE_Q)
+// 			mode = EXPAND;
+// 		else
+// 			mode = DEFAULT;
+// 		value = ft_strdup("");
+// 		if (process_mode(arg, mode, &arr, &value, &i))
+// 			continue ;
+// 		i++;
+// 	}
+// 	return (arr);
+// }
+
+t_bool	expand_redir(t_ast *node)
 {
+	char	**parts;
+	char	**with_glob;
+
 	if (node->type == GRAM_HEREDOC)
 		remove_quotes(&(node->u_data.redir));
 	else
 	{
-		char **arr = process_arg(node->u_data.redir.file);
-		int	len = len_arr(arr);
+		parts = expand_vars_arr(node->u_data.redir.file);
+		with_glob = wildcard_expand_arr(parts);
+		clear_arr(parts);
+		int	len = len_arr(with_glob);
 		if (len != 1)
 		{
-			perror("sh");
-			clear_arr(arr);
+			fdprintf(STDERR_FILENO, "minishell: %s: ambiguous redirect\n"
+					, node->u_data.redir.file);
+			return (clear_arr(with_glob), false);
 		}
 		else
 		{
 			free(node->u_data.redir.file);
-			node->u_data.redir.file = ft_strdup(arr[0]);
-			clear_arr(arr);	
+			node->u_data.redir.file = ft_strdup(with_glob[0]);
+			clear_arr(with_glob);	
 		}
 	}
+	return (true);
 }
 
-//TODO:  $ + *
-// void expand_cmd_node(t_ast *cmd)
-// {
-//     // args: char ** before expansion
-//     char **new_args = NULL;
-//     for (int i = 0; cmd->u_data.args[i]; i++)
-//     {
-//         char **parts    = process_arg(cmd->u_data.args[i]);
-//         char **with_glob = wildcard_expand_arr(parts);
-//         clear_arr(parts);
-
-//         new_args = merge_arr(new_args ? new_args : dup_arr(cmd->u_data.args), 
-//                              with_glob);
-//         clear_arr(with_glob);
-//     }
-//     clear_arr(cmd->u_data.args);
-//     cmd->u_data.args = new_args;
-// }
-
-void	expand_cmd_node(t_ast *node)
+void expand_cmd_node(t_ast *cmd)
 {
-	// args: char ** before expansion
-	char	**new_args = init_arr();
+	char	**new_args;
+	int		i;
 
-	for (int i = 0; node->u_data.args[i]; i++)
-	{
-		char **parts = process_arg(node->u_data.args[i]);
-
-		new_args = merge_arr(new_args, parts);
-	}
-	clear_arr(node->u_data.args);
-	node->u_data.args = new_args;
+    new_args = init_arr();
+	i = 0;
+    while (cmd->u_data.args[i])
+    {
+        char **parts    = expand_vars_arr(cmd->u_data.args[i]);
+        char **with_glob = wildcard_expand_arr(parts);
+        clear_arr(parts);
+        new_args = merge_arr(new_args, with_glob);
+		i++;
+    }
+    clear_arr(cmd->u_data.args);
+    cmd->u_data.args = new_args;
 }
+

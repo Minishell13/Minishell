@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:58:45 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 12:54:53 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 extern	t_minishell	sh;
 
@@ -18,7 +18,7 @@ char	*get_exit_code()
 {
 	char	*value;
 
-	value = ft_itoa(sh.exit_code);
+	value = ft_itoa(g_sh.exit_code);
 	if (!value)
 		return (ft_strdup("1"));
 	return (value);

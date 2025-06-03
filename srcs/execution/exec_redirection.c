@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:33:12 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 11:00:18 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 //* -------------------------------- IO_REDIRECTION --------------------------------
 int	parse_infile(t_redir *redir, t_gram type)
@@ -75,9 +75,16 @@ t_bool	expand_and_redir(t_ast *node)
 {
 	t_redir	*r;
 	
-	expand_redir(node);
+	if (expand_redir(node) == false)
+		return (false);
 	r = &node->u_data.redir;
-	return (redir(r, node->type));
+	if (redir(r, node->type) == false)
+	{
+		fdprintf(STDERR_FILENO, "minishell: %s: %s\n"
+				, node->u_data.redir.file, strerror(errno));
+		return (false);
+	}
+	return (true);
 }
 
 t_bool	execute_redirection(t_ast *node)
@@ -90,9 +97,7 @@ t_bool	execute_redirection(t_ast *node)
 	{
 		if (c->type != GRAM_HEREDOC && !expand_and_redir(c))
 		{
-			fdprintf(STDERR_FILENO, "minishell: %s: %s\n"
-				, c->u_data.redir.file, strerror(errno));
-			sh.exit_code = EXIT_FAILURE;
+			g_sh.exit_code = EXIT_FAILURE;
 			return (false);
 		}
 		c = c->sibling;

@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 17:47:21 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/01 12:40:48 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:30:08 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,13 @@ char	*ft_conststrjoin(char *s1, char *s2)
 	if (!ptr)
 	{
 		free(s2);
-		return NULL;
+		return (NULL);
 	}
 	ft_memcpy(ptr + lens[0], s2, lens[1]);
 	ptr[lens[0] + lens[1]] = '\0';
 	free(s2);
 	return (ptr);
 }
-
-
 
 char	*ft_charjoin(char *s, char c)
 {
@@ -68,8 +66,9 @@ char	*ft_charjoin(char *s, char c)
 		return (NULL);
 	len = ft_strlen(s);
 	ptr = (char *) ft_realloc(s, len + 1, len + 2);
-	if (!ptr) return NULL;
-	ptr[len]     = c;
+	if (!ptr)
+		return (NULL);
+	ptr[len] = c;
 	ptr[len + 1] = '\0';
 	return (ptr);
 }

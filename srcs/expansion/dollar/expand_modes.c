@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:57:30 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 12:54:06 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 	
 void	default_mode(char *arg, char **v, int *i)
 {
@@ -75,33 +75,59 @@ void	append_args(char ***arr, char **v, t_bool split)
 	}
 }
 
-//TODO: If you gonna use wildcard logic unsure you include quotes also
-t_bool	process_mode(char *arg, t_qmode mode, char ***arr, char **v, int *i)
+// t_bool	process_mode(char *arg, t_qmode mode, char ***arr, char **v, int *i)
+// {
+// 		if (mode == DEFAULT)
+// 		{
+// 			// printf("-------------- Default ---------------\n");
+// 			default_mode(arg, v, i);
+// 			append_args(arr, v, true);
+// 			return (true);
+// 		}
+// 		else if (mode == EXPAND)
+// 		{
+// 			*v = ft_charjoin(*v, arg[*i]);
+// 			(*i)++;
+// 			// printf("-------------- Expand ---------------\n");
+// 			expand_mode(arg, v, i);
+// 			*v = ft_charjoin(*v, arg[*i]);
+// 			append_args(arr, v, false);
+// 		}
+// 		else if (mode == LITERAL)
+// 		{
+// 			*v = ft_charjoin(*v, arg[*i]);
+// 			(*i)++;
+// 			// printf("-------------- Literal ---------------\n");
+// 			literal_mode(arg, v, i);
+// 			*v = ft_charjoin(*v, arg[*i]);
+// 			append_args(arr, v, false);
+// 		}
+// 		return (false);
+// }
+
+t_bool	process_mode(char *arg, t_qmode mode, t_expand_ctx *ctx)
 {
-		if (mode == DEFAULT)
-		{
-			// printf("-------------- Default ---------------\n");
-			default_mode(arg, v, i);
-			append_args(arr, v, true);
-			return (true);
-		}
-		else if (mode == EXPAND)
-		{
-			// *v = ft_charjoin(*v, arg[*i]);
-			(*i)++;
-			// printf("-------------- Expand ---------------\n");
-			expand_mode(arg, v, i);
-			// *v = ft_charjoin(*v, arg[*i]);
-			append_args(arr, v, false);
-		}
-		else if (mode == LITERAL)
-		{
-			// *v = ft_charjoin(*v, arg[*i]);
-			(*i)++;
-			// printf("-------------- Literal ---------------\n");
-			literal_mode(arg, v, i);
-			// *v = ft_charjoin(*v, arg[*i]);
-			append_args(arr, v, false);
-		}
-		return (false);
+	if (mode == DEFAULT)
+	{
+		default_mode(arg, ctx->v, ctx->i);
+		append_args(ctx->arr, ctx->v, true);
+		return (true);
+	}
+	else if (mode == EXPAND)
+	{
+		*(ctx->v) = ft_charjoin(*(ctx->v), arg[*(ctx->i)]);
+		(*(ctx->i))++;
+		expand_mode(arg, ctx->v, ctx->i);
+		*(ctx->v) = ft_charjoin(*(ctx->v), arg[*(ctx->i)]);
+		append_args(ctx->arr, ctx->v, false);
+	}
+	else if (mode == LITERAL)
+	{
+		*(ctx->v) = ft_charjoin(*(ctx->v), arg[*(ctx->i)]);
+		(*(ctx->i))++;
+		literal_mode(arg, ctx->v, ctx->i);
+		*(ctx->v) = ft_charjoin(*(ctx->v), arg[*(ctx->i)]);
+		append_args(ctx->arr, ctx->v, false);
+	}
+	return (false);
 }

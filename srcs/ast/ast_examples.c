@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 14:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 13:11:50 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 // cat << A > "''\"$f1\"''"
 t_ast	*ft_get_ast0(void)
@@ -47,34 +47,37 @@ t_ast	*ft_get_ast1(void)
 {
 	t_ast *root = ast_new_node(GRAM_COMPLETE_COMMAND);
 
+	t_ast *c0 = ast_new_node(GRAM_SIMPLE_COMMAND);
+	c0->u_data.args = ast_create_args_2(2, "export", "a=\".md Lib\"");
+
 	t_ast *c1 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c1->u_data.args = ast_create_args("echo '\"$PATH\"'");
+	c1->u_data.args = ast_create_args_2(5, "echo", "\"GG\"$a*", "*$a*\"t\"*", "\"T\"*$a\"*\"*", "\"T\"*$a*\"f\"*");
 
 	t_ast *c2 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c2->u_data.args = ast_create_args("echo \"\"$SHELL\"\"");
+	c2->u_data.args = ast_create_args("ls *");
 
-	t_ast *c3 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c3->u_data.args = ast_create_args("echo \"\"$PWD\"\"");
+	// t_ast *c3 = ast_new_node(GRAM_SIMPLE_COMMAND);
+	// c3->u_data.args = ast_create_args_2(2, "echo"
 
-	t_ast *c4 = ast_new_node(GRAM_SIMPLE_COMMAND);
-	c4->u_data.args = ast_create_args("echo '\"$CC\"'");
+	// t_ast *c4 = ast_new_node(GRAM_SIMPLE_COMMAND);
+	// c4->u_data.args = ast_create_args("echo '\"$CC\"'");
 
 	
 	t_ast *and1 = ast_new_node(GRAM_OPERATOR_AND);
+	ast_add_child(and1, c0);
 	ast_add_child(and1, c1);
-	ast_add_child(and1, c2);
 	
 	t_ast *and2 = ast_new_node(GRAM_OPERATOR_AND);
 	ast_add_child(and2, and1);
-	ast_add_child(and2, c3);
+	ast_add_child(and2, c2);
 	
 	
-	t_ast *and3 = ast_new_node(GRAM_OPERATOR_AND);
-	ast_add_child(and3, and2);
-	ast_add_child(and3, c4);
+	// t_ast *and3 = ast_new_node(GRAM_OPERATOR_AND);
+	// ast_add_child(and3, and2);
+	// ast_add_child(and3, c4);
 
 
-	ast_add_child(root, and3);
+	ast_add_child(root, and2);
 	return root;
 }
 

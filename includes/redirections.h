@@ -6,12 +6,12 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:39:14 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/02 13:01:43 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:12:52 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REDIRECTIONS_H
-#define REDIRECTIONS_H
+# define REDIRECTIONS_H
 
 # include "typedef.h"
 

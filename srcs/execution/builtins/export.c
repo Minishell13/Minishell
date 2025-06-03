@@ -6,21 +6,21 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:30 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 08:13:50 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 static	int	print_export_list(void)
 {
 	int	i;
 	
 	i = 0;
-    while (sh.my_env[i])
+    while (g_sh.my_env[i])
     {
-		if (sh.my_env[i])
-			printf("declare -x %s\n", sh.my_env[i]);
+		if (g_sh.my_env[i])
+			printf("declare -x %s\n", g_sh.my_env[i]);
 		i++;
     }
 	return (EXIT_SUCCESS);
@@ -95,7 +95,7 @@ int	exec_export(t_ast *node)
 	char	**args;
 	
 	args = node->u_data.args;
-	if (!sh.my_env)
+	if (!g_sh.my_env)
 		return (EXIT_FAILURE);
 	if (len_arr(args) == 1)
 		return (print_export_list());

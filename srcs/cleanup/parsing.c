@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:32:52 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 10:47:20 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 void	free_string_array(char **arr)
 {
@@ -75,10 +75,10 @@ void	free_tree(t_ast *node)
 
 void	free_all()
 {
-	if (sh.tokens)
-		free_tokens(sh.tokens);
-	if (sh.ast)
-		free_tree(sh.ast);
-	sh.tokens = NULL;
-	sh.ast = NULL;
+	if (g_sh.tokens)
+		free_tokens(g_sh.tokens);
+	if (g_sh.ast)
+		free_tree(g_sh.ast);
+	g_sh.tokens = NULL;
+	g_sh.ast = NULL;
 }
