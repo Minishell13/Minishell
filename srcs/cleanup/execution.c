@@ -6,11 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:03:02 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 11:28:15 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 
 void	ft_free_array(char **arr)
 {
@@ -39,12 +39,12 @@ void	clear_sh(t_ast *root)
 {
 	ast_destroy(root);
 	close_all_tracked_fds();
-	clear_arr(sh.my_env);
+	clear_arr(g_sh.my_env);
 }
 
 void	destroy()
 {
 	free_all();
 	close_all_tracked_fds();
-	clear_arr(sh.my_env);
+	clear_arr(g_sh.my_env);
 }
