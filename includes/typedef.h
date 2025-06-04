@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:26:13 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:36:29 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ typedef struct s_parse_data
 typedef struct s_minishell
 {
 	char	*shell;
-	char	**my_env;
+	char	**env;
 	int		exit_code;
 	t_token	*tokens;
 	t_ast	*ast;
@@ -200,7 +200,6 @@ typedef struct s_minishell
 	int		pipefd[2][2];
 	int		tracked_fds[MAX_TRACKED_FDS];
 	int		tracked_fds_count;
-	t_bool	is_child;
 }				t_minishell;
 
 #endif
