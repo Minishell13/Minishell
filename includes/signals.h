@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 19:29:03 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 10:35:29 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:46:01 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "typedef.h"
 
-void	sigint_handler(int signum);
 void	setup_signals(void);
 void	reset_signals(void);
 void	signals_notif(pid_t pid, int *status);

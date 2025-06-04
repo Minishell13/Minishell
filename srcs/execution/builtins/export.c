@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:30 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:40:06 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static	int	print_export_list(void)
 	int	i;
 	
 	i = 0;
-    while (g_sh.my_env[i])
+    while (g_sh.env[i])
     {
-		if (g_sh.my_env[i])
-			printf("declare -x %s\n", g_sh.my_env[i]);
+		if (g_sh.env[i])
+			printf("declare -x %s\n", g_sh.env[i]);
 		i++;
     }
 	return (EXIT_SUCCESS);
@@ -75,14 +75,14 @@ static	int	export_vars(char **args)
 			if (valid_key(*args) == -1)
 			{	
 				fdprintf(STDERR_FILENO,
-					"minishell: export: %s: not a valid identifier\n", *args);
+					"%s: export: %s: not a valid identifier\n", g_sh.shell, *args);
 				code = EXIT_FAILURE;
 			}
 		}
 		else if (parse_input(*args) == false)
 		{	
 			fdprintf(STDERR_FILENO,
-					"minishell: export: %s: not a valid identifier\n", *args);
+					"%s: export: %s: not a valid identifier\n", g_sh.shell, *args);
 			code = EXIT_FAILURE;
 		}
 		args++;
@@ -95,7 +95,7 @@ int	exec_export(t_ast *node)
 	char	**args;
 	
 	args = node->u_data.args;
-	if (!g_sh.my_env)
+	if (!g_sh.env)
 		return (EXIT_FAILURE);
 	if (len_arr(args) == 1)
 		return (print_export_list());

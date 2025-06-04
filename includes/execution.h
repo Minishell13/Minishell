@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:39:44 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 19:44:12 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:08:09 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,8 @@
 
 # include "typedef.h"
 
-// Restore Fds
-void	save_fds(t_fd_backup *backup);
-void	restore_fds_backup(t_fd_backup *backup);
-
-// EXIT
-int		track_fd(int fd);
-int		track_dup(int oldfd);
-void	close_all_tracked_fds(void);
-
 // Utils
-t_bool	check_access(char *file, int permission);
-char	*parse_path(char **all_path, char *cmd);
 char	*get_path(char *cmd);
-
-// Cmd Helper
-void	execve_helper(t_ast *cmd);
 
 // PIPE Helper
 void	setup_pipe(int i, t_bool has_next);

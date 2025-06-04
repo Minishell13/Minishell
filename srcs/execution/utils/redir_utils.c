@@ -6,11 +6,26 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 13:34:47 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:46:02 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+int	track_fd(int fd)
+{
+	if (g_sh.tracked_fds_count < MAX_TRACKED_FDS)
+		g_sh.tracked_fds[g_sh.tracked_fds_count++] = fd;
+	return fd;
+}
+
+int	track_dup(int oldfd)
+{
+	int newfd = dup(oldfd);
+	if (newfd >= 0)
+		return track_fd(newfd);
+	return -1;
+}
 
 void	restore_fds(int stdin_backup, int stdout_backup)
 {
@@ -20,15 +35,10 @@ void	restore_fds(int stdin_backup, int stdout_backup)
 	close(stdout_backup);
 }
 
-void save_fds(t_fd_backup *backup)
+void	save_fds(t_fd_backup *backup)
 {
 	backup->in = track_dup(STDIN_FILENO);
 	backup->out = track_dup(STDOUT_FILENO);
-}
-
-void restore_fds_backup(t_fd_backup *backup)
-{
-	restore_fds(backup->in, backup->out);
 }
 
 void	generate_tmpfile(t_redir *redir)

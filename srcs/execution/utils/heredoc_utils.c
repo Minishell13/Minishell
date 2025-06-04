@@ -6,13 +6,13 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:26:10 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:14:56 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	fill_here_doc(t_redir *redir, int fd)
+static void	fill_here_doc(t_redir *redir, int fd)
 {
 	char	*line;
 	size_t	line_size;
@@ -24,8 +24,8 @@ void	fill_here_doc(t_redir *redir, int fd)
 		ft_putendl_fd(line, STDERR_FILENO);
 		if (!line)
 		{
-			ft_putstr_fd("\nminishell: warning: here-document delimited by \
-end-of-file (wanted `Limiter')\n", STDERR_FILENO);
+			fdprintf(STDERR_FILENO, "\n%s: warning: here-document delimited by \
+end-of-file (wanted `Limiter')\n", g_sh.shell);
 			break ;
 		}
 		line_size = ft_strlen(line) - 1;
@@ -52,7 +52,7 @@ int	here_doc(t_redir *redir)
 	return (fd);
 }
 
-int	count_heredocs(t_ast *node)
+static int	count_heredocs(t_ast *node)
 {
 	if (!node)
 		return (0);
@@ -61,7 +61,7 @@ int	count_heredocs(t_ast *node)
 		+ count_heredocs(node->sibling);
 }
 
-void exec_heredocs(t_ast *node, int total, int *index, t_bool restore)
+static void exec_heredocs(t_ast *node, int total, int *index, t_bool restore)
 {
 	int backup_fd;
 
@@ -104,7 +104,7 @@ t_bool	handle_heredocs(t_ast *root)
 	total = count_heredocs(root);
 	if (total > 16)
 	{
-		fdprintf(STDERR_FILENO, "minishell: maximum here-document count exceeded\n");
+		fdprintf(STDERR_FILENO, "%s: maximum here-document count exceeded\n", g_sh.shell);
 		g_sh.exit_code = 2;
 		return (false);
 	}

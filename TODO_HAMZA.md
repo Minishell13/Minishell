@@ -1,7 +1,7 @@
 # To fix:
 - Just check the quotes is correctly ended, but dont split or remove any of them :
 - 
-
+## Quotes for expansion:
 > export a=".md i"
 COMPLETE_COMMAND
   SIMPLE_COMMAND: [ export ,  a=".md ,  i" ] ❌
@@ -17,8 +17,10 @@ COMPLETE_COMMAND
   SIMPLE_COMMAND: [ ls ,  'gfdg gfg gfdg gdfg' ,  gdfg"5"fdg ]  ❌
   SIMPLE_COMMAND: [ ls ,  'gfdg gfg gfdg gdfg'gdfg"5"fdg ]      ✅
 
+# Heredoc limiter and file:
 HEREDOCK -> limiter
 
+# Error msg:
 ✅> (((((((((()))))))))
 syntax error: empty subshell or invalid content
 syntax error: empty subshell or invalid content
@@ -93,4 +95,11 @@ COMPLETE_COMMAND
 ==389727==    by 0x401B41: main (minishell.c:233)
 
 
+# Error msg:
+- Missing newline ...
+> w | w|w|
+syntax error: unexpected token after '|'>
 
+# Leaks:
+fwefwefwfwef ef wef wef |f wef wef |f wefw fw && th rth && yt ty | (thrh | (hrt hrt | thrh | htr (((thr || yjt)) | ytjt) | jytj) | ytj t && ytjt) | rewg < rgeg > reg > reg > reg
+- This is syntax error, but there is leaks

@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:35:34 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 19:43:00 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:24:16 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	free_all(void);
 
 // Execution Cleanup
 void	ft_free_array(char **arr);
+void	close_all_tracked_fds(void);;
 void	cleanup_loop(char *line);
-void	clear_sh(t_ast *root);
 void	destroy(void);
 
 #endif

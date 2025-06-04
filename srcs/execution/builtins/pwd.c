@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:21 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:22:34 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	exec_pwd(t_ast *node)
 	pwd = getcwd(NULL, 0);
 	if (!pwd) 
 	{
-		pwd = get_value("PWD");
+		pwd = get_env("PWD");
 		if (!pwd)
 		{
 			fdprintf(STDERR_FILENO,
-				"minishell: pwd: %s\n", strerror(errno));
+				"%s: pwd: %s\n", g_sh.shell, strerror(errno));
 			return (EXIT_FAILURE);
 		}
 	}

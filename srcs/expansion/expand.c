@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 14:09:09 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:09:24 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ t_bool	expand_redir(t_ast *node)
 		int	len = len_arr(with_glob);
 		if (len != 1)
 		{
-			fdprintf(STDERR_FILENO, "minishell: %s: ambiguous redirect\n"
-					, node->u_data.redir.file);
+			fdprintf(STDERR_FILENO, "%s: %s: ambiguous redirect\n",
+				g_sh.shell, node->u_data.redir.file);
 			return (clear_arr(with_glob), false);
 		}
 		else

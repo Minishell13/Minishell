@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:43:27 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:31:21 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:48:06 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void		print_ast(t_ast *node, int indent);
 void		print_tokens(t_token *head);
 
 // Execution
-void	print_arr(char **arr);
+void		print_arr(char **arr);
 void		ast_print(const t_ast *node, int indent);
 char		*gram_name(t_gram g);
 

@@ -6,21 +6,13 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 17:45:09 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:18:34 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// TODO: You need first to know the exact struct of AST tree
-// TODO: The representation each node with his type and args
-// TODO: How to parcoure throw this three and get nodes in the correct order
-// TODO: Create functions for execution (per node type)
-// TODO: Focus on execution flow, (memory, fds, error) management
-// TODO: The leaks is fixed, now go and make behavioure like shell
-// TODO: ...
-
-void	run_executor(t_ast *node)
+static void	run_executor(t_ast *node)
 {
 	switch (node->type)
 	{
@@ -55,5 +47,5 @@ void executor(t_ast *node)
 		return;
 	save_fds(&backup);
 	run_executor(node);
-	restore_fds_backup(&backup);
+	restore_fds(backup.in, backup.out);
 }
