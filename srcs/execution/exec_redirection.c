@@ -6,14 +6,14 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:33:12 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:14:29 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 //* -------------------------------- IO_REDIRECTION --------------------------------
-int	parse_infile(t_redir *redir, t_gram type)
+static int	parse_infile(t_redir *redir, t_gram type)
 {
 	int	fd;
 
@@ -21,12 +21,10 @@ int	parse_infile(t_redir *redir, t_gram type)
 		fd = here_doc(redir);
 	else
 		fd = open(redir->file, O_RDONLY);
-	// if (fd < 0)
-	// 	perror("sh_infile");
 	return (fd);
 }
 
-int	parse_outfile(t_redir *redir, t_gram type)
+static int	parse_outfile(t_redir *redir, t_gram type)
 {
 	int	flags;
 	int	fd;
@@ -36,15 +34,12 @@ int	parse_outfile(t_redir *redir, t_gram type)
 	else
 		flags = (O_WRONLY | O_CREAT | O_TRUNC);
 	fd = open(redir->file, flags, 0644);
-	// if (fd < 0)
-	// 	perror("sh_outfile");
 	return (fd);
 }
 
-t_bool	redir(t_redir *r, t_gram type)
+static t_bool	redir(t_redir *r, t_gram type)
 {
 	int	fd;
-	// 1) Handle input redirection: '<' or '<<'
 	if (type == GRAM_REDIR_IN || type == GRAM_HEREDOC)
 	{
 		fd = parse_infile(r, type);
@@ -56,7 +51,6 @@ t_bool	redir(t_redir *r, t_gram type)
 		}
 		close(fd);
 	}
-	// 2) Handle output redirection: '>' or '>>'
 	else
 	{
 		fd = parse_outfile(r, type);
@@ -80,7 +74,7 @@ t_bool	expand_and_redir(t_ast *node)
 	r = &node->u_data.redir;
 	if (redir(r, node->type) == false)
 	{
-		fdprintf(STDERR_FILENO, "minishell: %s: %s\n"
+		fdprintf(STDERR_FILENO, "%s: %s: %s\n"
 				, node->u_data.redir.file, strerror(errno));
 		return (false);
 	}

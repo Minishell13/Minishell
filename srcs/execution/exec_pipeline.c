@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:18 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 14:58:02 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,41 +61,15 @@ static void	pipeline_loop(t_ast **stages, int total, pid_t *pids)
 
 void	execute_pipeline(t_ast *pipeline)
 {
-	pid_t	pid;
 	t_ast	*stages[MAX_PIPE];
 	pid_t	pids[MAX_PIPE];
 	int		total;
 	int		status;
 
+	total = 0;
 	signal(SIGINT, SIG_IGN);
-	pid = fork();
-	if (pid == 0)
-	{
-		total = 0;
-		collect_pipeline_stages(pipeline, stages, &total);
-		pipeline_loop(stages, total, pids);
-		parent_cleanup(pids, total, &status);
-		signals_notif(pid, &status);
-		destroy();
-		exit(g_sh.exit_code);
-	}
-	else
-	{
-		signals_notif(pid, &status);
-	}	
+	collect_pipeline_stages(pipeline, stages, &total);
+	pipeline_loop(stages, total, pids);
+	parent_cleanup(pids, total, &status);
+	g_sh.exit_code = WEXITSTATUS(status);
 }
-
-// void	execute_pipeline(t_ast *pipeline)
-// {
-// 	t_ast	*stages[MAX_PIPE];
-// 	pid_t	pids[MAX_PIPE];
-// 	int		total;
-// 	int		status;
-
-// 	total = 0;
-// 	signal(SIGINT, SIG_IGN);
-// 	collect_pipeline_stages(pipeline, stages, &total);
-// 	pipeline_loop(stages, total, pids);
-// 	parent_cleanup(pids, total, &status);
-// 	g_sh.exit_code = WEXITSTATUS(status);
-// }
