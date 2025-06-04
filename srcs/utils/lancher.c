@@ -6,15 +6,14 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:26:27 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:33:43 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:17:37 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 //TODO: -------------------------------- Separate each phase for clean processing --------------------------------
-
-char	*ft_readline()
+static char	*ft_readline()
 {
 	char	*line;
 
@@ -32,26 +31,24 @@ char	*ft_readline()
 	return (line);
 }
 
-t_bool	parsing(char *line)
+static t_bool	parsing(char *line)
 {
 	t_token *head;
 
-	// Free previous allocations before new ones
 	free_all();
 	head = NULL;
 	head = lexer(line);
 	if (!head)
 	{
 		free(line);
-		return (false); // or handle lexer failure
+		return (false);
 	}
 	g_sh.tokens = head;
 	g_sh.ast = parse_complete_command(&head);
-	// g_sh.ast = ft_get_ast_example(1);
 	return (true);
 }
 
-t_bool	execution()
+static t_bool	execution()
 {
 	if (g_sh.ast)
 	{
@@ -65,13 +62,22 @@ t_bool	execution()
 	return (true);
 }
 
-void	launch_shell(char **ev)
+static void	setup(char **env)
+{
+	g_sh.tokens = NULL;
+	g_sh.ast = NULL;
+	g_sh.exit_code = EXIT_SUCCESS;
+	g_sh.env = NULL;
+	g_sh.tracked_fds_count = 0;
+	g_sh.shell = "minishell";
+	setup_env(env);
+}
+
+void	launch_shell(char **env)
 {
 	char *line;
 
-	g_sh.tokens = NULL;
-	g_sh.ast = NULL;
-	setup_env(ev);
+	setup(env);
 	while (true)
 	{
 		setup_signals();

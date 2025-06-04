@@ -6,13 +6,13 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:17:40 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:31:29 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	set_exit_code(char *path)
+static void	set_exit_code(char *path)
 {
 	if (path && (ft_strlcmp(path, ".") || ft_strlcmp(path, "..")))
 		g_sh.exit_code = 2;
@@ -24,14 +24,14 @@ void	set_exit_code(char *path)
 		g_sh.exit_code = ERROR;
 }
 
-void	format_error(char *format, char *arg, char *error)
+static void	format_error(char *format, char *arg, char *error)
 {
 	char	buffer[1024];
 
 	ft_bzero(buffer, sizeof(buffer));
 	if (!format || !error)
 		return ;
-	ft_strlcat(buffer, "minishell", sizeof(buffer));
+	ft_strlcat(buffer, g_sh.shell, sizeof(buffer));
 	ft_strlcat(buffer, ": ", sizeof(buffer));
 	if (arg)
 	{
@@ -43,17 +43,17 @@ void	format_error(char *format, char *arg, char *error)
 	write(STDERR_FILENO, buffer, ft_strlen(buffer));
 }
 
-void	put_error(char *cmd, char *path)
+void	ft_perror(char *cmd, char *path)
 {
 	int	i;
 
 	i = -1;
-	while (g_sh.my_env[++i])
+	while (g_sh.env[++i])
 	{
-		if (ft_strncmp(g_sh.my_env[i], "PATH=", 5) == 0)
+		if (ft_strncmp(g_sh.env[i], "PATH=", 5) == 0)
 			break ;
 	}
-	if (!g_sh.my_env[i])
+	if (!g_sh.env[i])
 		format_error("%s: %s: %s", cmd, "No such file or directory");
 	else if (!cmd)
 		format_error("%s: %s: %s", " ", "command not found");
