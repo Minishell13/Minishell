@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:17:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 13:35:46 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,17 @@ void	unset_var(char *key)
 
 	i = 0;
 	key_len = ft_strlen(key);
-	while (g_sh.my_env[i])
+	while (g_sh.env[i])
 	{
-		if (ft_strncmp(g_sh.my_env[i], key, key_len) == 0
-			&& g_sh.my_env[i][key_len] && g_sh.my_env[i][key_len] == '=')
+		if (ft_strncmp(g_sh.env[i], key, key_len) == 0
+			&& g_sh.env[i][key_len] && g_sh.env[i][key_len] == '=')
 		{
 			i++;
 			continue ;
 		}
-		new_env = append_arr(new_env, ft_strdup(g_sh.my_env[i]));
+		new_env = append_arr(new_env, ft_strdup(g_sh.env[i]));
 		i++;
 	}
-	clear_arr(g_sh.my_env);
-	g_sh.my_env = new_env;
+	clear_arr(g_sh.env);
+	g_sh.env = new_env;
 }
