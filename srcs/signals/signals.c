@@ -6,13 +6,13 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 19:26:51 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/04 15:28:16 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	sigint_handler(int signum)
+static void	sigint_handler(int signum)
 {
 	(void)signum;
 	rl_replace_line("", 0);
@@ -23,8 +23,8 @@ void	sigint_handler(int signum)
 
 void	setup_signals(void)
 {
-	signal(SIGINT, sigint_handler);   // Ctrl+C → clear line and prompt again
-	signal(SIGQUIT, SIG_IGN);         // Ignore Ctrl+\ at prompt
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	reset_signals(void)
@@ -52,4 +52,3 @@ void	signals_notif(pid_t pid, int *status)
 
 	signal(SIGINT, sigint_handler);
 }
-
