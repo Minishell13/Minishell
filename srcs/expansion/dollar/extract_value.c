@@ -6,28 +6,11 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:58:45 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:22:34 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 21:56:22 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-extern	t_minishell	sh;
-
-char	*get_exit_code()
-{
-	char	*value;
-
-	value = ft_itoa(g_sh.exit_code);
-	if (!value)
-		return (ft_strdup("1"));
-	return (value);
-}
-
-int	is_valid(char c)
-{
-	return (ft_isalnum(c) || c == '_');
-}
 
 t_quote	is_quote(char c)
 {
@@ -39,7 +22,22 @@ t_quote	is_quote(char c)
 		return (NONE);
 }
 
-char	*extract_var_value(char *arg, int *i)
+static char	*get_exit_code(void)
+{
+	char	*value;
+
+	value = ft_itoa(g_sh.exit_code);
+	if (!value)
+		return (ft_strdup("1"));
+	return (value);
+}
+
+static int	is_valid(char c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
+
+static char	*extract_var_value(char *arg, int *i)
 {
 	char	*key;
 	char	*value;
@@ -64,16 +62,13 @@ t_bool	try_expand_dollar(char *arg, char **value, int *i)
 {
 	if (arg[*i] != '$')
 		return (false);
-	// Do not expand ($' and $")
 	else if (arg[*i + 1] && is_quote(arg[*i + 1]))
 		return (false);
-	// Expand to exit code
 	else if (arg[*i + 1] == '?')
-	{	
+	{
 		*value = ft_conststrjoin(*value, get_exit_code());
 		*i += 2;
 	}
-	// Do not expand special char exept for ($?) ($_...)
 	else if (arg[*i + 1] && ft_isalnum(arg[*i + 1]) == 0
 		&& arg[*i + 1] != '_' && is_quote(arg[*i + 1]) == NONE)
 	{
@@ -82,7 +77,6 @@ t_bool	try_expand_dollar(char *arg, char **value, int *i)
 		*value = ft_charjoin(*value, arg[*i]);
 		(*i)++;
 	}
-	// Expand var to *value
 	else
 	{
 		(*i)++;
