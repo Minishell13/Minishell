@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 19:00:51 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 01:05:22 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_ast	*new_tree_node(t_gram gram)
 	n->sibling = NULL;
 	n->u_data.args = NULL;
 	n->u_data.redir.file = NULL;
+	n->u_data.redir.limiter = NULL;
 	n->u_data.redir.expanded = false;
 	return (n);
 }
