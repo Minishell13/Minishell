@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:18 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 14:58:02 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 00:04:37 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	child_exec(t_ast *stage, int i, t_bool has_next)
 	if (stage->type == GRAM_SIMPLE_COMMAND)
 		execute_simple_cmd(stage, true);
 	else
-		executor(stage);
+		run_executor(stage);
 	destroy();
 	exit(g_sh.exit_code);
 }

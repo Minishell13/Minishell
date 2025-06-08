@@ -6,21 +6,19 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:33:12 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:14:29 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 15:09:48 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 //* -------------------------------- IO_REDIRECTION --------------------------------
-static int	parse_infile(t_redir *redir, t_gram type)
+static int	parse_infile(t_redir *redir)
 {
 	int	fd;
 
-	if (type == GRAM_HEREDOC)
-		fd = here_doc(redir);
-	else
-		fd = open(redir->file, O_RDONLY);
+	fdprintf(STDERR_FILENO, "in file: %s\n",redir->file);
+	fd = open(redir->file, O_RDONLY);
 	return (fd);
 }
 
@@ -42,7 +40,7 @@ static t_bool	redir(t_redir *r, t_gram type)
 	int	fd;
 	if (type == GRAM_REDIR_IN || type == GRAM_HEREDOC)
 	{
-		fd = parse_infile(r, type);
+		fd = parse_infile(r);
 		if (fd < 0 || dup2(fd, STDIN_FILENO) < 0)
 		{
 			if (fd >= 0)
@@ -69,7 +67,7 @@ t_bool	expand_and_redir(t_ast *node)
 {
 	t_redir	*r;
 	
-	if (expand_redir(node) == false)
+	if (expand_redir_node(node) == false)
 		return (false);
 	r = &node->u_data.redir;
 	if (redir(r, node->type) == false)
@@ -85,11 +83,10 @@ t_bool	execute_redirection(t_ast *node)
 {
 	t_ast 	*c;
 
-	// 1. Do all other redirs (saving last in/out) exept heredocs
 	c = node->child;
 	while (c)
 	{
-		if (c->type != GRAM_HEREDOC && !expand_and_redir(c))
+		if (!expand_and_redir(c))
 		{
 			g_sh.exit_code = EXIT_FAILURE;
 			return (false);
