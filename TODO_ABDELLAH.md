@@ -9,3 +9,5 @@
 ## Leaks:
 fwefwefwfwef ef wef wef |f wef wef |f wefw fw && th rth && yt ty | (thrh | (hrt hrt | thrh | htr thr | ytjt | jytj) | ytj t && ytjt) | rewg < rgeg > reg > reg > reg
 
+## Leaks:
+(< Makefile) | (> a | (< a)) >> a < a
