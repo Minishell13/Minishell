@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_redirection.c                                 :+:      :+:    :+:   */
+/*   exec_redirection copy.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -13,12 +13,14 @@
 #include <minishell.h>
 
 //* -------------------------------- IO_REDIRECTION --------------------------------
-static int	parse_infile(t_redir *redir)
+static int	parse_infile(t_redir *redir, t_gram type)
 {
 	int	fd;
 
-	fdprintf(STDERR_FILENO, "in file: %s\n",redir->file);
-	fd = open(redir->file, O_RDONLY);
+	if (type == GRAM_HEREDOC)
+		fd = here_doc(redir);
+	else
+		fd = open(redir->file, O_RDONLY);
 	return (fd);
 }
 
@@ -40,7 +42,7 @@ static t_bool	redir(t_redir *r, t_gram type)
 	int	fd;
 	if (type == GRAM_REDIR_IN || type == GRAM_HEREDOC)
 	{
-		fd = parse_infile(r);
+		fd = parse_infile(r, type);
 		if (fd < 0 || dup2(fd, STDIN_FILENO) < 0)
 		{
 			if (fd >= 0)
@@ -83,10 +85,11 @@ t_bool	execute_redirection(t_ast *node)
 {
 	t_ast 	*c;
 
+	// 1. Do all other redirs (saving last in/out) exept heredocs
 	c = node->child;
 	while (c)
 	{
-		if (!expand_and_redir(c))
+		if (c->type != GRAM_HEREDOC && !expand_and_redir(c))
 		{
 			g_sh.exit_code = EXIT_FAILURE;
 			return (false);

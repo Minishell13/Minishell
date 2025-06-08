@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:58:45 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/01 15:32:08 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 13:28:56 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,6 @@
 # define PARSING_H
 
 # include "typedef.h"
-
-// typedef struct s_token
-// {
-// 	t_token_type	type;
-// 	char			*value;
-// 	struct s_token	*next;
-// }					t_token;
-
-// typedef struct s_list
-// {
-// 	t_token			*token;// Each list node contains a pointer to a t_token
-// 	struct s_list	*next;// Pointer to the next list node
-// }					t_list;
-
-// typedef struct s_arr
-// {
-// 	int				size;
-// 	int				used;
-// 	int				elem_size;
-// 	void			*arr;
-// }					t_arr;
-
-// typedef struct s_parse_data
-// {
-// 	t_ast			*cmd;
-// 	t_ast			*rlist;
-// 	t_list			*words;
-// 	t_bool			flag;
-// }					t_parse_data;
 
 // lexer
 int					is_operator_char(char c);
@@ -109,12 +80,10 @@ t_bool				is_invalid_start_token(t_token **tokens);
 t_bool				has_extra_tokens(t_token **tokens);
 t_bool				is_invalid_pipe_token(t_token *token);
 
-
-
+// Cleanup
 void 	free_list(t_list *list);
 void	free_tokens(t_token *token);
 void	free_tree(t_ast *node);
-// void	free_all(t_token *token, t_ast *ast);
-void	free_all(); //TODO: i remove args, because i put them in a global variable
+void	free_all(); //TODO: I remove args from this function, because I have put them in a global variable "g_sh"
 
 #endif

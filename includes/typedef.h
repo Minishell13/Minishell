@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 13:36:29 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 15:00:19 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,18 @@ typedef struct s_ast
 	struct s_ast	*sibling;
 }				t_ast;
 
+// typedef struct s_expand_ctx
+// {
+// 	char	***arr;
+// 	char	**v;
+// 	int		*i;
+// }				t_expand_ctx;
+
 typedef struct s_expand_ctx
 {
-	char	***arr;
-	char	**v;
-	int		*i;
+	char	**arr;
+	char	*v;
+	int		i;
 }				t_expand_ctx;
 
 typedef enum s_qmode
@@ -196,6 +203,8 @@ typedef struct s_minishell
 	int		exit_code;
 	t_token	*tokens;
 	t_ast	*ast;
+	int		in;
+	int		out;
 	pid_t	pids[2];
 	int		pipefd[2][2];
 	int		tracked_fds[MAX_TRACKED_FDS];

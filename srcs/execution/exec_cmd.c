@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:31:29 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/07 15:35:59 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,6 @@ static void	execve_helper(t_ast *cmd)
 
 static void	run_builtins(t_ast *node)
 {
-	char	*cmd;
-
-	cmd = node->u_data.args[0];
 	g_sh.exit_code = exec_builtins(node);
 }
 

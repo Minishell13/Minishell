@@ -6,19 +6,18 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:21 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:22:34 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 22:18:34 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	exec_pwd(t_ast *node)
+int	exec_pwd(void)
 {
-	(void)node;
-	char *pwd;
+	char	*pwd;
 
 	pwd = getcwd(NULL, 0);
-	if (!pwd) 
+	if (!pwd)
 	{
 		pwd = get_env("PWD");
 		if (!pwd)

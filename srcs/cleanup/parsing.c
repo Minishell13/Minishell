@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:32:52 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 23:29:34 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,20 @@ void	free_tree(t_ast *node)
 
 		if (node->type == GRAM_SIMPLE_COMMAND)
 			free_string_array(node->u_data.args);
-
-		if ((node->type == GRAM_IO_REDIRECT
-			 || node->type == GRAM_REDIR_IN
-			 || node->type == GRAM_REDIR_OUT
-			 || node->type == GRAM_REDIR_APPEND
-			 || node->type == GRAM_HEREDOC))
+		else if (node->type == GRAM_HEREDOC)
+		{
+			unlink(node->u_data.redir.file);
 			free(node->u_data.redir.file);
+			free(node->u_data.redir.limiter);
+		}
+		else if (node->type == GRAM_IO_REDIRECT
+			|| node->type == GRAM_REDIR_IN
+			|| node->type == GRAM_REDIR_OUT
+			|| node->type == GRAM_REDIR_APPEND)
+		{
+			free(node->u_data.redir.file);
+		}
+
 
 		free_tree(node->child); // this will handle child + its siblings
 		free(node);

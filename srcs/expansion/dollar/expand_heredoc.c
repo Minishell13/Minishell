@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:03:53 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 21:51:06 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,14 @@ t_error	remove_quotes(t_redir *r)
 	char	*value;
 	char	*tmp;
 
-	// [Case 1] Don't containe quotes so can expand content
 	if (containe_quotes(r->limiter) == false)
 	{
+		// TODO: Seted in parsing phase
 		r->expanded = true;
 		return (SUCCESS);
 	}
-	// [Case 2] Containe quotes so remove them and can't expand content
 	i = 0;
 	value = ft_strdup("");
-	if (!value)
-		return (MALLOC_ERROR);
 	while (r->limiter[i])
 	{
 		if (is_quote(r->limiter[i]))
@@ -46,8 +43,6 @@ t_error	remove_quotes(t_redir *r)
 			continue ;
 		}
 		tmp = ft_charjoin(value, r->limiter[i]);
-		if (!tmp)
-			return (free(value), MALLOC_ERROR);
 		value = tmp;
 		i++;
 	}

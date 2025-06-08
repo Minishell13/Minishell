@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 19:26:51 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:28:16 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 22:12:43 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,5 @@ void	signals_notif(pid_t pid, int *status)
 	}
 	else
 		g_sh.exit_code = WEXITSTATUS(*status);
-
 	signal(SIGINT, sigint_handler);
 }

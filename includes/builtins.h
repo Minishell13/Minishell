@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 19:41:47 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 19:42:14 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 22:18:21 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 int		exec_env(t_ast *node);
 int		exec_export(t_ast *node);
 int		exec_unset(t_ast *node);
-int		exec_pwd(t_ast *node);
+int		exec_pwd(void);
 int		exec_cd(t_ast *node);
 int		exec_echo(t_ast *node);
 int		exec_exit(t_ast *node);
