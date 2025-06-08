@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:39:44 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:08:09 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 22:10:53 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	execute_pipeline(t_ast *node);
 t_bool	execute_redirection(t_ast *node);
 void	execute_subshell(t_ast *node);
 void	execute_and_or(t_ast *node);
-void	executor(t_ast *node);
+void	run_executor(t_ast *node);
+t_bool	executor(t_ast *node);
 
 #endif
