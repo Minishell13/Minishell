@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:05 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 14:26:47 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 22:14:03 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ please provide a relative or absolute path\n", g_sh.shell);
 	if (len > 2)
 	{
 		fdprintf(STDERR_FILENO,
-				"%s: cd: too many arguments\n", g_sh.shell);
+			"%s: cd: too many arguments\n", g_sh.shell);
 		return (EXIT_FAILURE);
 	}
 	path = node->u_data.args[1];

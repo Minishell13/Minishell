@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:05:55 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/08 22:17:36 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	exec_builtins(t_ast *node)
 	else if (ft_strlcmp("export", cmd))
 		return (exec_export(node));
 	else if (ft_strlcmp("pwd", cmd))
-		return (exec_pwd(node));
+		return (exec_pwd());
 	else if (ft_strlcmp("unset", cmd))
 		return (exec_unset(node));
 	return (EXIT_FAILURE);
