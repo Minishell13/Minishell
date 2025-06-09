@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:03:02 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:25:56 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 01:13:23 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_free_array(char **arr)
 
 void	close_all_tracked_fds(void)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < g_sh.tracked_fds_count)
@@ -48,7 +48,7 @@ void	cleanup_loop(char *line)
 	close_all_tracked_fds();
 }
 
-void	destroy()
+void	destroy(void)
 {
 	free_all();
 	close_all_tracked_fds();

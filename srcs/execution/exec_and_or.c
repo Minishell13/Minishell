@@ -6,13 +6,12 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:31:59 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 13:31:51 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 01:05:39 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-//* -------------------------------- AND_OR --------------------------------
 void	execute_and_or(t_ast *node)
 {
 	run_executor(node->child);

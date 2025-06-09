@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:46:40 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/05/31 20:16:48 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 01:22:03 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ t_ast	*parse_pipe(t_token **tokens)
 	if (!left)
 	{
 		if ((*tokens) && ((*tokens)->type == TOKEN_PIPE
-			|| (*tokens)->type == TOKEN_AND || (*tokens)->type == TOKEN_OR))
-			printf("syntax error near unexpected token `%s'",(*tokens)->value);
+				|| (*tokens)->type == TOKEN_AND || (*tokens)->type == TOKEN_OR))
+			printf("syntax error near unexpected token `%s'", (*tokens)->value);
 		return (NULL);
 	}
 	while (*tokens && (*tokens)->type == TOKEN_PIPE)
@@ -109,7 +109,7 @@ t_ast	*parse_command_list(t_token **tokens)
 			*tokens = (*tokens)->next;
 		next = parse_compound_command(tokens);
 		if (!next)
-			break;
+			break ;
 		tree_add_sibling(cur, next);
 		cur = next;
 	}

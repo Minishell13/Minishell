@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 13:34:47 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 14:46:02 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 00:44:28 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@ int	track_fd(int fd)
 {
 	if (g_sh.tracked_fds_count < MAX_TRACKED_FDS)
 		g_sh.tracked_fds[g_sh.tracked_fds_count++] = fd;
-	return fd;
+	return (fd);
 }
 
 int	track_dup(int oldfd)
 {
-	int newfd = dup(oldfd);
+	int	newfd;
+
+	newfd = dup(oldfd);
 	if (newfd >= 0)
-		return track_fd(newfd);
-	return -1;
+		return (track_fd(newfd));
+	return (-1);
 }
 
 void	restore_fds(int stdin_backup, int stdout_backup)

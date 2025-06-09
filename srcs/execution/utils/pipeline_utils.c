@@ -6,13 +6,13 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:57:34 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:39:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 00:43:20 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void setup_pipe(int i, t_bool has_next)
+void	setup_pipe(int i, t_bool has_next)
 {
 	if (has_next)
 		pipe(g_sh.pipefd[i % 2]);
@@ -51,12 +51,12 @@ void	close_pipes_in_parent(int i)
 
 void	collect_pipeline_stages(t_ast *node, t_ast **stages, int *count)
 {
-	if (!node) return;
-
+	if (!node)
+		return ;
 	if (node->type == GRAM_PIPE)
 	{
-		collect_pipeline_stages(node->child, stages, count); // left side
-		collect_pipeline_stages(node->child->sibling, stages, count); // right side
+		collect_pipeline_stages(node->child, stages, count);
+		collect_pipeline_stages(node->child->sibling, stages, count);
 	}
 	else
 	{

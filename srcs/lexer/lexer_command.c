@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hwahmane <hwahmane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:28:09 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/05/30 17:38:49 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/09 01:19:00 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,41 +37,41 @@ t_token_type	get_token_type(char *str)
 	return (TOKEN_WORD);
 }
 
-t_token *create_token(char *value)
+t_token	*create_token(char *value)
 {
-    t_token *token;
+	t_token	*token;
 
-    if (!value)
-        return (NULL);
-    token = malloc(sizeof(t_token));
-    if (!token)
-        return (NULL);
-    token->value = ft_strdup(value);
-    if (!token->value)
-    {
-        free(token);
-        return (NULL);
-    }
-    token->type = get_token_type(value);
-    token->next = NULL;
-    return (token);
+	if (!value)
+		return (NULL);
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->value = ft_strdup(value);
+	if (!token->value)
+	{
+		free(token);
+		return (NULL);
+	}
+	token->type = get_token_type(value);
+	token->next = NULL;
+	return (token);
 }
 
-void token_add_back(t_token **head, t_token *new_token)
+void	token_add_back(t_token **head, t_token *new_token)
 {
-    t_token *tmp;
+	t_token	*tmp;
 
-    if (!new_token)
-        return;
-    if (!*head)
-    {
-        *head = new_token;
-        return;
-    }
-    tmp = *head;
-    while (tmp->next)
-        tmp = tmp->next;
-    tmp->next = new_token;
+	if (!new_token)
+		return ;
+	if (!*head)
+	{
+		*head = new_token;
+		return ;
+	}
+	tmp = *head;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_token;
 }
 
 t_bool	has_unclosed_quotes(char *line)

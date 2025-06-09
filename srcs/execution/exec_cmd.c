@@ -6,17 +6,17 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/07 15:35:59 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 01:08:15 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-//* --------------------------------SIMPLE_COMMAND --------------------------------
-static void close_fds_except_std(void)
+static void	close_fds_except_std(void)
 {
-	int fd = 3;
+	int	fd;
 
+	fd = 3;
 	while (fd < MAX_TRACKED_FDS)
 	{
 		close(fd);
@@ -36,11 +36,6 @@ static void	execve_helper(t_ast *cmd)
 	free(path);
 	destroy();
 	exit(g_sh.exit_code);
-}
-
-static void	run_builtins(t_ast *node)
-{
-	g_sh.exit_code = exec_builtins(node);
 }
 
 static t_bool	run_command(t_ast *node, t_bool no_fork)
@@ -73,7 +68,10 @@ void	execute_simple_cmd(t_ast *node, t_bool no_fork)
 	if (!no_fork)
 		export_var("_", node->u_data.args[0], false, false);
 	if (is_builtins(node))
-		return (run_builtins(node));
+	{
+		g_sh.exit_code = exec_builtins(node);
+		return ;
+	}
 	pid = run_command(node, no_fork);
 	if (pid == -1)
 		return ;

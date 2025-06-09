@@ -6,17 +6,16 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:18 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 00:04:37 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 01:08:55 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-//* -------------------------------- PIPELINE --------------------------------
 static void	parent_cleanup(pid_t pids[MAX_PIPE], int i, int *status)
 {
 	int	j;
-	
+
 	j = 0;
 	while (j < i)
 		signals_notif(pids[j++], status);

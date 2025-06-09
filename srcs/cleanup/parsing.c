@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:32:52 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 23:29:34 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 01:14:42 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	free_tokens(t_token *token)
 	}
 }
 
-void free_list(t_list *list)
+void	free_list(t_list *list)
 {
-	t_list *tmp;
+	t_list	*tmp;
 
 	while (list)
 	{
 		tmp = list->next;
-		free(list);  // only free the list node itself
+		free(list);
 		list = tmp;
 	}
 }
@@ -56,7 +56,6 @@ void	free_tree(t_ast *node)
 	while (node)
 	{
 		next = node->sibling;
-
 		if (node->type == GRAM_SIMPLE_COMMAND)
 			free_string_array(node->u_data.args);
 		else if (node->type == GRAM_HEREDOC)
@@ -72,15 +71,13 @@ void	free_tree(t_ast *node)
 		{
 			free(node->u_data.redir.file);
 		}
-
-
-		free_tree(node->child); // this will handle child + its siblings
+		free_tree(node->child);
 		free(node);
 		node = next;
 	}
 }
 
-void	free_all()
+void	free_all(void)
 {
 	if (g_sh.tokens)
 		free_tokens(g_sh.tokens);

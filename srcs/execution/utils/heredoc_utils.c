@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:26:10 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 13:29:28 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 00:41:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ static int	count_heredocs(t_ast *node)
 {
 	if (!node)
 		return (0);
-	return count_heredocs(node->child)
+	return (count_heredocs(node->child)
 		+ (node->type == GRAM_HEREDOC)
-		+ count_heredocs(node->sibling);
+		+ count_heredocs(node->sibling));
 }
 
-static void exec_heredocs(t_ast *node)
+static void	exec_heredocs(t_ast *node)
 {
 	if (!node)
-		return;
+		return ;
 	if (node->type == GRAM_HEREDOC)
 	{
 		node->u_data.redir.limiter = node->u_data.redir.file;
@@ -84,7 +84,8 @@ t_bool	handle_heredocs(t_ast *root)
 	total = count_heredocs(root);
 	if (total > 16)
 	{
-		fdprintf(STDERR_FILENO, "%s: maximum here-document count exceeded\n", g_sh.shell);
+		fdprintf(STDERR_FILENO, "%s: maximum here-document count exceeded\n",
+			g_sh.shell);
 		g_sh.exit_code = 2;
 		return (false);
 	}
