@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 19:00:51 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/09 01:19:50 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:57:43 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,15 @@ t_ast	*new_tree_leaf(t_gram gram, char *s)
 	n = new_tree_node(gram);
 	if (!n)
 		return (NULL);
-	n->u_data.redir.file = strdup(s);
+	//TODO: Yo i see that you store redir file here so i fix the limiter/file issue for heredoc
+	//TODO: Just Temporarely ...
+	if (gram == GRAM_HEREDOC)
+	{
+		generate_tmpfile(&n->u_data.redir);
+		n->u_data.redir.limiter = strdup(s);
+	}
+	else
+		n->u_data.redir.file = strdup(s);
 	len = ft_strlen(n->u_data.redir.file);
 	if (gram == GRAM_HEREDOC && (n->u_data.redir.file[0] != '"'
 			&& n->u_data.redir.file[0] != '\'')
