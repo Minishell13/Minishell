@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 14:30:18 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/09 01:08:55 by abnsila          ###   ########.fr       */
+/*   Created: 2025/06/09 15:33:52 by abnsila           #+#    #+#             */
+/*   Updated: 2025/06/10 19:38:25 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	parent_cleanup(pid_t pids[MAX_PIPE], int i, int *status)
 
 static void	child_exec(t_ast *stage, int i, t_bool has_next)
 {
+	g_sh.interactive = false;
 	redirect_pipes(i, has_next);
 	close_pipes_in_child(i, has_next);
 	if (stage->type == GRAM_SIMPLE_COMMAND)
@@ -48,6 +49,7 @@ static void	pipeline_loop(t_ast **stages, int total, pid_t *pids)
 		pids[i] = fork();
 		if (pids[i] < 0)
 		{
+			fdprintf(STDERR_FILENO, "fork error\n");
 			destroy();
 			exit(EXIT_FAILURE);
 		}

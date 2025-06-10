@@ -6,11 +6,13 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:33:12 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/09 01:01:53 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 19:59:43 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+
 
 static int	parse_infile(t_redir *redir)
 {
@@ -71,7 +73,7 @@ t_bool	expand_and_redir(t_ast *node)
 	r = &node->u_data.redir;
 	if (redir(r, node->type) == false)
 	{
-		fdprintf(STDERR_FILENO, "%s: %s: %s\n",
+		fdprintf(STDERR_FILENO, REDIR_ERROR,
 			g_sh.shell, node->u_data.redir.file, strerror(errno));
 		return (false);
 	}
