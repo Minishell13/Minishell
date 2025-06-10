@@ -6,89 +6,81 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:26:10 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/09 00:41:44 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 19:42:21 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	fill_here_doc(t_redir *redir, int fd)
+static void	cleanup_heredoc(int exit_code)
+{
+	if (g_sh.heredoc_fd != -1)
+		close(g_sh.heredoc_fd);
+	destroy();
+	exit(exit_code);
+}
+
+static void	handle_sigint_heredoc(int sig)
+{
+	(void)sig;
+	cleanup_heredoc(130);
+}
+
+static void	fill_heredoc(t_redir *redir)
 {
 	char	*line;
 	size_t	line_size;
 
 	while (1)
 	{
-		ft_putstr_fd("here_doc> ", STDIN_FILENO);
-		line = get_next_line(STDIN_FILENO);
-		ft_putendl_fd(line, STDERR_FILENO);
+		line = readline("here_doc> ");
 		if (!line)
 		{
-			fdprintf(STDERR_FILENO, "\n%s: warning: here-document delimited by \
-end-of-file (wanted `Limiter')\n", g_sh.shell);
-			break ;
+			fdprintf(STDERR_FILENO, DELIMITER_ERROR, g_sh.shell, redir->limiter);
+			break;
 		}
-		line_size = ft_strlen(line) - 1;
+		line_size = ft_strlen(line);
 		if (ft_strncmp(line, redir->limiter,
 				ft_strlen(redir->limiter)) == 0
 			&& line_size == ft_strlen(redir->limiter))
+		{
+			free(line);
 			break ;
+		}
 		if (redir->expanded)
 			expand_herdoc(redir, &line);
-		ft_putstr_fd(line, fd);
+		ft_putstr_fd(line, g_sh.heredoc_fd);
+		ft_putchar_fd('\n', g_sh.heredoc_fd);
 		free(line);
 	}
-	free(line);
-	close(fd);
 }
 
-static	int	here_doc(t_redir *redir)
+t_bool	fork_heredoc(t_redir *redir)
 {
-	int		fd;
+	pid_t	pid;
+	int		status;
 
-	fd = open(redir->file, (O_WRONLY | O_CREAT | O_TRUNC), 0600);
-	if (fd > 0)
-		fill_here_doc(redir, fd);
-	return (fd);
-}
-
-static int	count_heredocs(t_ast *node)
-{
-	if (!node)
-		return (0);
-	return (count_heredocs(node->child)
-		+ (node->type == GRAM_HEREDOC)
-		+ count_heredocs(node->sibling));
-}
-
-static void	exec_heredocs(t_ast *node)
-{
-	if (!node)
-		return ;
-	if (node->type == GRAM_HEREDOC)
-	{
-		node->u_data.redir.limiter = node->u_data.redir.file;
-		generate_tmpfile(&node->u_data.redir);
-		here_doc(&node->u_data.redir);
-	}
-	exec_heredocs(node->child);
-	exec_heredocs(node->sibling);
-}
-
-t_bool	handle_heredocs(t_ast *root)
-{
-	int	total;
-
-	if (!root)
+	pid = fork();
+	if (pid == -1)
 		return (false);
-	total = count_heredocs(root);
-	if (total > 16)
+	if (pid == 0)
 	{
-		fdprintf(STDERR_FILENO, "%s: maximum here-document count exceeded\n",
-			g_sh.shell);
-		g_sh.exit_code = 2;
-		return (false);
+		g_sh.heredoc_fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+		if (g_sh.heredoc_fd < 0)
+		{
+			fdprintf(STDERR_FILENO, HEREDOC_FAILED, g_sh.shell, redir->file);
+			cleanup_heredoc(EXIT_FAILURE);
+		}
+		signal(SIGINT, handle_sigint_heredoc);
+		fill_heredoc(redir);
+		cleanup_heredoc(EXIT_SUCCESS);
 	}
-	exec_heredocs(root);
+	else
+	{
+		waitpid(pid, &status, 0);
+		signals_notif(pid, &status);
+		if (g_sh.exit_code != EXIT_SUCCESS)
+			return (false);
+	}
 	return (true);
 }

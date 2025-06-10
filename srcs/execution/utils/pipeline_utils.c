@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:57:34 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/09 00:43:20 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 17:01:06 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,14 @@
 void	setup_pipe(int i, t_bool has_next)
 {
 	if (has_next)
-		pipe(g_sh.pipefd[i % 2]);
+	{
+		if (pipe(g_sh.pipefd[i % 2]) != 0)
+		{
+			fdprintf(STDERR_FILENO, "pipe error\n");
+			destroy();
+			exit(EXIT_FAILURE);
+		}
+	}
 }
 
 void	redirect_pipes(int i, t_bool has_next)

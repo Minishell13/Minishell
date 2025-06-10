@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:32:52 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/09 01:14:42 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 16:51:34 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	free_tree(t_ast *node)
 			free_string_array(node->u_data.args);
 		else if (node->type == GRAM_HEREDOC)
 		{
-			unlink(node->u_data.redir.file);
+			if (g_sh.interactive)
+				unlink(node->u_data.redir.file);
 			free(node->u_data.redir.file);
 			free(node->u_data.redir.limiter);
 		}
