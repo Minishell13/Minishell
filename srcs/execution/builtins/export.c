@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:30 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 22:16:53 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 19:55:53 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,13 @@ static	int	export_vars(char **args)
 		{
 			if (valid_key(*args) == -1)
 			{
-				fdprintf(STDERR_FILENO,
-					"%s: export: %s: not a valid identifier\n",
-					g_sh.shell, *args);
+				fdprintf(STDERR_FILENO, INVALID_ID, g_sh.shell, *args);
 				code = EXIT_FAILURE;
 			}
 		}
 		else if (parse_input(*args) == false)
 		{
-			fdprintf(STDERR_FILENO,
-				"%s: export: %s: not a valid identifier\n", g_sh.shell, *args);
+			fdprintf(STDERR_FILENO, INVALID_ID, g_sh.shell, *args);
 			code = EXIT_FAILURE;
 		}
 		args++;

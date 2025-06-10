@@ -6,13 +6,13 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:49:54 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:22:34 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 01:12:19 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	add_shell_lvl()
+static void	add_shell_lvl(void)
 {
 	char	*lvl_value;
 	int		lvl;
@@ -27,7 +27,7 @@ static void	add_shell_lvl()
 	if (lvl >= 1000)
 	{
 		fdprintf(STDERR_FILENO,
-				"warning: shell level (%d) too high, resetting to 1\n", lvl);
+			"warning: shell level (%d) too high, resetting to 1\n", lvl);
 		lvl = 1;
 	}
 	free(lvl_value);

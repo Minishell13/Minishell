@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:48:57 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:08:25 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 00:42:23 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_path(char *cmd)
 	char	*path;
 
 	if (ft_strchr(cmd, '/'))
-		return ft_strdup(cmd);
+		return (ft_strdup(cmd));
 	i = -1;
 	while (g_sh.env[++i])
 	{

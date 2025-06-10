@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:31:37 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 12:50:13 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 19:43:01 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //* -------------------------------- SUBSHELL --------------------------------
 void	execute_subshell(t_ast *node)
 {
-	t_bool	flag;
+	t_bool		flag;
 
 	flag = true;
 	if (node->child->sibling && node->child->sibling->type == GRAM_IO_REDIRECT)

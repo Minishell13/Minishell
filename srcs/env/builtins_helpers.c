@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:17:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 13:35:46 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 01:10:59 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ void	unset_var(char *key)
 {
 	int		i;
 	size_t	key_len;
-	char	**new_env = init_arr();
+	char	**new_env;
 
 	i = 0;
+	new_env = init_arr();
 	key_len = ft_strlen(key);
 	while (g_sh.env[i])
 	{

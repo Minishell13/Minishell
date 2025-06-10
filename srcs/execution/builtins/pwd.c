@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:21 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 22:18:34 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 19:56:33 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int	exec_pwd(void)
 		pwd = get_env("PWD");
 		if (!pwd)
 		{
-			fdprintf(STDERR_FILENO,
-				"%s: pwd: %s\n", g_sh.shell, strerror(errno));
+			fdprintf(STDERR_FILENO, PWD_ERROR, g_sh.shell, strerror(errno));
 			return (EXIT_FAILURE);
 		}
 	}

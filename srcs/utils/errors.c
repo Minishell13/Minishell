@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:17:40 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:31:29 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 19:46:57 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ void	ft_perror(char *cmd, char *path)
 			break ;
 	}
 	if (!g_sh.env[i])
-		format_error("%s: %s: %s", cmd, "No such file or directory");
+		format_error(NO_FILE_DIR);
 	else if (!cmd)
-		format_error("%s: %s: %s", " ", "command not found");
+		format_error(CMD_NOT_FOUND1);
 	else if (ft_strlcmp(cmd, "/"))
-		format_error("%s: %s: %s", cmd, "Is a directory");
+		format_error(IS_DIR);
 	else if (ft_strchr(cmd, '/'))
 		format_error("%s: %s: %s", cmd, strerror(errno));
 	else
-		format_error("%s: %s: %s", cmd, "command not found");
+		format_error(CMD_NOT_FOUND2);
 	set_exit_code(path);
 }

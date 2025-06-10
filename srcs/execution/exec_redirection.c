@@ -6,18 +6,18 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:33:12 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 15:09:48 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 19:59:43 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-//* -------------------------------- IO_REDIRECTION --------------------------------
+
+
 static int	parse_infile(t_redir *redir)
 {
 	int	fd;
 
-	fdprintf(STDERR_FILENO, "in file: %s\n",redir->file);
 	fd = open(redir->file, O_RDONLY);
 	return (fd);
 }
@@ -38,6 +38,7 @@ static int	parse_outfile(t_redir *redir, t_gram type)
 static t_bool	redir(t_redir *r, t_gram type)
 {
 	int	fd;
+
 	if (type == GRAM_REDIR_IN || type == GRAM_HEREDOC)
 	{
 		fd = parse_infile(r);
@@ -66,14 +67,14 @@ static t_bool	redir(t_redir *r, t_gram type)
 t_bool	expand_and_redir(t_ast *node)
 {
 	t_redir	*r;
-	
+
 	if (expand_redir_node(node) == false)
 		return (false);
 	r = &node->u_data.redir;
 	if (redir(r, node->type) == false)
 	{
-		fdprintf(STDERR_FILENO, "%s: %s: %s\n"
-				, node->u_data.redir.file, strerror(errno));
+		fdprintf(STDERR_FILENO, REDIR_ERROR,
+			g_sh.shell, node->u_data.redir.file, strerror(errno));
 		return (false);
 	}
 	return (true);
@@ -81,7 +82,7 @@ t_bool	expand_and_redir(t_ast *node)
 
 t_bool	execute_redirection(t_ast *node)
 {
-	t_ast 	*c;
+	t_ast	*c;
 
 	c = node->child;
 	while (c)

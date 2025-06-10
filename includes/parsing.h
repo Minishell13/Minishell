@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:58:45 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/08 13:28:56 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/09 01:17:13 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,11 @@ t_bool				has_extra_tokens(t_token **tokens);
 t_bool				is_invalid_pipe_token(t_token *token);
 
 // Cleanup
-void 	free_list(t_list *list);
-void	free_tokens(t_token *token);
-void	free_tree(t_ast *node);
-void	free_all(); //TODO: I remove args from this function, because I have put them in a global variable "g_sh"
+void				free_list(t_list *list);
+void				free_tokens(t_token *token);
+void				free_tree(t_ast *node);
+//TODO: I remove args from this function
+//TODO: Because I have put them in a global variable "g_sh"
+void				free_all(void);
 
 #endif
