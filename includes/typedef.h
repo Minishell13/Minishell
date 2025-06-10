@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 15:00:19 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 20:01:06 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,8 @@
 // Error
 # include <errno.h>
 
-# define MAX_TRACKED_FDS 1024
-# define MAX_PIPE 1024
-# define READ 0
-# define WRITE 1
-
-# define SH_SUCCESS "\001\e[1;92m\002>\001\e[0m\002 "
-# define SH_FAILURE "\001\e[1;91m\002>\001\e[0m\002 "
+// Define
+# include "define.h"
 
 typedef struct s_fd_backup
 {
@@ -62,7 +57,6 @@ typedef enum e_error
 	PIPE_ERROR,
 	DUP_ERROR,
 	DUP2_ERROR,
-	REDIR_ERROR,
 	EXECVE_ERROR,
 	CMD_NOT_FOUND,
 	FILE_NOT_EXIST,
@@ -131,13 +125,6 @@ typedef struct s_ast
 	struct s_ast	*sibling;
 }				t_ast;
 
-// typedef struct s_expand_ctx
-// {
-// 	char	***arr;
-// 	char	**v;
-// 	int		*i;
-// }				t_expand_ctx;
-
 typedef struct s_expand_ctx
 {
 	char	**arr;
@@ -200,12 +187,14 @@ typedef struct s_minishell
 {
 	char	*shell;
 	char	**env;
+	t_bool	interactive;
 	int		exit_code;
 	t_token	*tokens;
 	t_ast	*ast;
 	int		in;
 	int		out;
-	pid_t	pids[2];
+	int		heredoc_fd;
+	char	*heredoc_file;
 	int		pipefd[2][2];
 	int		tracked_fds[MAX_TRACKED_FDS];
 	int		tracked_fds_count;

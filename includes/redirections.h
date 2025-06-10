@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:39:14 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 13:27:37 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 19:34:35 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "typedef.h"
 
 // Heredoc utils
+t_bool	fork_heredoc(t_redir *redir);
 t_bool	handle_heredocs(t_ast *root);
 
 // File utils
