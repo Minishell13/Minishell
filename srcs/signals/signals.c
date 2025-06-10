@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 19:26:51 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 22:12:43 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/10 19:34:02 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,18 @@
 static void	sigint_handler(int signum)
 {
 	(void)signum;
-	rl_replace_line("", 0);
-	write(STDOUT_FILENO, "\n", 1);
-	rl_on_new_line();
-	rl_redisplay();
+	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO))
+	{
+		if (g_sh.interactive)
+		{
+			rl_replace_line("", 0);
+			write(STDOUT_FILENO, "\n", 1);
+			rl_on_new_line();
+			rl_redisplay();
+		}
+		else
+			write(STDOUT_FILENO, "\n", 1);
+	}
 }
 
 void	setup_signals(void)
