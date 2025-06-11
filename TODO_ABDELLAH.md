@@ -11,3 +11,7 @@ fwefwefwfwef ef wef wef |f wef wef |f wefw fw && th rth && yt ty | (thrh | (hrt 
 
 ## Leaks:
 (< Makefile) | (> a | (< a)) >> a < a
+
+
+# setup env
+use getcwd in pwd and oldpwd

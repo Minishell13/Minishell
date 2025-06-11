@@ -65,4 +65,9 @@ fclean:			clean
 
 re:				fclean all
 
+vg:
+	 valgrind --suppressions=./readline.supp --track-fds=yes  --leak-check=full --show-leak-kinds=all ./minishell
+vgb:
+	 valgrind --suppressions=./readline.supp --track-fds=yes --leak-check=full --show-leak-kinds=all bash
+
 .PHONY:			all clean fclean re

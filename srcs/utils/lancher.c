@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:26:27 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/10 20:04:49 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/11 12:54:12 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*ft_readline(void)
 {
 	char	*line;
 
-	g_sh.interactive = isatty(STDIN_FILENO) && isatty(STDOUT_FILENO);
+	g_sh.interactive = isatty(STDIN_FILENO);
 	if (g_sh.interactive)
 	{
 		if (g_sh.exit_code)
@@ -81,7 +81,7 @@ static void	setup(char **env)
 	g_sh.shell = SHELL;
 	g_sh.in = STDIN_FILENO;
 	g_sh.out = STDOUT_FILENO;
-	g_sh.interactive = isatty(STDIN_FILENO) && isatty(STDOUT_FILENO);
+	g_sh.interactive = isatty(STDIN_FILENO);
 	setup_env(env);
 }
 
