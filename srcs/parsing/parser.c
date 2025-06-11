@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: wahmane <wahmane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:46:40 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/09 01:22:03 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/11 21:57:49 by wahmane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_ast	*parse_pipe(t_token **tokens)
 		if (is_invalid_pipe_token(*tokens))
 		{
 			free_tree(left);
-			printf("syntax error: unexpected token after '|'");
+			printf("syntax error: unexpected token after '|'\n");
 			return (NULL);
 		}
 		right = parse_command(tokens);

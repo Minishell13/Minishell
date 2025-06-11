@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_command2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: wahmane <wahmane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:39:01 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/05/31 19:34:41 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/11 21:56:08 by wahmane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,23 @@ int	read_operator_if_needed(int i, char *line, t_token **head)
 
 int	read_word_loop(int i, char *line)
 {
-	while (line[i] && !is_operator_char(line[i]) && (line[i] != 32
-			&& (line[i] < 9 || line[i] > 13)))
+	char quote = 0;
+
+	while (line[i])
 	{
-		if (line[i] == '&' && line[i + 1] == '&')
-			break ;
+		if (!quote && (line[i] == '\'' || line[i] == '"'))
+			quote = line[i];
+		else if (quote && line[i] == quote)
+			quote = 0;
+		else if (!quote && (is_operator_char(line[i]) || line[i] == ' '
+			|| (line[i] >= 9 && line[i] <= 13)))
+			break;
+
 		i++;
 	}
 	return (i);
 }
+
 
 int	handle_quotation_end(int i, char quot, char *line)
 {
