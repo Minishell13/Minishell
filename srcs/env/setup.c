@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:49:54 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/09 01:12:19 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/11 12:49:06 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ void	setup_env(char **env)
 		g_sh.env = append_arr(g_sh.env, ft_strdup(env[i]));
 		i++;
 	}
+	export_var("PWD", getcwd(NULL, 0), false, true);
 	add_shell_lvl();
 }
