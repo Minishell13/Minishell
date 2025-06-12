@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:03:53 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 21:51:06 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:50:07 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,14 @@ t_bool	containe_quotes(char *s)
 	return (false);
 }
 
-t_error	remove_quotes(t_redir *r)
+t_bool	remove_quotes(t_redir *r)
 {
 	int		i;
 	char	*value;
 	char	*tmp;
 
 	if (containe_quotes(r->limiter) == false)
-	{
-		// TODO: Seted in parsing phase
-		r->expanded = true;
-		return (SUCCESS);
-	}
+		return (true);
 	i = 0;
 	value = ft_strdup("");
 	while (r->limiter[i])
@@ -48,27 +44,27 @@ t_error	remove_quotes(t_redir *r)
 	}
 	free(r->limiter);
 	r->limiter = value;
-	return (SUCCESS);
+	return (true);
 }
 
-t_error	expand_herdoc(t_redir *r, char **line)
+t_bool	expand_herdoc(t_redir *r, char **line)
 {
 	int		i;
 	char	*value;
 
 	if (r->expanded == false)
-		return (SUCCESS);
+		return (true);
 	i = 0;
 	value = ft_strdup("");
 	if (!value)
-		return (MALLOC_ERROR);
+		return (false);
 	while ((*line)[i])
 	{
 		if (is_quote((*line)[i]))
 		{
 			value = ft_charjoin(value, (*line)[i]);
 			if (!value)
-				return (free(value), MALLOC_ERROR);
+				return (free(value), false);
 			i++;
 			continue ;
 		}
@@ -76,5 +72,5 @@ t_error	expand_herdoc(t_redir *r, char **line)
 	}
 	free((*line));
 	(*line) = value;
-	return (SUCCESS);
+	return (true);
 }

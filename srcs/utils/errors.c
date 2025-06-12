@@ -6,17 +6,17 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:17:40 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/10 19:46:57 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:17:02 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	set_exit_code(char *path)
+static void	set_exit_code(char *cmd)
 {
-	if (path && (ft_strlcmp(path, ".") || ft_strlcmp(path, "..")))
+	if (cmd && ft_strlcmp(cmd, "."))
 		g_sh.exit_code = 2;
-	else if (errno == ENOENT)
+	else if (errno == ENOENT || (cmd && ft_strlcmp(cmd, "..")))
 		g_sh.exit_code = NO_FILE_OR_DIR;
 	else if (errno == EACCES)
 		g_sh.exit_code = PERMISSION_DENIED;
@@ -43,7 +43,7 @@ static void	format_error(char *format, char *arg, char *error)
 	write(STDERR_FILENO, buffer, ft_strlen(buffer));
 }
 
-void	ft_perror(char *cmd, char *path)
+void	ft_perror(char *cmd)
 {
 	int	i;
 
@@ -54,14 +54,14 @@ void	ft_perror(char *cmd, char *path)
 			break ;
 	}
 	if (!g_sh.env[i])
-		format_error(NO_FILE_DIR);
+		format_error("%s: %s: %s", cmd, NO_FILE_DIR);
 	else if (!cmd)
-		format_error(CMD_NOT_FOUND1);
+		format_error("%s: %s: %s", " ", CMD_NOT_FOUND);
 	else if (ft_strlcmp(cmd, "/"))
-		format_error(IS_DIR);
+		format_error("%s: %s: %s", cmd, IS_DIR);
 	else if (ft_strchr(cmd, '/'))
 		format_error("%s: %s: %s", cmd, strerror(errno));
 	else
-		format_error(CMD_NOT_FOUND2);
-	set_exit_code(path);
+		format_error("%s: %s: %s", cmd, CMD_NOT_FOUND);
+	set_exit_code(cmd);
 }

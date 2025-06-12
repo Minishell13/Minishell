@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:26:27 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/11 12:54:12 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:27:42 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*ft_readline(void)
 	else
 	{
 		line = get_next_line(STDIN_FILENO);
-		trim_newline(line);
+		ft_trim_newline(line);
 		return (line);
 	}
 	if (!line)

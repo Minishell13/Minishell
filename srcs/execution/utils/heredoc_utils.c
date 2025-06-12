@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:26:10 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/10 19:42:21 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:24:30 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ static void	fill_heredoc(t_redir *redir)
 	char	*line;
 	size_t	line_size;
 
-	while (1)
+	while (true)
 	{
 		line = readline("here_doc> ");
 		if (!line)
 		{
-			fdprintf(STDERR_FILENO, DELIMITER_ERROR, g_sh.shell, redir->limiter);
-			break;
+			fdprintf(STDERR_FILENO, LIMITER_ERROR, g_sh.shell, redir->limiter);
+			break ;
 		}
 		line_size = ft_strlen(line);
 		if (ft_strncmp(line, redir->limiter,
@@ -77,7 +77,6 @@ t_bool	fork_heredoc(t_redir *redir)
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
 		signals_notif(pid, &status);
 		if (g_sh.exit_code != EXIT_SUCCESS)
 			return (false);

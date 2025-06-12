@@ -1,21 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   includes.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 10:35:34 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/12 15:27:35 by abnsila          ###   ########.fr       */
+/*   Created: 2025/06/12 18:07:49 by abnsila           #+#    #+#             */
+/*   Updated: 2025/06/12 18:08:23 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#define INCLUDES_H
+#ifdef INCLUDES_H
 
-# include "typedef.h"
+// Libft
+# include "../Libft/includes/libft.h"
 
-void	ft_perror(char *cmd);
-void	launch_shell(char **env);
+// Log
+# include <stdio.h>
+
+// Directory
+# include <dirent.h> 
+
+// Readline
+# include <readline/readline.h>
+# include <readline/history.h>
+
+// Time
+# include <sys/wait.h>
+
+// Signals
+# include <signal.h>
+
+// Utils function
+# include <stdlib.h>
+# include <string.h>
+
+// Error
+# include <errno.h>
+
+// Define
+# include "define.h"
 
 #endif
