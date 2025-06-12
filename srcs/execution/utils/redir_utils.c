@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 13:34:47 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/09 23:34:13 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:24:56 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	generate_tmpfile(t_redir *redir)
 	char	*temp;
 
 	temp = ft_itoa((unsigned long)(&(redir->limiter)));
-	
 	if (!temp)
 	{
 		redir->file = ft_strdup("/tmp/heredoc");
