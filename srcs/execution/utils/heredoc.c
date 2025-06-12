@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 19:31:50 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/10 19:39:42 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:21:14 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_bool	exec_heredocs(t_ast *node)
 		if (here_doc(&node->u_data.redir) == false)
 			return (false);
 	}
-	if  (exec_heredocs(node->child) == false)
+	if (exec_heredocs(node->child) == false)
 		return (false);
 	if (exec_heredocs(node->sibling) == false)
 		return (false);
