@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 16:31:02 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 21:55:41 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:51:56 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 // Expand Heredoc
 t_bool	containe_quotes(char *s);
-t_error	remove_quotes(t_redir *r);
-t_error	expand_herdoc(t_redir *r, char **line);
+t_bool	remove_quotes(t_redir *r);
+t_bool	expand_herdoc(t_redir *r, char **line);
 
 // Expand Var Utils
 t_quote	is_quote(char c);

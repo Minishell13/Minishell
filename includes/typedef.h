@@ -6,41 +6,14 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/10 20:01:06 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:08:45 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPEDEF_H
 # define TYPEDEF_H
 
-// Libft
-# include "../Libft/includes/libft.h"
-
-// Log
-# include <stdio.h>
-
-// Directory
-# include <dirent.h> 
-
-// Readline
-# include <readline/readline.h>
-# include <readline/history.h>
-
-// Time
-# include <sys/wait.h>
-
-// Signals
-# include <signal.h>
-
-// Utils function
-# include <stdlib.h>
-# include <string.h>
-
-// Error
-# include <errno.h>
-
-// Define
-# include "define.h"
+# include "includes.h"
 
 typedef struct s_fd_backup
 {
@@ -48,22 +21,10 @@ typedef struct s_fd_backup
 	int	out;
 }				t_fd_backup;
 
-typedef enum e_error
-{
-	SUCCESS,
-	ERROR,
-	MALLOC_ERROR,
-	FORK_ERROR,
-	PIPE_ERROR,
-	DUP_ERROR,
-	DUP2_ERROR,
-	EXECVE_ERROR,
-	CMD_NOT_FOUND,
-	FILE_NOT_EXIST,
-}			t_error;
-
 typedef enum e_exit_code
 {
+	ERROR = 1,
+	FAILURE = 2,
 	NO_FILE_OR_DIR = 127,
 	PERMISSION_DENIED = 126,
 }			t_exit_code;
@@ -85,15 +46,10 @@ typedef enum s_token_type
 
 typedef enum s_gram
 {
-	UNKNOWN,
 	GRAM_COMPLETE_COMMAND,
-	GRAM_COMMAND_LIST,
-	GRAM_COMPOUND_COMMAND,
 	GRAM_PIPE,
-	GRAM_COMMAND,
 	GRAM_SUBSHELL,
 	GRAM_SIMPLE_COMMAND,
-	GRAM_WORD_ARRAY,
 	GRAM_IO_REDIRECT,
 	GRAM_OPERATOR_AND,
 	GRAM_OPERATOR_OR,
@@ -102,8 +58,6 @@ typedef enum s_gram
 	GRAM_REDIR_OUT,
 	GRAM_REDIR_APPEND,
 	GRAM_HEREDOC,
-	GRAM_FILENAME,
-	GRAM_LINEBREAK
 }					t_gram;
 
 typedef struct s_redir
@@ -125,34 +79,6 @@ typedef struct s_ast
 	struct s_ast	*sibling;
 }				t_ast;
 
-typedef struct s_expand_ctx
-{
-	char	**arr;
-	char	*v;
-	int		i;
-}				t_expand_ctx;
-
-typedef enum s_qmode
-{
-	DEFAULT,
-	LITERAL,
-	EXPAND
-}				t_qmode;
-
-typedef enum s_quote
-{
-	NONE,
-	SINGLE_Q,
-	DOUBLE_Q
-}				t_quote;
-
-typedef struct s_qp
-{
-	char	*str;
-	char	*mask;
-}				t_qp;
-
-//!-------------------------- Parsing types ---------------------------------
 typedef struct s_token
 {
 	t_token_type	type;
@@ -181,7 +107,33 @@ typedef struct s_parse_data
 	t_list			*words;
 	t_bool			flag;
 }					t_parse_data;
-//!------------------------------------------------------
+
+typedef struct s_expand_ctx
+{
+	char	**arr;
+	char	*v;
+	int		i;
+}				t_expand_ctx;
+
+typedef enum s_qmode
+{
+	DEFAULT,
+	LITERAL,
+	EXPAND
+}				t_qmode;
+
+typedef enum s_quote
+{
+	NONE,
+	SINGLE_Q,
+	DOUBLE_Q
+}				t_quote;
+
+typedef struct s_qp
+{
+	char	*str;
+	char	*mask;
+}				t_qp;
 
 typedef struct s_minishell
 {

@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:58:45 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/09 01:17:13 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:12:07 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,6 @@
 # define PARSING_H
 
 # include "typedef.h"
-
-// lexer
-int					is_operator_char(char c);
-int					operators(int i, char *line, t_token **head);
-int					read_word(int i, char *line, t_token **head);
-t_token				*lexer(char *line);
-
-// lexer_command
-t_token				*create_token(char *value);
-void				token_add_back(t_token **head, t_token *new_token);
-t_token_type		get_token_type(char *str);
-int					read_quoted_word(int i, char *line);
-t_bool				has_unclosed_quotes(char *line);
-
-// lexer_command2
-int					read_quoted_if_needed(int i, char *line, char *quot);
-int					read_operator_if_needed(int i, char *line, t_token **head);
-int					read_word_loop(int i, char *line);
-int					handle_quotation_end(int i, char quot, char *line);
-t_ast				*parse_subshell_redirs(t_token **tokens, t_ast *inner,
-						t_ast **redir_list);
 
 // tree_array
 t_ast				*new_tree_node(t_gram gram);
@@ -81,11 +60,9 @@ t_bool				has_extra_tokens(t_token **tokens);
 t_bool				is_invalid_pipe_token(t_token *token);
 
 // Cleanup
-void				free_list(t_list *list);
-void				free_tokens(t_token *token);
-void				free_tree(t_ast *node);
-//TODO: I remove args from this function
-//TODO: Because I have put them in a global variable "g_sh"
-void				free_all(void);
+// void				free_list(t_list *list);
+// void				free_tokens(t_token *token);
+// void				free_tree(t_ast *node);
+// void				free_all(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 20:11:20 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/03 20:36:15 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:12:40 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "typedef.h"
+# include "lexer.h"
 # include "parsing.h"
 # include "signals.h"
 # include "env.h"

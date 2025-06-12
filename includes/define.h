@@ -6,14 +6,13 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 19:35:02 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/10 19:59:55 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:24:07 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINE_H
 # define DEFINE_H
 
-//TODO APPLY FROM 1337 PCs
 # define MAX_TRACKED_FDS 1024
 # define MAX_PIPE 1024
 # define READ 0
@@ -25,20 +24,19 @@
 # define SH_FAILURE "\001\e[1;91m\002>\001\e[0m\002 "
 
 // Heredoc
-# define DELIMITER_ERROR "%s: warning: here-document delimited by end-of-file (wanted `%s`)\n"
+# define LIMITER_ERROR "%s: warning: here-document delimited by \
+end-of-file (wanted `%s`)\n"
 # define HEREDOC_FAILED "%s: %s: Failed to create heredoc file\n"
 # define HEREDOC_MAX "%s: maximum here-document count exceeded\n"
 
 // CMD
-# define CMD_NOT_FOUND1 "%s: %s: %s", " ", "command not found"
-# define CMD_NOT_FOUND2 "%s: %s: %s", cmd, "command not found"
-# define IS_DIR "%s: %s: %s", cmd, "Is a directory"
-# define NO_FILE_DIR "%s: %s: %s", cmd, "No such file or directory"
+# define CMD_NOT_FOUND "command not found"
+# define IS_DIR "Is a directory"
+# define NO_FILE_DIR "No such file or directory"
 
 // REDIR
 # define REDIR_ERROR "%s: %s: %s\n"
 # define TOO_REDIR "%s: %s: ambiguous redirect\n"
-
 
 // CD - EXIT
 # define NO_PATH "%s: cd: \
@@ -59,8 +57,5 @@ allowed\n"
 
 // PWD
 # define PWD_ERROR "%s: pwd: %s\n"
-
-
-
 
 #endif
