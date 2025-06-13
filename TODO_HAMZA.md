@@ -25,7 +25,7 @@ COMPLETE_COMMAND
 >  daf "E"F "EG"
 COMPLETE_COMMAND
   SIMPLE_COMMAND: [ daf ,  "E"F " ,  EG" ] ❌
-  SIMPLE_COMMAND: [ daf ,  "E"F ,  "EG" ] ❌
+  SIMPLE_COMMAND: [ daf ,  "E"F ,  "EG" ]  ✅
 
 # Error msg:
 ✅> (((((((((()))))))))
@@ -92,4 +92,3 @@ fwefwefwfwef ef wef wef |f wef wef |f wefw fw && th rth && yt ty | (thrh | (hrt 
 - This is syntax error, but there is leaks
 
 # Check after each syntax error to properly free all allocated memory
-
