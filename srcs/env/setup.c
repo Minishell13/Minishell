@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:49:54 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/11 12:49:06 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/16 17:56:04 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static void	add_shell_lvl(void)
 	lvl = ft_atoi(lvl_value) + 1;
 	if (lvl >= 1000)
 	{
-		fdprintf(STDERR_FILENO,
-			"warning: shell level (%d) too high, resetting to 1\n", lvl);
+		fdprintf(STDERR_FILENO, SHLVL_ERROR, lvl);
 		lvl = 1;
 	}
 	free(lvl_value);
