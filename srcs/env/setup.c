@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:49:54 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/16 17:56:04 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/16 21:29:10 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	setup_env(char **env)
 
 	i = 0;
 	g_sh.env = init_arr();
-	if (!g_sh.env)
+	if (!env || !g_sh.env)
 		return ;
 	while (env[i])
 	{
