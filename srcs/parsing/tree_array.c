@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 19:00:51 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/09 17:57:43 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/16 17:47:08 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_ast	*new_tree_leaf(t_gram gram, char *s)
 	if (!n)
 		return (NULL);
 	//TODO: Yo i see that you store redir file here so i fix the limiter/file issue for heredoc
-	//TODO: Just Temporarely ...
+	//TODO: Just Temporarely, now the redir.file hold named file, and redir.limiter hold EOF string for heredoc ...
 	if (gram == GRAM_HEREDOC)
 	{
 		generate_tmpfile(&n->u_data.redir);
@@ -50,10 +50,9 @@ t_ast	*new_tree_leaf(t_gram gram, char *s)
 	else
 		n->u_data.redir.file = strdup(s);
 	len = ft_strlen(n->u_data.redir.file);
-	if (gram == GRAM_HEREDOC && (n->u_data.redir.file[0] != '"'
-			&& n->u_data.redir.file[0] != '\'')
-		&& (n->u_data.redir.file[len - 1] != '"'
-			&& n->u_data.redir.file[len - 1] != '\''))
+	// TODO: I also remove the old expanded check, by just searching for quotes (', ")
+	if (gram == GRAM_HEREDOC
+		&& !containe_quotes(n->u_data.redir.limiter))
 		n->u_data.redir.expanded = true;
 	return (n);
 }

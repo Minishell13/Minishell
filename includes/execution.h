@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:39:44 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/08 22:10:53 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/16 20:03:15 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_path(char *cmd);
 
 // PIPE Helper
 void	setup_pipe(int i, t_bool has_next);
-void	redirect_pipes(int i, t_bool has_next);
+t_bool	redirect_pipes(int i, t_bool has_next);
 void	close_pipes_in_child(int i, t_bool has_next);
 void	close_pipes_in_parent(int i);
 void	collect_pipeline_stages(t_ast *node, t_ast **stages, int *count);

@@ -49,7 +49,7 @@ syntax error near unexpected token `&&'>
 syntax error near unexpected token `||'>
 
 # After each error you must set the exit code to 2, use this:
-g_sh.exit_code = 2;
+g_sh.exit_code = FAILURE;
 
 # Leaks:
 > cat <<

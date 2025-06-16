@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/12 19:15:58 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/16 18:46:41 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void	execute_simple_cmd(t_ast *node, t_bool no_fork)
 	t_bool	flag;
 
 	expand_cmd_node(node);
-	if (!no_fork)
-		export_var("_", node->u_data.args[0], false, false);
 	if (is_builtins(node))
 		return (run_builtins(node));
 	flag = true;

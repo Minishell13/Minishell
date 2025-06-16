@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:48:06 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/10 19:53:52 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/16 17:06:08 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static	t_bool	check_exit(char **args)
 			return (false);
 		}
 		fdprintf(STDERR_FILENO, EXIT_ERROR, g_sh.shell, args[1]);
-		g_sh.exit_code = 2;
+		g_sh.exit_code = FAILURE;
 		return (true);
 	}
 	return (true);

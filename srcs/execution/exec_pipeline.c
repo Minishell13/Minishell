@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 15:33:52 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/10 19:38:25 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/16 21:25:49 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ static void	parent_cleanup(pid_t pids[MAX_PIPE], int i, int *status)
 static void	child_exec(t_ast *stage, int i, t_bool has_next)
 {
 	g_sh.interactive = false;
-	redirect_pipes(i, has_next);
-	close_pipes_in_child(i, has_next);
-	if (stage->type == GRAM_SIMPLE_COMMAND)
-		execute_simple_cmd(stage, true);
-	else
-		run_executor(stage);
+	if (redirect_pipes(i, has_next))
+	{
+		close_pipes_in_child(i, has_next);
+		if (stage->type == GRAM_SIMPLE_COMMAND)
+			execute_simple_cmd(stage, true);
+		else
+			run_executor(stage);
+	}
 	destroy();
 	exit(g_sh.exit_code);
 }
@@ -42,7 +44,7 @@ static void	pipeline_loop(t_ast **stages, int total, pid_t *pids)
 	i = 0;
 	while (i < total)
 	{
-		has_next = 0;
+		has_next = false;
 		if (i < total - 1)
 			has_next = true;
 		setup_pipe(i, has_next);

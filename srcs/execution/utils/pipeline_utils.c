@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:57:34 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/10 17:01:06 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/16 21:26:10 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,19 @@ void	setup_pipe(int i, t_bool has_next)
 	}
 }
 
-void	redirect_pipes(int i, t_bool has_next)
+t_bool	redirect_pipes(int i, t_bool has_next)
 {
 	if (i > 0)
-		dup2(g_sh.pipefd[(i + 1) % 2][READ], STDIN_FILENO);
+	{
+		if (dup2(g_sh.pipefd[(i + 1) % 2][READ], STDIN_FILENO) < 0)
+			return (false);
+	}
 	if (has_next)
-		dup2(g_sh.pipefd[i % 2][WRITE], STDOUT_FILENO);
+	{
+		if (dup2(g_sh.pipefd[i % 2][WRITE], STDOUT_FILENO) < 0)
+			return (false);
+	}
+	return (true);
 }
 
 void	close_pipes_in_child(int i, t_bool has_next)

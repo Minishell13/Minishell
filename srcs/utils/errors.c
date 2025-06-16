@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:17:40 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/12 18:17:02 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/16 17:06:08 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	set_exit_code(char *cmd)
 {
 	if (cmd && ft_strlcmp(cmd, "."))
-		g_sh.exit_code = 2;
+		g_sh.exit_code = FAILURE;
 	else if (errno == ENOENT || (cmd && ft_strlcmp(cmd, "..")))
 		g_sh.exit_code = NO_FILE_OR_DIR;
 	else if (errno == EACCES)
