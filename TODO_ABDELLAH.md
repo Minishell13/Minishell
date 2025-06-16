@@ -1,8 +1,4 @@
 # TODOS:
 
 - //TODO: Test utils, and Test with friends to catch edge cases
-
-CTRL + c in interactive mode -> code 130
-
-
-if cmd faill -> code = same
+- //TODO: The export is not like env the vars is sorted, also it srore unsigned vars (just the key)
