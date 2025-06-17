@@ -33,19 +33,19 @@ t_bool	check_subshell_errors(t_ast *inner, t_token **tokens,
 	if (inner->sibling)
 	{
 		g_sh.exit_code = FAILURE;
-		return (fdprintf(STDERR_FILENO ,S_E3), false);
+		return (fdprintf(STDERR_FILENO, S_E3), false);
 	}
 	if (!consume_token_type(tokens, TOKEN_CPARENTHES))
 	{
 		g_sh.exit_code = FAILURE;
-		return (fdprintf(STDERR_FILENO ,S_E4), false);
+		return (fdprintf(STDERR_FILENO, S_E4), false);
 	}
 	*after_paren = *tokens;
 	skip_empty_tokens(after_paren);
 	if (*after_paren && (*after_paren)->type == TOKEN_OPARENTHES)
 	{
 		g_sh.exit_code = FAILURE;
-		return (fdprintf(STDERR_FILENO ,S_E5), false);
+		return (fdprintf(STDERR_FILENO, S_E5), false);
 	}
 	return (true);
 }
@@ -57,7 +57,7 @@ t_bool	is_invalid_start_token(t_token **tokens)
 		*tokens = (*tokens)->next;
 	if (*tokens && (*tokens)->type == TOKEN_CPARENTHES)
 	{
-		fdprintf(STDERR_FILENO ,S_E6);
+		fdprintf(STDERR_FILENO, S_E6);
 		g_sh.exit_code = FAILURE;
 		return (true);
 	}
@@ -73,12 +73,12 @@ t_bool	has_extra_tokens(t_token **tokens)
 		if ((*tokens)->type == TOKEN_CPARENTHES)
 		{
 			g_sh.exit_code = FAILURE;
-			fdprintf(STDERR_FILENO ,S_E6);
+			fdprintf(STDERR_FILENO, S_E6);
 		}
 		else
 		{
 			g_sh.exit_code = FAILURE;
-			fdprintf(STDERR_FILENO ,S_E7);
+			fdprintf(STDERR_FILENO, S_E7);
 		}
 		return (true);
 	}
@@ -88,10 +88,7 @@ t_bool	has_extra_tokens(t_token **tokens)
 // ------------------- parse_pipe
 t_bool	is_invalid_pipe_token(t_token *token)
 {
-	return (!token
-		|| token->type == TOKEN_CPARENTHES
-		|| token->type == TOKEN_PIPE
-		|| token->type == TOKEN_AND
+	return (!token || token->type == TOKEN_CPARENTHES
+		|| token->type == TOKEN_PIPE || token->type == TOKEN_AND
 		|| token->type == TOKEN_OR);
 }
-
