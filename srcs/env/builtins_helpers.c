@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:17:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/09 01:10:59 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 12:50:08 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	export_var(char *k, char *v, t_bool alcd1, t_bool alcd2)
 	add_var(key, val);
 	free(key);
 	free(val);
+	setup_declare_env();
 }
 
 void	unset_var(char *key)
@@ -82,4 +83,5 @@ void	unset_var(char *key)
 	}
 	clear_arr(g_sh.env);
 	g_sh.env = new_env;
+	setup_declare_env();
 }
