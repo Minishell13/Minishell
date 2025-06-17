@@ -6,13 +6,12 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:28:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 14:49:25 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:33:46 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// ------------------- parse_simple_command functions
 int	count_words(t_list *word_list)
 {
 	int	count;

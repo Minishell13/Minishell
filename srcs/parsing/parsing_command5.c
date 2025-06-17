@@ -6,13 +6,12 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 13:36:33 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 13:51:30 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:34:17 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// pipe functions
 t_ast	*handle_pipe_error(t_ast *left)
 {
 	free_tree(left);
@@ -61,7 +60,6 @@ t_ast	*parse_pipe_loop(t_ast *left, t_token **tokens)
 	return (left);
 }
 
-// simple command functions
 void	free_parse_data(t_parse_data *data, int free_rlist)
 {
 	free(data->cmd);

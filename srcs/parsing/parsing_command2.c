@@ -6,13 +6,12 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:36:09 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 14:49:34 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:33:53 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// ------------------- parse_redirect_list functions
 void	skip_empty_tokens(t_token **tokens)
 {
 	while (*tokens && (*tokens)->next && (*tokens)->type == TOKEN_EMPTY)
@@ -58,7 +57,6 @@ int	handle_redirection(t_token **tokens, t_ast *list)
 	return (1);
 }
 
-// ------------------- parse_compound_command
 t_ast	*handle_compound_op(t_token **tokens, t_ast *left, t_token_type op)
 {
 	t_ast	*right;
