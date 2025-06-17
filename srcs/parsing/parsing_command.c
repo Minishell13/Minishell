@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:28:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 11:26:12 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:18:37 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,13 @@ t_bool	fill_args(t_ast *cmd, t_list *words)
 
 t_bool	has_subshell_error(t_token **tokens)
 {
-	t_token *after;
+	t_token	*after;
+	t_token	*newpos;
+	char	*bad;
 
 	after = NULL;
+	bad = NULL;
+	newpos = NULL;
 	if (*tokens && (*tokens)->type == TOKEN_OPARENTHES)
 	{
 		skip_empty_tokens(tokens);
@@ -91,7 +95,7 @@ t_bool	has_subshell_error(t_token **tokens)
 			g_sh.exit_code = FAILURE;
 		}
 		else
-			parse_subshell(tokens, after);
+			parse_subshell(tokens, after, newpos, bad);
 		return (true);
 	}
 	return (false);

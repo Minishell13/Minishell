@@ -6,33 +6,34 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:44:16 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 13:08:41 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:15:10 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_ast	*parse_subshell(t_token **tokens, t_token *after)
+t_ast	*parse_subshell(t_token **tokens, t_token *after, t_token *newpos,
+		char *bad)
 {
 	t_ast	*node;
 	t_ast	*inner;
 	t_ast	*redir_list;
 	t_token	*after_paren;
-	t_token *newpos;
-	char *bad;
 
-    if (check_nested_invalid_after_paren(*tokens, &newpos, &bad)) {
-        *tokens = newpos;
-        fdprintf(STDERR_FILENO, S_E, bad);
-        g_sh.exit_code = FAILURE;
-        return NULL;
-    }
-    if (check_nested_empty(*tokens, &after)) {
-        *tokens = after;
+	if (check_nested_invalid_after_paren(*tokens, &newpos, &bad))
+	{
+		*tokens = newpos;
+		fdprintf(STDERR_FILENO, S_E, bad);
+		g_sh.exit_code = FAILURE;
+		return (NULL);
+	}
+	if (check_nested_empty(*tokens, &after))
+	{
+		*tokens = after;
 		fdprintf(STDERR_FILENO, S_E2);
 		g_sh.exit_code = FAILURE;
-        return NULL;
-    }
+		return (NULL);
+	}
 	if (!consume_token_type(tokens, TOKEN_OPARENTHES))
 		return (NULL);
 	skip_empty_tokens(tokens);

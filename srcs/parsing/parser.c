@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:46:40 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 11:46:58 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:20:20 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,17 @@
 t_ast	*parse_command(t_token **tokens)
 {
 	t_token	*after;
+	t_token	*newpos;
+	char	*bad;
 
 	after = NULL;
+	bad = NULL;
+	newpos = NULL;
 	if (!tokens || !*tokens)
 		return (NULL);
 	if (*tokens && ((*tokens)->type == TOKEN_OPARENTHES
 			|| (*tokens)->type == TOKEN_CPARENTHES))
-		return (parse_subshell(tokens, after));
+		return (parse_subshell(tokens, after, newpos, bad));
 	return (parse_simple_command(tokens));
 }
 
@@ -85,10 +89,7 @@ t_ast	*parse_compound_command(t_token **tokens)
 		*tokens = (*tokens)->next;
 		right = handle_compound_op(tokens, left, op);
 		if (!right)
-		{
-			free_tree(left);
-			return (NULL);
-		}
+			return (free_tree(left), NULL);
 		left = right;
 		flag = false;
 	}

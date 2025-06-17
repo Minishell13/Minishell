@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:58:45 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 13:08:29 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:16:10 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ t_ast				*parse_command_list(t_token **tokens);
 t_ast				*parse_complete_command(t_token **tokens);
 
 // Parser2
-t_ast				*parse_subshell(t_token **tokens, t_token *after);
-// t_ast				*parse_redirect_list(t_token **tokens);
+t_ast				*parse_subshell(t_token **tokens, t_token *after,
+						t_token *newpos, char	*bad);
 t_ast				*parse_simple_command(t_token **tokens);
 
 // parsing_command
