@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:46:40 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 13:36:15 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:49:13 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ t_ast	*parse_pipe(t_token **tokens)
 		if ((*tokens) && ((*tokens)->type == TOKEN_PIPE
 				|| (*tokens)->type == TOKEN_AND || (*tokens)->type == TOKEN_OR))
 			fdprintf(STDERR_FILENO, S_E, (*tokens)->value);
-		g_sh.exit_code = FAILURE;
 		return (NULL);
 	}
 	return (parse_pipe_loop(left, tokens));

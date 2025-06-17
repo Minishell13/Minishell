@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:53:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 13:02:28 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:50:12 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,17 @@ t_bool	check_subshell_errors(t_ast *inner, t_token **tokens,
 {
 	if (!inner)
 	{
-		g_sh.exit_code = FAILURE;
 		return (false);
 	}
 	skip_empty_tokens(tokens);
 	if (inner->sibling)
-	{
-		g_sh.exit_code = FAILURE;
 		return (fdprintf(STDERR_FILENO, S_E3), false);
-	}
 	if (!consume_token_type(tokens, TOKEN_CPARENTHES))
-	{
-		g_sh.exit_code = FAILURE;
 		return (fdprintf(STDERR_FILENO, S_E4), false);
-	}
 	*after_paren = *tokens;
 	skip_empty_tokens(after_paren);
 	if (*after_paren && (*after_paren)->type == TOKEN_OPARENTHES)
-	{
-		g_sh.exit_code = FAILURE;
 		return (fdprintf(STDERR_FILENO, S_E5), false);
-	}
 	return (true);
 }
 
@@ -58,7 +48,6 @@ t_bool	is_invalid_start_token(t_token **tokens)
 	if (*tokens && (*tokens)->type == TOKEN_CPARENTHES)
 	{
 		fdprintf(STDERR_FILENO, S_E6);
-		g_sh.exit_code = FAILURE;
 		return (true);
 	}
 	return (false);
@@ -71,15 +60,9 @@ t_bool	has_extra_tokens(t_token **tokens)
 	if (*tokens)
 	{
 		if ((*tokens)->type == TOKEN_CPARENTHES)
-		{
-			g_sh.exit_code = FAILURE;
-			fdprintf(STDERR_FILENO, S_E6);
-		}
+				fdprintf(STDERR_FILENO, S_E6);
 		else
-		{
-			g_sh.exit_code = FAILURE;
 			fdprintf(STDERR_FILENO, S_E7);
-		}
 		return (true);
 	}
 	return (false);
