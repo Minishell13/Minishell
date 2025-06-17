@@ -6,11 +6,48 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 11:49:54 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/16 21:29:10 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 13:08:59 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static void	swap_env(char **a, char **b)
+{
+	char	*tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+void	setup_declare_env(void)
+{
+	int		i;
+	int		j;
+
+	clear_arr(g_sh.declare_env);
+	g_sh.declare_env = init_arr();
+	if (!g_sh.env || !g_sh.declare_env)
+		return ;
+	i = 0;
+	while (g_sh.env[i])
+		g_sh.declare_env = append_arr(g_sh.declare_env,
+				ft_strdup(g_sh.env[i++]));
+	i = 0;
+	while (g_sh.declare_env[i])
+	{
+		j = i + 1;
+		while (g_sh.declare_env[j])
+		{
+			if (ft_strncmp(g_sh.declare_env[i],
+					g_sh.declare_env[j], ft_strlen(g_sh.declare_env[j])) > 0)
+				swap_env(&g_sh.declare_env[i], &g_sh.declare_env[j]);
+			j++;
+		}
+		i++;
+	}
+}
 
 static void	add_shell_lvl(void)
 {
@@ -48,4 +85,5 @@ void	setup_env(char **env)
 	}
 	export_var("PWD", getcwd(NULL, 0), false, true);
 	add_shell_lvl();
+	setup_declare_env();
 }

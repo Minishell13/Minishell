@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:47:30 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/10 19:55:53 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 12:53:51 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static	int	print_export_list(void)
 	int	i;
 
 	i = 0;
-	while (g_sh.env[i])
+	while (g_sh.declare_env[i])
 	{
-		if (g_sh.env[i])
-			printf("declare -x %s\n", g_sh.env[i]);
+		if (g_sh.declare_env[i])
+			printf("declare -x %s\n", g_sh.declare_env[i]);
 		i++;
 	}
 	return (EXIT_SUCCESS);

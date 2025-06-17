@@ -6,23 +6,29 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 19:48:06 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/16 17:06:08 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:43:30 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static	t_bool	check_exit(char **args)
+static	t_bool	check_exit(char **args, int len)
 {
-	int	len;
+	t_bool	overflow;
+	long	value;
 
-	len = len_arr(args);
-	if (len_arr(args) == 2 && ft_isnumber(args[1]))
+	if (len == 2 && ft_isnumber(args[1]))
 	{
-		g_sh.exit_code = ft_atoi(args[1]);
-		return (true);
+		value = ft_strtol(args[1], &overflow);
+		if (overflow)
+		{
+			fdprintf(STDERR_FILENO, EXIT_ERROR, g_sh.shell, args[1]);
+			g_sh.exit_code = FAILURE;
+		}
+		else
+			g_sh.exit_code = (unsigned char)value;
 	}
-	if (len > 1)
+	else if (len > 1)
 	{
 		if (ft_isnumber(args[1]))
 		{
@@ -31,15 +37,17 @@ static	t_bool	check_exit(char **args)
 		}
 		fdprintf(STDERR_FILENO, EXIT_ERROR, g_sh.shell, args[1]);
 		g_sh.exit_code = FAILURE;
-		return (true);
 	}
 	return (true);
 }
 
 int	exec_exit(t_ast *node)
 {
+	int	len;
+
+	len = len_arr(node->u_data.args);
 	fdprintf(STDERR_FILENO, "exit\n");
-	if (check_exit(node->u_data.args))
+	if (check_exit(node->u_data.args, len))
 	{
 		destroy();
 		exit(g_sh.exit_code);

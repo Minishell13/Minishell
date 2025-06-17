@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:26:27 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/12 18:27:42 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 13:11:44 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,6 @@ static t_bool	execution(void)
 {
 	if (g_sh.ast)
 	{
-		if (g_sh.interactive)
-		{
-			printf("%s", BHBLK);
-			print_ast(g_sh.ast, 0);
-			printf("%s\n", RESET);
-		}
 		g_sh.interactive = false;
 		if (executor(g_sh.ast) == false)
 			return (false);
@@ -77,6 +71,7 @@ static void	setup(char **env)
 	g_sh.ast = NULL;
 	g_sh.exit_code = EXIT_SUCCESS;
 	g_sh.env = NULL;
+	g_sh.declare_env = NULL;
 	g_sh.tracked_fds_count = 0;
 	g_sh.shell = SHELL;
 	g_sh.in = STDIN_FILENO;
