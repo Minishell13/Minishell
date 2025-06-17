@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:03:02 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/09 01:13:23 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 12:54:40 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,5 @@ void	destroy(void)
 	free_all();
 	close_all_tracked_fds();
 	clear_arr(g_sh.env);
+	clear_arr(g_sh.declare_env);
 }
