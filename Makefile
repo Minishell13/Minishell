@@ -23,7 +23,7 @@ LIBFT =			$(LIBFT_DIR)/libft.a
 
 LEXER =			${LEXER_DIR}/lexer.c ${LEXER_DIR}/lexer_command.c ${LEXER_DIR}/lexer_command2.c
 PARSING =		${PARSING_DIR}/parser.c ${PARSING_DIR}/parser2.c ${PARSING_DIR}/tree_array.c ${PARSING_DIR}/parsing_command.c \
-				${PARSING_DIR}/parsing_command2.c ${PARSING_DIR}/parsing_command3.c
+				${PARSING_DIR}/parsing_command2.c ${PARSING_DIR}/parsing_command3.c ${PARSING_DIR}/parsing_command4.c
 BUILTINS =		$(BUILT_DIR)/builtins.c $(BUILT_DIR)/env.c $(BUILT_DIR)/export.c $(BUILT_DIR)/unset.c $(BUILT_DIR)/pwd.c \
 				$(BUILT_DIR)/echo.c $(BUILT_DIR)/exit.c $(BUILT_DIR)/cd.c
 EXPAND =		$(EXPAND_DIR)/expand.c $(EXPAND_DIR)/dollar/expand_modes.c $(EXPAND_DIR)/dollar/extract_value.c $(EXPAND_DIR)/dollar/expand_heredoc.c \

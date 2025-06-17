@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:28:09 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/09 01:19:00 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:50:49 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_bool	has_unclosed_quotes(char *line)
 	if (quote)
 	{
 		printf("syntax error: unclosed quote `%c`\n", quote);
+		g_sh.exit_code = FAILURE;
 		return (true);
 	}
 	return (false);
@@ -109,6 +110,7 @@ int	read_quoted_word(int i, char *line)
 	if (line[i] != quote)
 	{
 		fprintf(stderr, "syntax error: unclosed quote `%c`\n", quote);
+		g_sh.exit_code = FAILURE;
 		return (-1);
 	}
 	i++;

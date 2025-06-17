@@ -1,55 +1,10 @@
 ## Quotes for expansion:
 
-<!-- ! of course you must split by space here -->
-> echo "g g"r$USER geg
-COMPLETE_COMMAND
-  SIMPLE_COMMAND: [ echo ,  "g g"r$USER geg ]  ❌
-  SIMPLE_COMMAND: [ echo ,  "g g"r$USER ,  geg ]      ✅
-
-> ls "-"i -a
-COMPLETE_COMMAND
-  SIMPLE_COMMAND: [ ls ,  "-"i -a ]   ❌
-  SIMPLE_COMMAND: [ ls ,  "-"i, -a ]  ✅
-
-> echo "T"O* 'mi''n'*
-COMPLETE_COMMAND
-  SIMPLE_COMMAND: [ echo ,  "T"O* 'mi''n'* ]    ❌
-  SIMPLE_COMMAND: [ echo ,  "T"O*, 'mi''n'* ]   ✅
-
-> echo "\"TO* \""
-syntax error: unclosed quote `"`
-COMPLETE_COMMAND
-  SIMPLE_COMMAND: [ echo ,  "\"TO* \" ,  " ] ❌
-  SIMPLE_COMMAND: [ echo ,  "\"TO* ,  \"" ]  ✅
-
->  daf "E"F "EG"
-COMPLETE_COMMAND
-  SIMPLE_COMMAND: [ daf ,  "E"F " ,  EG" ] ❌
-  SIMPLE_COMMAND: [ daf ,  "E"F ,  "EG" ]  ✅
-
 # Error msg:
-✅> (((((((((()))))))))
-syntax error: empty subshell or invalid content
-syntax error: empty subshell or invalid content
-syntax error: empty subshell or invalid content
-syntax error: empty subshell or invalid content
-syntax error: empty subshell or invalid content
-syntax error: empty subshell or invalid content
-syntax error: empty subshell or invalid content
-syntax error: empty subshell or invalid content
-syntax error: empty subshell or invalid content
-syntax error: empty subshell or invalid content
 
 # Missing newline in error
-> |
-syntax error near unexpected token `|'>
-> &&
-syntax error near unexpected token `&&'>
-> ||
-syntax error near unexpected token `||'>
 
 # After each error you must set the exit code to 2, use this:
-g_sh.exit_code = FAILURE;
 
 # Leaks:
 > cat <<

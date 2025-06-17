@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_command3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wahmane <wahmane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:53:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/11 22:03:51 by wahmane          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:54:39 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,30 @@ t_bool	check_subshell_errors(t_ast *inner, t_token **tokens,
 		t_token **after_paren)
 {
 	if (!inner)
+	{
+		g_sh.exit_code = FAILURE;
 		return (printf("syntax error: empty subshell or invalid content\n"),
 			false);
+	}
 	skip_empty_tokens(tokens);
 	if (inner->sibling)
+	{
+		g_sh.exit_code = FAILURE;
 		return (printf("syntax error: multiple commands in subshell\n"),
 			false);
+	}
 	if (!consume_token_type(tokens, TOKEN_CPARENTHES))
+	{
+		g_sh.exit_code = FAILURE;
 		return (printf("syntax error: expected ')'\n"), false);
+	}
 	*after_paren = *tokens;
 	skip_empty_tokens(after_paren);
 	if (*after_paren && (*after_paren)->type == TOKEN_OPARENTHES)
+	{
+		g_sh.exit_code = FAILURE;
 		return (printf("syntax error: unexpected '('\n"), false);
+	}
 	return (true);
 }
 
@@ -48,6 +60,7 @@ t_bool	is_invalid_start_token(t_token **tokens)
 	if (*tokens && (*tokens)->type == TOKEN_CPARENTHES)
 	{
 		printf("syntax error: unexpected ')'\n");
+		g_sh.exit_code = FAILURE;
 		return (true);
 	}
 	return (false);
@@ -60,9 +73,15 @@ t_bool	has_extra_tokens(t_token **tokens)
 	if (*tokens)
 	{
 		if ((*tokens)->type == TOKEN_CPARENTHES)
+		{
+			g_sh.exit_code = FAILURE;
 			printf("syntax error: unexpected ')'\n");
+		}
 		else
+		{
+			g_sh.exit_code = FAILURE;
 			printf("syntax error: unexpected token after command\n");
+		}
 		return (true);
 	}
 	return (false);
@@ -77,3 +96,4 @@ t_bool	is_invalid_pipe_token(t_token *token)
 		|| token->type == TOKEN_AND
 		|| token->type == TOKEN_OR);
 }
+

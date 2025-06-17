@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wahmane <wahmane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:46:40 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/11 21:57:49 by wahmane          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:51:36 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 // parse command → subshell | simple_command
 t_ast	*parse_command(t_token **tokens)
 {
+	t_token	*after;
+
+	after = NULL;
 	if (!tokens || !*tokens)
 		return (NULL);
 	if (*tokens && ((*tokens)->type == TOKEN_OPARENTHES
 			|| (*tokens)->type == TOKEN_CPARENTHES))
-		return (parse_subshell(tokens));
+		return (parse_subshell(tokens, after));
 	return (parse_simple_command(tokens));
 }
 
@@ -35,7 +38,8 @@ t_ast	*parse_pipe(t_token **tokens)
 	{
 		if ((*tokens) && ((*tokens)->type == TOKEN_PIPE
 				|| (*tokens)->type == TOKEN_AND || (*tokens)->type == TOKEN_OR))
-			printf("syntax error near unexpected token `%s'", (*tokens)->value);
+			printf("syntax error near unexpected token `%s'\n", (*tokens)->value);
+		g_sh.exit_code = FAILURE;
 		return (NULL);
 	}
 	while (*tokens && (*tokens)->type == TOKEN_PIPE)
@@ -45,6 +49,7 @@ t_ast	*parse_pipe(t_token **tokens)
 		{
 			free_tree(left);
 			printf("syntax error: unexpected token after '|'\n");
+			g_sh.exit_code = FAILURE;
 			return (NULL);
 		}
 		right = parse_command(tokens);

@@ -3,22 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   parser2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:44:16 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/09 01:19:31 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:51:50 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_ast	*parse_subshell(t_token **tokens)
+t_ast	*parse_subshell(t_token **tokens, t_token *after)
 {
 	t_ast	*node;
 	t_ast	*inner;
 	t_ast	*redir_list;
 	t_token	*after_paren;
 
+    if (check_nested_empty(*tokens, &after)) {
+        *tokens = after;
+        printf("syntax error: empty subshell or invalid content\n");
+		g_sh.exit_code = FAILURE;
+        return NULL;
+    }
 	if (!consume_token_type(tokens, TOKEN_OPARENTHES))
 		return (NULL);
 	skip_empty_tokens(tokens);
