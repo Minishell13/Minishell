@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:28:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 10:52:07 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:26:12 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ t_bool	has_subshell_error(t_token **tokens)
 		skip_empty_tokens(tokens);
 		if ((*tokens)->next)
 		{
-			printf("syntax error: near unexpected token `%s'\n",
-				(*tokens)->next->value);
+			fdprintf(STDERR_FILENO, S_E, (*tokens)->next->value);
 			g_sh.exit_code = FAILURE;
 		}
 		else

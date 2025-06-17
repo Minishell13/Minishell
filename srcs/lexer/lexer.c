@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:00:23 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 10:51:00 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:32:22 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	read_word(int i, char *line, t_token **head)
 				i++;
 			if (!line[i])
 			{
-				fprintf(stderr, "syntax error: unclosed quote `%c`\n", quote);
+				fdprintf(STDERR_FILENO, L_E, quote);
 				g_sh.exit_code = FAILURE;
 				free(word);
 				return (-1);

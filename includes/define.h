@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 19:35:02 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/17 11:00:25 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:32:16 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,25 @@ allowed\n"
 // PWD
 # define PWD_ERROR "%s: pwd: %s\n"
 
-# define S_E "syntax error near unexpected token `%s'\n"
+// Subshell errors
+# define S_E "syntax error: near unexpected token `%s'\n"
+# define S_E2 "syntax error: empty subshell or invalid content\n"
+# define S_E3 "syntax error: multiple commands in subshell\n"
+# define S_E4 "syntax error: expected ')'\n"
+# define S_E5 "syntax error: unexpected '('\n"
+# define S_E6 "syntax error: unexpected ')'\n"
+# define S_E7 "syntax error: unexpected token after command\n"
+
+// Compound errors
+# define C_E "syntax error: unexpected token\n"
+
+// Rederictions errors
+# define R_E "syntax error near unexpected token `newline'\n"
+
+// Pipe errors
+# define P_E "syntax error: unexpected token after '|'\n"
+
+// lexer errors
+# define L_E "syntax error: unclosed quote `%c`\n"
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:53:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 10:54:39 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:21:26 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,25 @@ t_bool	check_subshell_errors(t_ast *inner, t_token **tokens,
 	if (!inner)
 	{
 		g_sh.exit_code = FAILURE;
-		return (printf("syntax error: empty subshell or invalid content\n"),
-			false);
+		return (fdprintf(STDERR_FILENO ,S_E2), false);
 	}
 	skip_empty_tokens(tokens);
 	if (inner->sibling)
 	{
 		g_sh.exit_code = FAILURE;
-		return (printf("syntax error: multiple commands in subshell\n"),
-			false);
+		return (fdprintf(STDERR_FILENO ,S_E3), false);
 	}
 	if (!consume_token_type(tokens, TOKEN_CPARENTHES))
 	{
 		g_sh.exit_code = FAILURE;
-		return (printf("syntax error: expected ')'\n"), false);
+		return (fdprintf(STDERR_FILENO ,S_E4), false);
 	}
 	*after_paren = *tokens;
 	skip_empty_tokens(after_paren);
 	if (*after_paren && (*after_paren)->type == TOKEN_OPARENTHES)
 	{
 		g_sh.exit_code = FAILURE;
-		return (printf("syntax error: unexpected '('\n"), false);
+		return (fdprintf(STDERR_FILENO ,S_E5), false);
 	}
 	return (true);
 }
@@ -59,7 +57,7 @@ t_bool	is_invalid_start_token(t_token **tokens)
 		*tokens = (*tokens)->next;
 	if (*tokens && (*tokens)->type == TOKEN_CPARENTHES)
 	{
-		printf("syntax error: unexpected ')'\n");
+		fdprintf(STDERR_FILENO ,S_E6);
 		g_sh.exit_code = FAILURE;
 		return (true);
 	}
@@ -75,12 +73,12 @@ t_bool	has_extra_tokens(t_token **tokens)
 		if ((*tokens)->type == TOKEN_CPARENTHES)
 		{
 			g_sh.exit_code = FAILURE;
-			printf("syntax error: unexpected ')'\n");
+			fdprintf(STDERR_FILENO ,S_E6);
 		}
 		else
 		{
 			g_sh.exit_code = FAILURE;
-			printf("syntax error: unexpected token after command\n");
+			fdprintf(STDERR_FILENO ,S_E7);
 		}
 		return (true);
 	}
