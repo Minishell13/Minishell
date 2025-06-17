@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:46:40 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 10:51:36 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:30:13 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_ast	*parse_pipe(t_token **tokens)
 	{
 		if ((*tokens) && ((*tokens)->type == TOKEN_PIPE
 				|| (*tokens)->type == TOKEN_AND || (*tokens)->type == TOKEN_OR))
-			printf("syntax error near unexpected token `%s'\n", (*tokens)->value);
+			fdprintf(STDERR_FILENO, S_E, (*tokens)->value);
 		g_sh.exit_code = FAILURE;
 		return (NULL);
 	}
@@ -48,7 +48,7 @@ t_ast	*parse_pipe(t_token **tokens)
 		if (is_invalid_pipe_token(*tokens))
 		{
 			free_tree(left);
-			printf("syntax error: unexpected token after '|'\n");
+			fdprintf(STDERR_FILENO, P_E);
 			g_sh.exit_code = FAILURE;
 			return (NULL);
 		}

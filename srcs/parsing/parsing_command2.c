@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:36:09 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 10:52:20 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:24:57 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	handle_redirection(t_token **tokens, t_ast *list)
 	skip_empty_tokens(tokens);
 	if (!*tokens || (*tokens)->type != TOKEN_WORD)
 	{
-		printf("syntax error near unexpected token `newline'\n");
+		fdprintf(STDERR_FILENO, R_E);
 		g_sh.exit_code = FAILURE;
 		return (0);
 	}
@@ -70,7 +70,7 @@ t_ast	*handle_compound_op(t_token **tokens, t_ast *left, t_token_type op)
 		|| (*tokens)->type == TOKEN_PIPE || (*tokens)->type == TOKEN_AND
 		|| (*tokens)->type == TOKEN_OR)
 	{
-		printf("syntax error: unexpected token\n");
+		fdprintf(STDERR_FILENO, C_E);
 		g_sh.exit_code = FAILURE;
 		return (NULL);
 	}

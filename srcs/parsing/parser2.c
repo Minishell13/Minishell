@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:44:16 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 10:51:50 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:27:22 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_ast	*parse_subshell(t_token **tokens, t_token *after)
 
     if (check_nested_empty(*tokens, &after)) {
         *tokens = after;
-        printf("syntax error: empty subshell or invalid content\n");
+		fdprintf(STDERR_FILENO, S_E2);
 		g_sh.exit_code = FAILURE;
         return NULL;
     }
