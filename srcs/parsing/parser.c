@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:46:40 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 13:20:20 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:36:15 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,9 @@ t_ast	*parse_command(t_token **tokens)
 	return (parse_simple_command(tokens));
 }
 
-// parse pipeline: command ( '|' command )*
 t_ast	*parse_pipe(t_token **tokens)
 {
 	t_ast	*left;
-	t_ast	*right;
-	t_ast	*pipe;
 
 	left = parse_command(tokens);
 	if (!left)
@@ -46,28 +43,7 @@ t_ast	*parse_pipe(t_token **tokens)
 		g_sh.exit_code = FAILURE;
 		return (NULL);
 	}
-	while (*tokens && (*tokens)->type == TOKEN_PIPE)
-	{
-		*tokens = (*tokens)->next;
-		if (is_invalid_pipe_token(*tokens))
-		{
-			free_tree(left);
-			fdprintf(STDERR_FILENO, P_E);
-			g_sh.exit_code = FAILURE;
-			return (NULL);
-		}
-		right = parse_command(tokens);
-		if (!right)
-		{
-			free_tree(left);
-			return (NULL);
-		}
-		pipe = new_tree_node(GRAM_PIPE);
-		tree_add_child(pipe, left);
-		tree_add_child(pipe, right);
-		left = pipe;
-	}
-	return (left);
+	return (parse_pipe_loop(left, tokens));
 }
 
 // parse compound_command: pipeline ( (&& ||) pipeline )*

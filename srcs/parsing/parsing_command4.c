@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:34:25 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 13:08:05 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:09:47 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,25 @@ t_bool	check_nested_invalid_after_paren(t_token *start, t_token **after,
 		return (true);
 	}
 	return (false);
+}
+
+// ------------------- compound_command functions
+t_ast	*create_compound_node(t_ast *left, t_ast *right, t_token_type op)
+{
+	t_ast	*node;
+	t_gram	gram_type;
+
+	if (op == TOKEN_AND)
+		gram_type = GRAM_OPERATOR_AND;
+	else
+		gram_type = GRAM_OPERATOR_OR;
+	node = new_tree_node(gram_type);
+	if (!node)
+	{
+		free_tree(right);
+		return (NULL);
+	}
+	tree_add_child(node, left);
+	tree_add_child(node, right);
+	return (node);
 }
