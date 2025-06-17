@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:53:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 14:50:12 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:54:06 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_bool	has_extra_tokens(t_token **tokens)
 	if (*tokens)
 	{
 		if ((*tokens)->type == TOKEN_CPARENTHES)
-				fdprintf(STDERR_FILENO, S_E6);
+			fdprintf(STDERR_FILENO, S_E6);
 		else
 			fdprintf(STDERR_FILENO, S_E7);
 		return (true);
