@@ -6,60 +6,56 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:39:01 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 10:35:18 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:39:00 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	read_quoted_if_needed(int i, char *line, char *quot)
+int	handle_quoted_part(int *i, char *line, char quote, char **part)
 {
-	if (line[i] == '\'' || line[i] == '"')
+	int	start;
+
+	start = (*i)++;
+	while (line[*i] && line[*i] != quote)
+		(*i)++;
+	if (!line[*i])
 	{
-		*quot = line[i];
-		read_quoted_word(i, line);
+		fdprintf(STDERR_FILENO, L_E, quote);
+		g_sh.exit_code = FAILURE;
+		return (-1);
 	}
-	return (i);
+	(*i)++;
+	*part = ft_substr(line, start, *i - start);
+	if (!*part)
+		return (-1);
+	return (0);
 }
 
-int	read_operator_if_needed(int i, char *line, t_token **head)
+int	handle_unquoted_part(int *i, char *line, char **part)
 {
-	if (line[i] == '&' && line[i + 1] == line[i])
-	{
-		i = operators(i, line, head);
-		return (i);
-	}
-	return (-1);
+	int	start;
+
+	start = *i;
+	while (line[*i] && line[*i] != '"' && line[*i] != '\''
+		&& !is_operator_char(line[*i]) && line[*i] != ' ' && (line[*i] < 9
+			|| line[*i] > 13))
+		(*i)++;
+	*part = ft_substr(line, start, *i - start);
+	if (!*part)
+		return (-1);
+	return (0);
 }
 
-int	read_word_loop(int i, char *line)
+int	concat_part(char **word, char *part)
 {
-	char	quote;
+	char	*tmp;
 
-	quote = 0;
-	while (line[i])
-	{
-		if (!quote && (line[i] == '\'' || line[i] == '"'))
-			quote = line[i];
-		else if (quote && line[i] == quote)
-			quote = 0;
-		else if (!quote && (is_operator_char(line[i]) || line[i] == ' '
-				|| (line[i] >= 9 && line[i] <= 13)))
-			break ;
-		i++;
-	}
-	return (i);
+	tmp = *word;
+	*word = ft_strjoin(*word, part);
+	free(tmp);
+	free(part);
+	if (!*word)
+		return (-1);
+	return (0);
 }
-
-int	handle_quotation_end(int i, char quot, char *line)
-{
-	if (quot && line[i--] != quot)
-	{
-		while (line[i] && line[i] != quot)
-			i++;
-		if (line[i] == quot)
-			i++;
-	}
-	return (i);
-}
-

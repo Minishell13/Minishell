@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:44:16 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 13:15:10 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:12:35 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,13 @@
 t_ast	*parse_subshell(t_token **tokens, t_token *after, t_token *newpos,
 		char *bad)
 {
-	t_ast	*node;
 	t_ast	*inner;
-	t_ast	*redir_list;
 	t_token	*after_paren;
 
+	if ((*tokens)->type == TOKEN_OPARENTHES && !(*tokens)->next)
+		return (handle_subshell_error_case(tokens, &newpos, bad, 0));
 	if (check_nested_invalid_after_paren(*tokens, &newpos, &bad))
-	{
-		*tokens = newpos;
-		fdprintf(STDERR_FILENO, S_E, bad);
-		g_sh.exit_code = FAILURE;
-		return (NULL);
-	}
+		return (handle_subshell_error_case(tokens, &newpos, bad, 1));
 	if (check_nested_empty(*tokens, &after))
 	{
 		*tokens = after;
@@ -43,13 +38,7 @@ t_ast	*parse_subshell(t_token **tokens, t_token *after, t_token *newpos,
 		free_tree(inner);
 		return (NULL);
 	}
-	node = new_tree_node(GRAM_SUBSHELL);
-	if (!node)
-		return (NULL);
-	tree_add_child(node, inner);
-	if (!parse_subshell_redirs(tokens, inner, &redir_list))
-		return (NULL);
-	return (node);
+	return (handle_subshell_parsing(tokens, inner));
 }
 
 t_bool	handle_redirect(t_token **tokens, t_ast **rlist, t_ast *cmd,
@@ -139,25 +128,8 @@ t_ast	*parse_simple_command(t_token **tokens)
 	data.flag = find_command_type(tokens, &data.cmd);
 	if (!data.cmd)
 		return (NULL);
-	if (!collect_words_and_redirects(tokens, &data))
-	{
-		free(data.cmd);
-		free(data.rlist);
-		free_list(data.words);
+	if (!handle_parse_errors(tokens, &data))
 		return (NULL);
-	}
-	if (has_subshell_error(tokens))
-	{
-		free(data.cmd);
-		free_list(data.words);
-		return (NULL);
-	}
-	if (data.flag && !fill_args(data.cmd, data.words))
-	{
-		free(data.cmd);
-		free_list(data.words);
-		return (NULL);
-	}
 	free_list(data.words);
 	if (data.flag)
 		tree_add_child(data.cmd, data.rlist);
