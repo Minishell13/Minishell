@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:58:45 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 10:38:53 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:08:29 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ t_bool				is_invalid_pipe_token(t_token *token);
 t_bool 				check_nested_empty(t_token *start, t_token **after);
 t_ast				*parse_subshell_redirs(t_token **tokens, t_ast *inner,
 						t_ast **redir_list);
+t_bool				check_nested_invalid_after_paren(t_token *start,
+						t_token **after, char **bad_val);
 // Cleanup
 // void				free_list(t_list *list);
 // void				free_tokens(t_token *token);

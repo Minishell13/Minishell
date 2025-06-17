@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:53:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 11:21:26 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:02:28 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_bool	check_subshell_errors(t_ast *inner, t_token **tokens,
 	if (!inner)
 	{
 		g_sh.exit_code = FAILURE;
-		return (fdprintf(STDERR_FILENO ,S_E2), false);
+		return (false);
 	}
 	skip_empty_tokens(tokens);
 	if (inner->sibling)

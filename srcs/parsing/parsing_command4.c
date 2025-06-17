@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:34:25 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 11:00:41 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:08:05 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,20 @@ t_ast	*parse_subshell_redirs(t_token **tokens, t_ast *inner,
 		}
 	}
 	return ((t_ast *)1);
+}
+
+t_bool check_nested_invalid_after_paren(t_token *start, t_token **after, char **bad_val)
+{
+    t_token *p = start;
+    while (p && p->type == TOKEN_OPARENTHES) {
+        p = p->next;
+        while (p && p->type == TOKEN_EMPTY)
+            p = p->next;
+    }
+    if (p && (p->type == TOKEN_PIPE || p->type == TOKEN_AND || p->type == TOKEN_OR)) {
+        *bad_val = p->value;
+        *after = p->next;
+        return true;
+    }
+    return false;
 }
