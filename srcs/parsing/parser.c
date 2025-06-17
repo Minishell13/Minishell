@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:46:40 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 11:30:13 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:46:58 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_ast	*parse_pipe(t_token **tokens)
 		right = parse_command(tokens);
 		if (!right)
 		{
-			free_tree(right);
+			free_tree(left);
 			return (NULL);
 		}
 		pipe = new_tree_node(GRAM_PIPE);

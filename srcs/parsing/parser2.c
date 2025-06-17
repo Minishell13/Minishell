@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:44:16 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 11:27:22 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:08:41 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,15 @@ t_ast	*parse_subshell(t_token **tokens, t_token *after)
 	t_ast	*inner;
 	t_ast	*redir_list;
 	t_token	*after_paren;
+	t_token *newpos;
+	char *bad;
 
+    if (check_nested_invalid_after_paren(*tokens, &newpos, &bad)) {
+        *tokens = newpos;
+        fdprintf(STDERR_FILENO, S_E, bad);
+        g_sh.exit_code = FAILURE;
+        return NULL;
+    }
     if (check_nested_empty(*tokens, &after)) {
         *tokens = after;
 		fdprintf(STDERR_FILENO, S_E2);
@@ -133,6 +141,7 @@ t_ast	*parse_simple_command(t_token **tokens)
 	if (!collect_words_and_redirects(tokens, &data))
 	{
 		free(data.cmd);
+		free(data.rlist);
 		free_list(data.words);
 		return (NULL);
 	}
