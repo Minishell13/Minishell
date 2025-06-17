@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 21:19:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/04 15:46:06 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 12:48:47 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*extract_key(char *arg, int end);
 char	*extract_value(char *arg, int end);
 
 void	export_var(char *k, char *v, t_bool alcd1, t_bool alcd2);
+void	setup_declare_env(void);
 void	setup_env(char **env);
 
 #endif

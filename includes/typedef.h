@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:49:24 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/12 18:08:45 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 12:07:04 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct s_minishell
 {
 	char	*shell;
 	char	**env;
+	char	**declare_env;
 	t_bool	interactive;
 	int		exit_code;
 	t_token	*tokens;
