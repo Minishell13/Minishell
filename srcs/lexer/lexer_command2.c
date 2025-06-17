@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:39:01 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 14:48:51 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:14:41 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	handle_quoted_part(int *i, char *line, char quote, char **part)
 		(*i)++;
 	if (!line[*i])
 	{
+		g_sh.exit_code = FAILURE;
 		fdprintf(STDERR_FILENO, L_E, quote);
 		return (-1);
 	}

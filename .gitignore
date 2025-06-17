@@ -2,4 +2,4 @@
 *.a
 *.gcl
 *.vscode
-old
+./old

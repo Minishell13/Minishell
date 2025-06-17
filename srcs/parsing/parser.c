@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:46:40 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 14:49:13 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:13:45 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,16 +103,21 @@ t_ast	*parse_complete_command(t_token **tokens)
 	t_ast	*root;
 
 	if (is_invalid_start_token(tokens))
+	{
+		g_sh.exit_code = FAILURE;
 		return (NULL);
+	}
 	cmds = parse_command_list(tokens);
 	if (!cmds || has_extra_tokens(tokens))
 	{
+		g_sh.exit_code = FAILURE;
 		free_tree(cmds);
 		return (NULL);
 	}
 	root = new_tree_node(GRAM_COMPLETE_COMMAND);
 	if (!root)
 	{
+		g_sh.exit_code = FAILURE;
 		free_tree(cmds);
 		return (NULL);
 	}
