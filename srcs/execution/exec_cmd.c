@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:30:29 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/16 18:46:41 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 17:16:53 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	execute_simple_cmd(t_ast *node, t_bool no_fork)
 	t_bool	flag;
 
 	expand_cmd_node(node);
+	if (!node->u_data.args[0])
+		return ;
 	if (is_builtins(node))
 		return (run_builtins(node));
 	flag = true;
