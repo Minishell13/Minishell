@@ -6,13 +6,12 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 13:53:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 14:54:06 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:34:02 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// ------------------- parse_subshell functions
 int	consume_token_type(t_token **tokens, t_token_type type)
 {
 	if (!*tokens || (*tokens)->type != type)
@@ -40,7 +39,6 @@ t_bool	check_subshell_errors(t_ast *inner, t_token **tokens,
 	return (true);
 }
 
-// ------------------- parse_complete_command
 t_bool	is_invalid_start_token(t_token **tokens)
 {
 	while (*tokens && (*tokens)->type == TOKEN_EMPTY)
@@ -68,7 +66,6 @@ t_bool	has_extra_tokens(t_token **tokens)
 	return (false);
 }
 
-// ------------------- parse_pipe
 t_bool	is_invalid_pipe_token(t_token *token)
 {
 	return (!token || token->type == TOKEN_CPARENTHES

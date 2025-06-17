@@ -6,13 +6,11 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:00:51 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 14:15:36 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:34:23 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-//------------------- this is parsing_subshill function
 
 t_ast	*handle_subshell_error_case(t_token **tokens, t_token **pos, char *err,
 		int error)

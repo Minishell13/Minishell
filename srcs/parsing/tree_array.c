@@ -6,13 +6,12 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 19:00:51 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 13:13:04 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:34:35 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// create an internal node (no string)
 t_ast	*new_tree_node(t_gram gram)
 {
 	t_ast	*n;
@@ -30,7 +29,6 @@ t_ast	*new_tree_node(t_gram gram)
 	return (n);
 }
 
-// create a leaf node (a WORD or filename)
 t_ast	*new_tree_leaf(t_gram gram, char *s)
 {
 	t_ast	*n;
@@ -53,7 +51,6 @@ t_ast	*new_tree_leaf(t_gram gram, char *s)
 	return (n);
 }
 
-// append `c` as the last child of `parent`
 void	tree_add_child(t_ast *parent, t_ast *c)
 {
 	t_ast	*it;
@@ -73,7 +70,6 @@ void	tree_add_child(t_ast *parent, t_ast *c)
 	}
 }
 
-// append `sib` as the last sibling of `node`
 void	tree_add_sibling(t_ast *node, t_ast *sib)
 {
 	if (!node || !sib)
@@ -83,7 +79,6 @@ void	tree_add_sibling(t_ast *node, t_ast *sib)
 	node->sibling = sib;
 }
 
-// Append a node to the list
 void	append_to_list(t_list **list, t_list *new_node)
 {
 	t_list	*temp;

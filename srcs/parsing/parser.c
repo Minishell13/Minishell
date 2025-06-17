@@ -6,13 +6,12 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 15:46:40 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 15:13:45 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:33:33 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-// parse command → subshell | simple_command
 t_ast	*parse_command(t_token **tokens)
 {
 	t_token	*after;
@@ -45,7 +44,6 @@ t_ast	*parse_pipe(t_token **tokens)
 	return (parse_pipe_loop(left, tokens));
 }
 
-// parse compound_command: pipeline ( (&& ||) pipeline )*
 t_ast	*parse_compound_command(t_token **tokens)
 {
 	t_ast			*left;
@@ -73,7 +71,6 @@ t_ast	*parse_compound_command(t_token **tokens)
 	return (right);
 }
 
-// parse command_list: compound_command ( compound_command )*
 t_ast	*parse_command_list(t_token **tokens)
 {
 	t_ast	*head;

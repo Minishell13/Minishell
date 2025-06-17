@@ -6,13 +6,12 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:34:25 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 14:50:21 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:34:11 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-//------------------- this is parsing_subshill function
 t_bool	check_nested_empty(t_token *start, t_token **after)
 {
 	t_token	*p;
@@ -85,7 +84,6 @@ t_bool	check_nested_invalid_after_paren(t_token *start, t_token **after,
 	return (false);
 }
 
-// ------------------- compound_command functions
 t_ast	*create_compound_node(t_ast *left, t_ast *right, t_token_type op)
 {
 	t_ast	*node;
