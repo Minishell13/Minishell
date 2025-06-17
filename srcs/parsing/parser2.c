@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:44:16 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 14:12:35 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:49:17 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_ast	*parse_subshell(t_token **tokens, t_token *after, t_token *newpos,
 	{
 		*tokens = after;
 		fdprintf(STDERR_FILENO, S_E2);
-		g_sh.exit_code = FAILURE;
 		return (NULL);
 	}
 	if (!consume_token_type(tokens, TOKEN_OPARENTHES))

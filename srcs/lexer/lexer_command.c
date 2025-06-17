@@ -6,7 +6,7 @@
 /*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:28:09 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/17 11:33:27 by hwahmane         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:48:36 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ t_bool	has_unclosed_quotes(char *line)
 	if (quote)
 	{
 		fdprintf(STDERR_FILENO, L_E, quote);
-		g_sh.exit_code = FAILURE;
 		return (true);
 	}
 	return (false);
@@ -110,7 +109,6 @@ int	read_quoted_word(int i, char *line)
 	if (line[i] != quote)
 	{
 		fdprintf(STDERR_FILENO, L_E, quote);
-		g_sh.exit_code = FAILURE;
 		return (-1);
 	}
 	i++;
