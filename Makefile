@@ -17,7 +17,7 @@ BUILT_DIR =		$(EXEC_DIR)/builtins
 UTILS_DIR = 	$(SRC_DIR)/utils
 CLEANUP_DIR =	$(SRC_DIR)/cleanup
 # TODO: Just for debug !!!
-DEBUG_DIR =		$(SRC_DIR)/debug
+# DEBUG_DIR =		$(SRC_DIR)/debug
 INCLUDES =		-I${INC_DIR} -I./Libft/includes
 LIBFT =			$(LIBFT_DIR)/libft.a
 
@@ -37,7 +37,7 @@ SETUP =			$(ENV_DIR)/setup.c $(ENV_DIR)/utils.c $(ENV_DIR)/builtins_helpers.c
 UTILS =			$(UTILS_DIR)/errors.c $(UTILS_DIR)/lancher.c
 CLEANUP =		$(CLEANUP_DIR)/parsing.c $(CLEANUP_DIR)/execution.c
 # TODO: Just for debug !!!
-DEBUG =			$(DEBUG_DIR)/parsing.c $(DEBUG_DIR)/execution.c
+# DEBUG =			$(DEBUG_DIR)/parsing.c $(DEBUG_DIR)/execution.c
 SRCS =			minishell.c ${LEXER} ${PARSING} $(SETUP) $(SIG) $(EXEC) $(UTILS) $(CLEANUP) $(DEBUG)
 				
 OBJS =			$(SRCS:.c=.o)
