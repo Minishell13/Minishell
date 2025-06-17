@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 18:10:26 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/12 18:11:26 by abnsila          ###   ########.fr       */
+/*   Created: 2025/06/17 10:56:50 by hwahmane          #+#    #+#             */
+/*   Updated: 2025/06/17 10:56:53 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,5 @@ int					read_quoted_if_needed(int i, char *line, char *quot);
 int					read_operator_if_needed(int i, char *line, t_token **head);
 int					read_word_loop(int i, char *line);
 int					handle_quotation_end(int i, char quot, char *line);
-t_ast				*parse_subshell_redirs(t_token **tokens, t_ast *inner,
-						t_ast **redir_list);
 
 #endif

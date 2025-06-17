@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 15:58:45 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/12 18:12:07 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:38:53 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ t_ast				*parse_command_list(t_token **tokens);
 t_ast				*parse_complete_command(t_token **tokens);
 
 // Parser2
-t_ast				*parse_subshell(t_token **tokens);
-t_ast				*parse_redirect_list(t_token **tokens);
+t_ast				*parse_subshell(t_token **tokens, t_token *after);
+// t_ast				*parse_redirect_list(t_token **tokens);
 t_ast				*parse_simple_command(t_token **tokens);
 
 // parsing_command
@@ -59,6 +59,10 @@ t_bool				is_invalid_start_token(t_token **tokens);
 t_bool				has_extra_tokens(t_token **tokens);
 t_bool				is_invalid_pipe_token(t_token *token);
 
+// parsing_command4
+t_bool 				check_nested_empty(t_token *start, t_token **after);
+t_ast				*parse_subshell_redirs(t_token **tokens, t_ast *inner,
+						t_ast **redir_list);
 // Cleanup
 // void				free_list(t_list *list);
 // void				free_tokens(t_token *token);

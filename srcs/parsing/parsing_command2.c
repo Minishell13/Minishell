@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_command2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:36:09 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/09 01:19:41 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:52:20 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	handle_redirection(t_token **tokens, t_ast *list)
 	if (!*tokens || (*tokens)->type != TOKEN_WORD)
 	{
 		printf("syntax error near unexpected token `newline'\n");
+		g_sh.exit_code = FAILURE;
 		return (0);
 	}
 	file = (*tokens)->value;
@@ -70,6 +71,7 @@ t_ast	*handle_compound_op(t_token **tokens, t_ast *left, t_token_type op)
 		|| (*tokens)->type == TOKEN_OR)
 	{
 		printf("syntax error: unexpected token\n");
+		g_sh.exit_code = FAILURE;
 		return (NULL);
 	}
 	right = parse_pipe(tokens);

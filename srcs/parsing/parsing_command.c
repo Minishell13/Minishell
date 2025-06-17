@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wahmane <wahmane@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:28:52 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/11 22:02:58 by wahmane          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:52:07 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,20 @@ t_bool	fill_args(t_ast *cmd, t_list *words)
 
 t_bool	has_subshell_error(t_token **tokens)
 {
+	t_token *after;
+
+	after = NULL;
 	if (*tokens && (*tokens)->type == TOKEN_OPARENTHES)
 	{
 		skip_empty_tokens(tokens);
 		if ((*tokens)->next)
+		{
 			printf("syntax error: near unexpected token `%s'\n",
 				(*tokens)->next->value);
+			g_sh.exit_code = FAILURE;
+		}
 		else
-			parse_subshell(tokens);
+			parse_subshell(tokens, after);
 		return (true);
 	}
 	return (false);

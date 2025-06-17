@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_command2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 14:39:01 by hwahmane          #+#    #+#             */
-/*   Updated: 2025/06/12 18:18:41 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 10:35:18 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,32 +63,3 @@ int	handle_quotation_end(int i, char quot, char *line)
 	return (i);
 }
 
-// !------------------- this is parsing_subshill function
-t_ast	*parse_subshell_redirs(t_token **tokens, t_ast *inner,
-		t_ast **redir_list)
-{
-	*redir_list = NULL;
-	while (*tokens && is_redirect_token(*tokens))
-	{
-		if (!*redir_list)
-		{
-			*redir_list = new_tree_node(GRAM_IO_REDIRECT);
-			if (!*redir_list)
-				return (NULL);
-			tree_add_sibling(inner, *redir_list);
-		}
-		if (!handle_redirection(tokens, *redir_list))
-			return (NULL);
-	}
-	if (*tokens && (*tokens)->type != TOKEN_EMPTY
-		&& !is_redirect_token(*tokens))
-	{
-		if ((*tokens)->type == TOKEN_WORD)
-		{
-			printf("syntax error near unexpected token `%s'\n",
-				(*tokens)->value);
-			return (NULL);
-		}
-	}
-	return ((t_ast *)1);
-}

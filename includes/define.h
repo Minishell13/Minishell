@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hwahmane <hwahmane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 19:35:02 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/16 17:55:50 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/17 11:00:25 by hwahmane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,7 @@ allowed\n"
 
 // PWD
 # define PWD_ERROR "%s: pwd: %s\n"
+
+# define S_E "syntax error near unexpected token `%s'\n"
 
 #endif
