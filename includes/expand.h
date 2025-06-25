@@ -6,7 +6,7 @@
 /*   By: abnsila <abnsila@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 16:31:02 by abnsila           #+#    #+#             */
-/*   Updated: 2025/06/12 16:51:56 by abnsila          ###   ########.fr       */
+/*   Updated: 2025/06/25 16:14:50 by abnsila          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ t_bool	expand_herdoc(t_redir *r, char **line);
 
 // Expand Var Utils
 t_quote	is_quote(char c);
-// int		is_valid(char c);
-// char	*extract_var_value(char *arg, int *i);
 t_bool	try_expand_dollar(char *arg, char **value, int *i);
 
 // Expand Var
